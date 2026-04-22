@@ -1734,18 +1734,34 @@ overflow: visible;
     });
 
     timer = setInterval(() => goTo(cur + 1), 5500);
+function filterMenu(event, cat) {
+  document.querySelectorAll('.mtab').forEach((t) => t.classList.remove('active'));
+  event.target.classList.add('active');
 
-    // MENU FILTER
-    function filterMenu(event, cat) {
-      document.querySelectorAll('.mtab').forEach((t) => t.classList.remove('active'));
-      event.target.classList.add('active');
+  document.querySelectorAll('.menu-item').forEach((item) => {
+    if (item.dataset.cat === cat) {
+      item.classList.add('visible');
+    } else {
+      item.classList.remove('visible');
+    }
+  });
 
-      document.querySelectorAll('.menu-item').forEach((item) => {
-        if (cat === 'all' || item.dataset.cat === cat) {
-          item.classList.add('visible');
-        } else {
-          item.classList.remove('visible');
-        }
+  const bannerMap = {
+    daily: 'Fitbites_Daily_Hero.PNG',
+    yogurt: 'Greek_Yogurt_Hero.PNG',
+    desserts: 'Dessert_Hero.PNG',
+    coffee: 'Coffee_Hero.PNG',
+    snacks: 'Snacks_Hero.PNG'
+  };
+
+  const img = document.getElementById('menuBannerImg');
+  img.style.opacity = '0';
+  setTimeout(() => {
+    img.src = bannerMap[cat];
+    img.style.opacity = '1';
+  }, 200);
+}
+
       });
     }
 
