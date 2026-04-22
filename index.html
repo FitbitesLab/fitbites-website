@@ -476,58 +476,66 @@ overflow: visible;
       background: var(--border);
     }
 
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2px;
-      background: var(--border);
-      margin-top: 2px;
-    }
+   .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  background: var(--cream);
+  margin-top: 48px;
+}
 
-    .menu-item {
-      background: var(--white);
-      padding: 28px;
-      transition: background 0.2s;
-      display: none;
-    }
+.menu-item {
+  background: var(--cream);
+  padding: 36px 48px;
+  transition: background 0.2s;
+  display: none;
+  border-bottom: 1px solid var(--border);
+}
 
-    .menu-item.visible {
-      display: block;
-    }
+.menu-item:nth-child(odd) {
+  border-right: 1px solid var(--border);
+}
+
+.menu-item.visible {
+  display: block;
+}
+
 
     .menu-item:hover {
       background: var(--oat);
     }
 
-    .item-cat {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--brown);
-      margin-bottom: 8px;
-    }
+    ..item-cat {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 12px;
+}
 
-    .item-name {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--bark);
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
-    }
+.item-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bark);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
 
-    .item-desc {
-      font-size: 12px;
-      color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 14px;
-    }
 
-    .item-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--brown);
-      letter-spacing: -0.3px;
-    }
+   .item-desc {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  max-width: 400px;
+}
+
+.item-price {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-light);
+  letter-spacing: 1px;
+}
 
     /* ── OUR STORY ── */
     #our-story {
@@ -1223,13 +1231,13 @@ overflow: visible;
       </p>
     </div>
 
-    <div class="menu-tabs">
-      <button class="mtab active" onclick="filterMenu(event, 'all')">all</button>
-      <button class="mtab" onclick="filterMenu(event, 'daily')">daily oats</button>
-      <button class="mtab" onclick="filterMenu(event, 'yogurt')">greek yogurt</button>
-      <button class="mtab" onclick="filterMenu(event, 'desserts')">desserts</button>
-      <button class="mtab" onclick="filterMenu(event, 'coffee')">coffee</button>
-    </div>
+   <div class="menu-tabs">
+  <button class="mtab active" onclick="filterMenu(event, 'daily')">daily oats</button>
+  <button class="mtab" onclick="filterMenu(event, 'yogurt')">greek yogurt</button>
+  <button class="mtab" onclick="filterMenu(event, 'desserts')">desserts</button>
+  <button class="mtab" onclick="filterMenu(event, 'coffee')">coffee</button>
+  <button class="mtab" onclick="filterMenu(event, 'snacks')">protein snacks</button>
+</div>
 
     <div class="menu-grid">
       <!-- DAILY GO -->
