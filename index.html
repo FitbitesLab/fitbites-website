@@ -1681,6 +1681,7 @@ overflow: visible;
       document.getElementById('cnum').textContent = String(cur + 1).padStart(2, '0');
 
       updateContent();
+    
       restartTimer();
     }
 
@@ -1742,7 +1743,8 @@ overflow: visible;
     document.querySelectorAll('.rv').forEach((el) => obs.observe(el));
 
     // Initial sync
-    updateContent();
+updateContent();
+filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
   </script>
 </body>
 </html>
