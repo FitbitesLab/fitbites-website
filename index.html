@@ -1622,8 +1622,8 @@ overflow: visible;
           </div>
         </div>
 
-        <div class="tt-card">
-          <div style="height:260px;background:linear-gradient(135deg,#1a2e1a,#7aaa5a);display:flex;align-items:center;justify-content:center;font-size:80px;">🦜</div>
+        <div class="tt-card" onclick="openStory(2)">
+          <img src="TooTielEp2_Cover.png" class="tt-img" alt="Too's Philosophy" />
           <div class="tt-body">
             <p class="tt-ep">Episode 02</p>
             <p class="tt-title">"...says the guy who can't make his own coffee."</p>
@@ -1888,8 +1888,10 @@ function filterMenu(event, cat) {
     // SCROLL REVEAL
     // STORY VIEWER
 const episodes = {
-  1: ['TooTielEp1_01.png','TooTielEp1_02.png','TooTielEp1_03.png','TooTielEp1_04.png','TooTielEp1_05.png','TooTielEp1_06.png','TooTielEp1_07.png','TooTielEp1_08.png']
+  1: ['TooTielEp1_01.png','TooTielEp1_02.png','TooTielEp1_03.png','TooTielEp1_04.png','TooTielEp1_05.png','TooTielEp1_06.png','TooTielEp1_07.png','TooTielEp1_08.png'],
+  2: ['TooTielEp2_01.png','TooTielEp2_02.png','TooTielEp2_03.png','TooTielEp2_04.png','TooTielEp2_05.png','TooTielEp2_06.png']
 };
+
 
 let storyCur = 0;
 let storySlides = [];
