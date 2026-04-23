@@ -616,6 +616,93 @@ overflow: visible;
     }
 
     /* ── TOO & TIEL SECTION ── */
+    /* ── STORY VIEWER ── */
+.story-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-overlay.open {
+  display: flex;
+}
+
+.story-viewer {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+}
+
+.story-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.story-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.story-prev, .story-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.story-prev { left: -60px; }
+.story-next { right: -60px; }
+
+.story-counter {
+  position: absolute;
+  bottom: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.story-progress {
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.story-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+}
+
+.story-bar.done {
+  background: white;
+}
+
+.story-bar.active {
+  background: var(--brown);
+}
+
     #too-tiel {
       background: var(--white);
       padding: 100px 60px;
@@ -1505,6 +1592,18 @@ overflow: visible;
   </section>
 
   <!-- TOO & TIEL -->
+  <!-- STORY VIEWER OVERLAY -->
+<div class="story-overlay" id="storyOverlay">
+  <div class="story-viewer">
+    <div class="story-progress" id="storyProgress"></div>
+    <button class="story-close" onclick="closeStory()">✕</button>
+    <img class="story-img" id="storyImg" src="" alt="Too & Tiel" />
+    <button class="story-prev" onclick="storyNav(-1)">←</button>
+    <button class="story-next" onclick="storyNav(1)">→</button>
+    <div class="story-counter" id="storyCounter"></div>
+  </div>
+</div>
+
   <section id="too-tiel">
     <div class="tt-inner">
       <div class="tt-head rv">
@@ -1516,7 +1615,7 @@ overflow: visible;
       </div>
 
       <div class="tt-grid rv">
-        <div class="tt-card">
+        <div class="tt-card" onclick="openStory(1)">
           <div style="height:260px;background:linear-gradient(135deg,#2c1a0e,#c47a3a);display:flex;align-items:center;justify-content:center;font-size:80px;">🦜</div>
           <div class="tt-body">
             <p class="tt-ep">Episode 01</p>
@@ -1788,6 +1887,52 @@ function filterMenu(event, cat) {
     
 
     // SCROLL REVEAL
+    // STORY VIEWER
+const episodes = {
+  1: ['TooTielEpisode1_01.PNG','TooTielEpisode1_02.PNG','TooTielEpisode1_03.PNG','TooTielEpisode1_04.PNG','TooTielEpisode1_05.PNG','TooTielEpisode1_06.PNG','TooTielEpisode1_07.PNG','TooTielEpisode1_08.PNG']
+};
+
+let storyCur = 0;
+let storySlides = [];
+
+function openStory(ep) {
+  storySlides = episodes[ep];
+  storyCur = 0;
+  document.getElementById('storyOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateStory();
+}
+
+function closeStory() {
+  document.getElementById('storyOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function storyNav(dir) {
+  storyCur = Math.max(0, Math.min(storySlides.length - 1, storyCur + dir));
+  updateStory();
+}
+
+function updateStory() {
+  document.getElementById('storyImg').src = storySlides[storyCur];
+  document.getElementById('storyCounter').textContent = (storyCur + 1) + ' / ' + storySlides.length;
+  const prog = document.getElementById('storyProgress');
+  prog.innerHTML = '';
+  storySlides.forEach((_, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'story-bar' + (i < storyCur ? ' done' : i === storyCur ? ' active' : '');
+    prog.appendChild(bar);
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('storyOverlay').classList.contains('open')) {
+    if (e.key === 'ArrowRight') storyNav(1);
+    if (e.key === 'ArrowLeft') storyNav(-1);
+    if (e.key === 'Escape') closeStory();
+  }
+});
+
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
