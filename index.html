@@ -1023,133 +1023,186 @@ object-position: center center;
 
     /* ── MOBILE ── */
     @media (max-width: 900px) {
-      nav {
-        padding: 0 20px;
-      }
+  nav {
+    padding: 0 16px;
+    height: 60px;
+  }
 
-      .nav-links {
-        display: none;
-      }
+  .nav-mascots {
+    display: none;
+  }
 
-      .nav-mascots {
-        display: none;
-      }
+  .nav-left img:first-child {
+    height: 50px !important;
+    margin-right: -60px !important;
+    margin-bottom: 20px !important;
+  }
 
-      .slide-text {
-        left: 24px;
-        right: 24px;
-        bottom: 32px;
-      }
+  .nav-logo img {
+    height: 120px !important;
+  }
 
-      .slider-controls {
-        right: 24px;
-        bottom: 32px;
-      }
+  .nav-links {
+    display: none;
+  }
 
-      .slide-counter {
-        right: 24px;
-      }
+  .hero {
+    margin-top: 60px;
+  }
 
-      .slider-dots {
-        bottom: 42px;
-      }
+  .hero-slider {
+    height: 70vh;
+  }
 
-      .hero-content {
-        padding: 20px 24px;
-        grid-template-columns: 1fr;
-      }
+  .slide-text {
+    left: 20px;
+    right: 20px;
+    bottom: 24px;
+  }
 
-      .hero-content-right {
-        display: none;
-      }
+  .slider-controls {
+    right: 20px;
+    bottom: 24px;
+  }
 
-      .slogan-strip {
-        padding: 48px 24px;
-      }
+  .slide-counter {
+    right: 20px;
+  }
 
-      #menu {
-        padding: 72px 24px;
-      }
+  .slider-dots {
+    bottom: 34px;
+  }
 
-      .menu-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+  .hero-content {
+    padding: 20px 20px;
+    grid-template-columns: 1fr;
+  }
 
-      .menu-sub {
-        text-align: left;
-        max-width: none;
-      }
+  .hero-content-right {
+    display: none;
+  }
 
-      .menu-grid {
-        grid-template-columns: 1fr;
-      }
+  .slogan-strip {
+    padding: 36px 20px;
+  }
 
-      #our-story {
-        padding: 72px 24px;
-      }
+  #menu {
+    padding: 60px 20px;
+  }
 
-      .story-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
+  .menu-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-      .story-right {
-        grid-template-columns: 1fr 1fr;
-      }
+  .menu-sub {
+    text-align: left;
+    max-width: none;
+  }
 
-      #too-tiel {
-        padding: 72px 24px;
-      }
+  .menu-tabs {
+    width: 100%;
+  }
 
-      .tt-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+  .mtab {
+    padding: 10px 14px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    flex: 1;
+    text-align: center;
+  }
 
-      .tt-sub {
-        text-align: left;
-        max-width: none;
-      }
+  .menu-banner {
+    height: 220px;
+  }
 
-      .tt-grid {
-        grid-template-columns: 1fr;
-      }
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
 
-      #order {
-        padding: 72px 24px;
-      }
+  .menu-item {
+    padding: 24px 20px;
+  }
 
-      .order-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+  .menu-item:nth-child(odd) {
+    border-right: none;
+  }
 
-      .order-grid {
-        grid-template-columns: 1fr;
-      }
+  #our-story {
+    padding: 60px 20px;
+  }
 
-      #find-us {
-        grid-template-columns: 1fr;
-      }
+  .story-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 
-      .find-visual {
-        min-height: 260px;
-      }
+  .story-right {
+    grid-template-columns: 1fr 1fr;
+  }
 
-      .find-text {
-        padding: 48px 24px;
-      }
+  #too-tiel {
+    padding: 60px 20px;
+  }
 
-      footer {
-        padding: 48px 24px 32px;
-      }
+  .tt-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-      .foot-top {
-        grid-template-columns: 1fr 1fr;
-        gap: 28px;
-      }
-    }
+  .tt-sub {
+    text-align: left;
+    max-width: none;
+  }
+
+  .tt-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #order {
+    padding: 60px 20px;
+  }
+
+  .order-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ocard {
+    min-width: 0;
+  }
+
+  /* Hide Tiel floating on mobile */
+  .ocard img[src="Tiel_Zalo.jpg"] {
+    display: none;
+  }
+
+  #find-us {
+    grid-template-columns: 1fr;
+  }
+
+  #find-us iframe {
+    min-height: 300px;
+  }
+
+  .find-text {
+    padding: 40px 20px;
+  }
+
+  footer {
+    padding: 40px 20px 28px;
+  }
+
+  .foot-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
 
     /* ── ANIMATIONS ── */
     .rv {
