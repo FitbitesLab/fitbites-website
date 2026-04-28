@@ -2027,6 +2027,10 @@ document.addEventListener('keydown', (e) => {
     // Initial sync
 updateContent();
 filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
+
+function toggleMenu() {
+  document.getElementById('navMobileMenu').classList.toggle('open');
+}
   </script>
 </body>
 </html>
