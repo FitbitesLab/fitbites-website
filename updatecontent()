@@ -1203,6 +1203,62 @@ object-position: center center;
   }
 }
 
+/* ── BURGER MENU ── */
+.nav-burger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--bark);
+  cursor: pointer;
+  padding: 8px;
+  z-index: 300;
+}
+
+.nav-mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 250;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.nav-mobile-menu.open {
+  display: flex;
+}
+
+.nav-mobile-menu a {
+  font-size: 24px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--bark);
+  text-decoration: none;
+}
+
+.nav-mobile-menu a:hover {
+  color: var(--brown);
+}
+
+.nav-mobile-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bark);
+}
+
+@media (max-width: 900px) {
+  .nav-burger {
+    display: block;
+  }
+}
 
     /* ── ANIMATIONS ── */
     .rv {
@@ -1251,7 +1307,7 @@ object-position: center center;
         <img src="Fitbites_Logo.png" style="height:190px;object-fit:contain;" alt="fitbites" />
       </a>
     </div>
-
+<button class="nav-burger" onclick="toggleMenu()" id="navBurger">☰</button>
     <ul class="nav-links">
       <li><a href="#">home</a></li>
       <li><a href="#our-story">our story</a></li>
@@ -2014,6 +2070,9 @@ document.addEventListener('keydown', (e) => {
     // Initial sync
 updateContent();
 filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
+function toggleMenu() {
+  document.getElementById('navMobileMenu').classList.toggle('open');
+}
   </script>
 </body>
 </html>
