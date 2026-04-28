@@ -1023,242 +1023,133 @@ object-position: center center;
 
     /* ── MOBILE ── */
     @media (max-width: 900px) {
-  nav {
-    padding: 0 16px;
-    height: 60px;
-  }
+      nav {
+        padding: 0 20px;
+      }
 
-  .nav-mascots {
-    display: none;
-  }
+      .nav-links {
+        display: none;
+      }
 
-  .nav-left img:first-child {
-    height: 50px !important;
-    margin-right: -60px !important;
-    margin-bottom: 20px !important;
-  }
+      .nav-mascots {
+        display: none;
+      }
 
-  .nav-logo img {
-    height: 120px !important;
-  }
+      .slide-text {
+        left: 24px;
+        right: 24px;
+        bottom: 32px;
+      }
 
-  .nav-links {
-    display: none;
-  }
+      .slider-controls {
+        right: 24px;
+        bottom: 32px;
+      }
 
-  .hero {
-    margin-top: 60px;
-  }
+      .slide-counter {
+        right: 24px;
+      }
 
-  .hero-slider {
-    height: 70vh;
-  }
+      .slider-dots {
+        bottom: 42px;
+      }
 
-  .slide-text {
-    left: 20px;
-    right: 20px;
-    bottom: 24px;
-  }
+      .hero-content {
+        padding: 20px 24px;
+        grid-template-columns: 1fr;
+      }
 
-  .slider-controls {
-    right: 20px;
-    bottom: 24px;
-  }
+      .hero-content-right {
+        display: none;
+      }
 
-  .slide-counter {
-    right: 20px;
-  }
+      .slogan-strip {
+        padding: 48px 24px;
+      }
 
-  .slider-dots {
-    bottom: 34px;
-  }
+      #menu {
+        padding: 72px 24px;
+      }
 
-  .hero-content {
-    padding: 20px 20px;
-    grid-template-columns: 1fr;
-  }
+      .menu-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-  .hero-content-right {
-    display: none;
-  }
+      .menu-sub {
+        text-align: left;
+        max-width: none;
+      }
 
-  .slogan-strip {
-    padding: 36px 20px;
-  }
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
 
-  #menu {
-    padding: 60px 20px;
-  }
+      #our-story {
+        padding: 72px 24px;
+      }
 
-  .menu-head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      .story-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
 
-  .menu-sub {
-    text-align: left;
-    max-width: none;
-  }
+      .story-right {
+        grid-template-columns: 1fr 1fr;
+      }
 
-  .menu-tabs {
-    width: 100%;
-  }
+      #too-tiel {
+        padding: 72px 24px;
+      }
 
-  .mtab {
-    padding: 10px 14px;
-    font-size: 9px;
-    letter-spacing: 1px;
-    flex: 1;
-    text-align: center;
-  }
+      .tt-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-  .menu-banner {
-    height: 220px;
-  }
+      .tt-sub {
+        text-align: left;
+        max-width: none;
+      }
 
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
+      .tt-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .menu-item {
-    padding: 24px 20px;
-  }
+      #order {
+        padding: 72px 24px;
+      }
 
-  .menu-item:nth-child(odd) {
-    border-right: none;
-  }
+      .order-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-  #our-story {
-    padding: 60px 20px;
-  }
+      .order-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .story-inner {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+      #find-us {
+        grid-template-columns: 1fr;
+      }
 
-  .story-right {
-    grid-template-columns: 1fr 1fr;
-  }
+      .find-visual {
+        min-height: 260px;
+      }
 
-  #too-tiel {
-    padding: 60px 20px;
-  }
+      .find-text {
+        padding: 48px 24px;
+      }
 
-  .tt-head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      footer {
+        padding: 48px 24px 32px;
+      }
 
-  .tt-sub {
-    text-align: left;
-    max-width: none;
-  }
-
-  .tt-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #order {
-    padding: 60px 20px;
-  }
-
-  .order-head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .order-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .ocard {
-    min-width: 0;
-  }
-
-  /* Hide Tiel floating on mobile */
-  .ocard img[src="Tiel_Zalo.jpg"] {
-    display: none;
-  }
-
-  #find-us {
-    grid-template-columns: 1fr;
-  }
-
-  #find-us iframe {
-    min-height: 300px;
-  }
-
-  .find-text {
-    padding: 40px 20px;
-  }
-
-  footer {
-    padding: 40px 20px 28px;
-  }
-
-  .foot-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-}
-
-/* ── BURGER MENU ── */
-.nav-burger {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: var(--bark);
-  cursor: pointer;
-  padding: 8px;
-  z-index: 300;
-}
-
-.nav-mobile-menu {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--cream);
-  z-index: 250;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-}
-
-.nav-mobile-menu.open {
-  display: flex;
-}
-
-.nav-mobile-menu a {
-  font-size: 24px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--bark);
-  text-decoration: none;
-}
-
-.nav-mobile-menu a:hover {
-  color: var(--brown);
-}
-
-.nav-mobile-close {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  font-size: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--bark);
-}
-
-@media (max-width: 900px) {
-  .nav-burger {
-    display: block;
-  }
-}
+      .foot-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+      }
+    }
 
     /* ── ANIMATIONS ── */
     .rv {
@@ -1307,7 +1198,7 @@ object-position: center center;
         <img src="Fitbites_Logo.png" style="height:190px;object-fit:contain;" alt="fitbites" />
       </a>
     </div>
-<button class="nav-burger" onclick="toggleMenu()" id="navBurger">☰</button>
+
     <ul class="nav-links">
       <li><a href="#">home</a></li>
       <li><a href="#our-story">our story</a></li>
@@ -2070,9 +1961,6 @@ document.addEventListener('keydown', (e) => {
     // Initial sync
 updateContent();
 filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
-function toggleMenu() {
-  document.getElementById('navMobileMenu').classList.toggle('open');
-}
   </script>
 </body>
 </html>
