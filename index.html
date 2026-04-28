@@ -1026,9 +1026,6 @@ object-position: center center;
       nav {
         padding: 0 20px;
       }
-.nav-burger {
-  display: block;
-}
 
 
       .nav-links {
@@ -1165,6 +1162,13 @@ object-position: center center;
   cursor: pointer;
   padding: 8px;
   z-index: 300;
+}
+@media (max-width: 900px) {
+  .nav-burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .nav-mobile-menu {
