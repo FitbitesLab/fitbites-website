@@ -1022,165 +1022,11 @@ object-position: center center;
     }
 
     /* ── MOBILE ── */
-    @media (max-width: 900px) {
-  nav {
-    padding: 0 20px;
-  }
 
-  .hero-slider {
-    height: 58svh;
-  }
-
-  .slide-img {
-    object-position: center top;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .nav-mascots {
-    display: none;
-  }
-}
-
-      .slide-text {
-        left: 24px;
-        right: 24px;
-        bottom: 32px;
-      }
-
-      .slider-controls {
-        right: 24px;
-        bottom: 32px;
-      }
-
-      .slide-counter {
-        right: 24px;
-      }
-
-      .slider-dots {
-        bottom: 42px;
-      }
-
-      .hero-content {
-        padding: 20px 24px;
-        grid-template-columns: 1fr;
-      }
-
-      .hero-content-right {
-        display: none;
-      }
-
-      .slogan-strip {
-        padding: 48px 24px;
-      }
-
-      #menu {
-        padding: 72px 24px;
-      }
-
-      .menu-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .menu-sub {
-        text-align: left;
-        max-width: none;
-      }
-
-      .menu-grid {
-        grid-template-columns: 1fr;
-      }
-
-      #our-story {
-        padding: 72px 24px;
-      }
-
-      .story-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .story-right {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      #too-tiel {
-        padding: 72px 24px;
-      }
-
-      .tt-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .tt-sub {
-        text-align: left;
-        max-width: none;
-      }
-
-      .tt-grid {
-        grid-template-columns: 1fr;
-      }
-
-      #order {
-        padding: 72px 24px;
-      }
-
-      .order-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .order-grid {
-        grid-template-columns: 1fr;
-      }
-
-      #find-us {
-        grid-template-columns: 1fr;
-      }
-
-      .find-visual {
-        min-height: 260px;
-      }
-
-      .find-text {
-        padding: 48px 24px;
-      }
-
-      footer {
-        padding: 48px 24px 32px;
-      }
-
-      .foot-top {
-        grid-template-columns: 1fr 1fr;
-        gap: 28px;
-      }
-    }
-   nav .nav-burger {
+nav .nav-burger {
   display: none !important;
 }
 
-   @media (max-width: 900px) {
-  nav .nav-burger {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    font-size: 30px;
-    line-height: 1;
-    padding: 0;
-    background: transparent;
-    border: none;
-    color: var(--bark);
-    position: absolute;
-    right: 20px;
-    top: 13px;
-  }
-}
 .nav-mobile-menu {
   display: none;
   position: fixed;
@@ -1219,8 +1065,143 @@ object-position: center center;
   cursor: pointer;
   color: var(--bark);
 }
-​​​​​​​​​
 
+@media (max-width: 768px) {
+  nav {
+    padding: 0 20px;
+  }
+
+  nav .nav-burger {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    font-size: 30px;
+    line-height: 1;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--bark);
+    position: absolute;
+    right: 20px;
+    top: 13px;
+  }
+
+  .nav-links,
+  .nav-mascots {
+    display: none;
+  }
+
+  .hero-slider {
+    height: 58svh;
+  }
+
+  .slide-img {
+    object-position: center top;
+  }
+
+  .slide-text {
+    left: 24px;
+    right: 24px;
+    bottom: 32px;
+  }
+
+  .slider-controls {
+    right: 24px;
+    bottom: 32px;
+  }
+
+  .slide-counter {
+    right: 24px;
+  }
+
+  .slider-dots {
+    bottom: 42px;
+  }
+
+  .hero-content {
+    padding: 20px 24px;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content-right {
+    display: none;
+  }
+
+  .slogan-strip {
+    padding: 48px 24px;
+  }
+
+  #menu {
+    padding: 72px 24px;
+  }
+
+  .menu-head,
+  .tt-head,
+  .order-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-sub,
+  .tt-sub {
+    text-align: left;
+    max-width: none;
+  }
+
+  .menu-grid,
+  .tt-grid,
+  .order-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #our-story,
+  #too-tiel,
+  #order {
+    padding: 72px 24px;
+  }
+
+  .story-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .story-right {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #find-us {
+    grid-template-columns: 1fr;
+  }
+
+  .find-visual {
+    min-height: 260px;
+  }
+
+  .find-text {
+    padding: 48px 24px;
+  }
+
+  footer {
+    padding: 48px 24px 32px;
+  }
+
+  .foot-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  #order img[alt="Tiel holding Zalo QR"] {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 160px !important;
+    display: block;
+    margin: -30px auto 12px auto;
+    z-index: 2;
+  }
+}
 
     /* ── ANIMATIONS ── */
     .rv {
@@ -1256,8 +1237,7 @@ object-position: center center;
 <link rel="preload" as="image" href="Coffee_Hero.PNG">
 <link rel="preload" as="image" href="Snacks_Hero.PNG">
 </head>
-
-</head>
+  
 <body>
 
   <!-- NAV -->
@@ -1310,7 +1290,7 @@ object-position: center center;
           <div class="slide-overlay"></div>
           <div class="slide-text">
             <span class="slide-label">Fitbites Daily</span>
-            <h1 class="slide-quote">Protein Overnight Oats
+           <h1 class="slide-quote">Protein Overnight Oats</h1>
           </div>
         </div>
 
