@@ -1,14 +1,16 @@
-const CACHE_NAME = 'fitbites-v2';
+const CACHE_NAME = 'fitbites-v3';
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/offline.html',
+  '/stamp.html',
   '/manifest.json',
   '/Fitbites_Logo.png',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  '/icons/icon-512-maskable.png'
+  '/icons/icon-512-maskable.png',
+  '/icons/stamp-icon.png'
 ];
 
 self.addEventListener('install', event => {
