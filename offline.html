@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fitbites — offline</title>
+
+  <!-- Brand font -->
+  <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
+      background: #fdf9f5;
+      color: #2c1a0e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+    }
+
+    img {
+      width: 80px;
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #8a6a4a;
+      line-height: 1.8;
+      max-width: 280px;
+    }
+
+    button {
+      margin-top: 28px;
+      background: #c47a3a;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #a5621e;
+    }
+
+    .address {
+      margin-top: 32px;
+      border-top: 1px solid #ede3d8;
+      padding-top: 24px;
+      font-size: 13px;
+      color: #c47a3a;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="/icons/icon-192.png" alt="fitbites" />
+
+  <h1>you’re offline.</h1>
+
+  <p>
+    connection dropped. fitbites is still here — reconnect or come see us in thao dien.
+  </p>
+
+  <button onclick="location.reload()">try again</button>
+
+  <div class="address">
+    📍 No 58A Street 47, Thao Dien, Thu Duc City
+  </div>
+</body>
+</html>
