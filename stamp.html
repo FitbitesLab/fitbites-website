@@ -286,42 +286,38 @@
 </head>
 
 <body>
-  <body>
   <main class="loyalty-card">
-  <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
+    <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
 
-<h1 class="title">your loyalty card</h1>
+    <h1 class="title">your loyalty card</h1>
 
-<section class="stamp-grid" id="stampGrid"></section>
+    <section class="stamp-grid" id="stampGrid"></section>
 
-<p class="progress">
-  <span id="stampCount">0</span> / 9 stamps
-</p>
+    <p class="progress">
+      <span id="stampCount">0</span> / 9 stamps
+    </p>
 
-<button class="scan-btn" id="scanBtn" onclick="openScanner()">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-    <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-    <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-    <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-    <rect x="7" y="7" width="10" height="10" rx="1"/>
-  </svg>
-  scan to stamp
-</button>
+    <button class="scan-btn" id="scanBtn" onclick="openScanner()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        <rect x="7" y="7" width="10" height="10" rx="1"/>
+      </svg>
+      scan to stamp
+    </button>
 
-<section class="reward" id="reward">
-  <span class="reward-emoji">🎉</span>
-  <h2>you earned it.</h2>
-  <p>show this screen to our team at the café to claim your free reward.</p>
-  <div class="reward-badge">🎁 1 free fitbites</div>
-  <button class="reward-reset" onclick="resetCard()">start a new card</button>
-</section>
-
+    <section class="reward" id="reward">
+      <span class="reward-emoji">🎉</span>
+      <h2>you earned it.</h2>
+      <p>show this screen to our team at the café to claim your free reward.</p>
+      <div class="reward-badge">🎁 1 free fitbites</div>
+      <button class="reward-reset" onclick="resetCard()">start a new card</button>
+    </section>
   </main>
 
-<a href="/" class="back-link">← back to fitbites</a>
-
-  <!-- SCANNER OVERLAY -->
+  <a href="/" class="back-link">← back to fitbites</a>
 
   <div class="scanner-overlay" id="scannerOverlay">
     <p class="scanner-title">point at the café QR code</p>
@@ -333,21 +329,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 
   <script>
-    // ── CONFIG ──
     const SECRET_CODE = 'FITBITES-STAMP-2025';
     const TOTAL_STAMPS = 9;
     const STORAGE_KEY = 'fitbites_loyalty_stamps';
     const STAMP_ICON = '/icons/stamp-icon.png';
 
-    // ── STATE ──
     let stamps = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
     if (isNaN(stamps) || stamps < 0 || stamps > TOTAL_STAMPS) stamps = 0;
 
     let scanning = false;
     let videoStream = null;
-    let scanInterval = null;
 
-    // ── RENDER ──
     function renderStamps() {
       const grid = document.getElementById('stampGrid');
       grid.innerHTML = '';
@@ -355,9 +347,11 @@
       for (let i = 0; i < TOTAL_STAMPS; i++) {
         const div = document.createElement('div');
         div.className = i < stamps ? 'stamp filled' : 'stamp empty';
+
         const img = document.createElement('img');
         img.src = STAMP_ICON;
         img.alt = '';
+
         div.appendChild(img);
         grid.appendChild(div);
       }
@@ -376,31 +370,28 @@
       }
     }
 
-    // ── ADD STAMP ──
     function addStamp() {
       if (stamps >= TOTAL_STAMPS) return;
+
       stamps++;
       localStorage.setItem(STORAGE_KEY, stamps);
       renderStamps();
 
-      // Animate newest stamp
       const filled = document.querySelectorAll('.stamp.filled');
       if (filled.length > 0) {
         filled[filled.length - 1].classList.add('new');
       }
     }
 
-    // ── RESET ──
     function resetCard() {
       stamps = 0;
       localStorage.setItem(STORAGE_KEY, 0);
       renderStamps();
     }
 
-    // ── SCANNER ──
     function openScanner() {
       document.getElementById('scannerOverlay').classList.add('open');
-      document.getElementById('scannerStatus').textContent = 'scanning...';
+      document.getElementById('scannerStatus').textContent = 'starting camera...';
       startCamera();
     }
 
@@ -412,13 +403,23 @@
     async function startCamera() {
       try {
         videoStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' }
+          video: {
+            facingMode: 'environment',
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
         });
+
         const video = document.getElementById('qr-video');
         video.srcObject = videoStream;
-        video.play();
+
+        await video.play();
+
         scanning = true;
-        scanInterval = setInterval(scanFrame, 300);
+        document.getElementById('scannerStatus').textContent = 'scanning...';
+
+        startScanningLoop(video);
+
       } catch (err) {
         document.getElementById('scannerStatus').textContent = 'camera access denied';
       }
@@ -426,40 +427,52 @@
 
     function stopCamera() {
       scanning = false;
-      clearInterval(scanInterval);
+
       if (videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
+        videoStream.getTracks().forEach(track => track.stop());
         videoStream = null;
       }
     }
 
-    function scanFrame() {
-      if (!scanning) return;
-      const video = document.getElementById('qr-video');
-      if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
-
+    function startScanningLoop(video) {
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
 
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, canvas.width, canvas.height);
+      function tick() {
+        if (!scanning) return;
 
-      if (code) {
-        if (code.data === SECRET_CODE) {
-          closeScanner();
-          addStamp();
-        } else {
-          document.getElementById('scannerStatus').textContent = '❌ invalid QR code';
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+          const code = jsQR(imageData.data, canvas.width, canvas.height, {
+            inversionAttempts: 'dontInvert'
+          });
+
+          if (code) {
+            console.log('QR DETECTED:', code.data);
+
+            if (code.data.trim() === SECRET_CODE) {
+              closeScanner();
+              addStamp();
+              return;
+            } else {
+              document.getElementById('scannerStatus').textContent = 'invalid QR code';
+            }
+          }
         }
+
+        requestAnimationFrame(tick);
       }
+
+      tick();
     }
 
-    // ── INIT ──
     renderStamps();
   </script>
-
 </body>
 </html>
