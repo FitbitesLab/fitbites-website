@@ -1156,6 +1156,20 @@ nav .nav-burger {
     grid-template-columns: 1fr !important;
   }
 
+  /* MENU IMAGE — HERO STYLE ON MOBILE */
+  .menu-banner {
+    height: 58svh;
+    overflow: hidden;
+  }
+
+  .menu-banner img,
+  .menu-banner-img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center;
+  }
+
   #our-story,
   #too-tiel,
   #order {
@@ -1192,79 +1206,58 @@ nav .nav-burger {
     gap: 28px;
   }
 
- /* Mobile: replace café picture with Tiel QR */
-#order .ocard:nth-child(2) > img[alt="Visit our café"] {
-  display: none !important;
-}
-
-#order img[alt="Tiel holding Zalo QR"] {
-  position: static !important;
-  width: 240px !important;
-  max-width: 80%;
-  display: block;
-  margin: 28px auto 0 auto;
-  z-index: 1;
-}
-
-.ocard-cafe {
-  background: var(--cream);
-}
-
-/* STORY NAV FIX — MOBILE */
-.story-viewer {
-  max-width: 100%;
-  height: auto;
-}
-
-.story-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
-
-.story-prev,
-.story-next {
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1100;
-  background: rgba(0,0,0,0.45);
-  padding: 14px 16px;
-}
-
-.story-prev {
-  left: 8px;
-}
-
-.story-next {
-  right: 8px;
-}
-
-.story-close {
-  top: -36px;
-  right: 16px;
-}
-  @media (max-width: 768px) {
-
-  /* everything you already have */
-
-  .foot-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
+  /* Mobile: replace café picture with Tiel QR */
+  #order .ocard:nth-child(2) > img[alt="Visit our café"] {
+    display: none !important;
   }
 
-  /* MENU IMAGE — HERO STYLE */
-.menu-banner {
-  height: 52svh;
-  overflow: hidden;
-}
+  #order img[alt="Tiel holding Zalo QR"] {
+    position: static !important;
+    width: 240px !important;
+    max-width: 80%;
+    display: block;
+    margin: 28px auto 0 auto;
+    z-index: 1;
+  }
 
-.menu-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;}
-}
+  .ocard-cafe {
+    background: var(--cream);
+  }
 
+  /* STORY NAV FIX — MOBILE */
+  .story-viewer {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .story-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .story-prev,
+  .story-next {
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1100;
+    background: rgba(0,0,0,0.45);
+    padding: 14px 16px;
+  }
+
+  .story-prev {
+    left: 8px;
+  }
+
+  .story-next {
+    right: 8px;
+  }
+
+  .story-close {
+    top: -36px;
+    right: 16px;
+  }
+}
 
     /* ── ANIMATIONS ── */
     .rv {
