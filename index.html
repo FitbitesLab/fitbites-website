@@ -1279,6 +1279,28 @@ nav .nav-burger {
   margin-right: -24px;
   width: calc(100% + 48px);
 }
+  
+  /* ↓ LAST — MENU TABS SCROLL */
+  .menu-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100vw;
+    margin-left: -24px;
+    margin-right: -24px;
+    scrollbar-width: none;
+  }
+
+  .menu-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mtab {
+    flex: 0 0 auto;
+  }
+
 }
 
     /* ── ANIMATIONS ── */
