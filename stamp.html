@@ -404,8 +404,15 @@
   try {
     stopCamera();
 
+    if (typeof jsQR === 'undefined') {
+      document.getElementById('scannerStatus').textContent = 'scanner library not loaded';
+      return;
+    }
+
     videoStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
+      video: {
+        facingMode: { ideal: 'environment' }
+      },
       audio: false
     });
 
