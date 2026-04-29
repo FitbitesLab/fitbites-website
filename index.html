@@ -2128,6 +2128,13 @@ filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
 function toggleMenu() {
   document.getElementById('navMobileMenu').classList.toggle('open');
 }
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW error', err));
+  });
+}
   </script>
 </body>
 </html>
