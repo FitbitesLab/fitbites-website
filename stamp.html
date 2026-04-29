@@ -460,16 +460,20 @@
         inversionAttempts: 'attemptBoth'
       });
 
-     if (code) {
+    if (code) {
   console.log('QR DETECTED:', code.data);
 
-  if (code.data.trim() === SECRET_CODE) {
+  const scanned = code.data.trim();
+  document.getElementById('scannerStatus').textContent = 'DETECTED: ' + scanned;
+
+  if (scanned === SECRET_CODE) {
     closeScanner();
     addStamp();
     return;
-  } else {
-    document.getElementById('scannerStatus').textContent = 'invalid QR';
   }
+
+  document.getElementById('scannerStatus').textContent = 'invalid QR: ' + scanned;
+}
 }
     requestAnimationFrame(tick);
   }
