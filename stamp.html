@@ -473,15 +473,9 @@
           });
 
           if (code) {
-            console.log('QR DETECTED:', code.data);
-
-            if (code.data.trim() === SECRET_CODE) {
-              closeScanner();
-              addStamp();
-              return;
-            } else {
-              document.getElementById('scannerStatus').textContent = 'invalid QR code';
-            }
+  console.log('QR DETECTED:', code.data);
+  document.getElementById('scannerStatus').textContent = 'DETECTED';
+}
           }
         }
 
