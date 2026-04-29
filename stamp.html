@@ -401,29 +401,29 @@
     }
 
     async function startCamera() {
-      try {
-        videoStream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: 'environment',
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
-          }
-        });
+  try {
+    stopCamera();
 
-        const video = document.getElementById('qr-video');
-        video.srcObject = videoStream;
+    videoStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false
+    });
 
-        await video.play();
+    const video = document.getElementById('qr-video');
+    video.srcObject = videoStream;
 
-        scanning = true;
-        document.getElementById('scannerStatus').textContent = 'scanning...';
+    await video.play();
 
-        startScanningLoop(video);
+    scanning = true;
+    document.getElementById('scannerStatus').textContent = 'scanning...';
 
-      } catch (err) {
-        document.getElementById('scannerStatus').textContent = 'camera access denied';
-      }
-    }
+    startScanningLoop(video);
+
+  } catch (err) {
+    console.error('CAMERA ERROR:', err);
+    document.getElementById('scannerStatus').textContent = 'camera error: ' + err.name;
+  }
+}
 
     function stopCamera() {
       scanning = false;
