@@ -323,8 +323,12 @@
     <section class="stamp-grid" id="stampGrid"></section>
 
     <p class="progress">
-      <span id="stampCount">0</span> / 9 stamps
-    </p>
+  <span id="stampCount">0</span> / 9 stamps
+</p>
+<div class="stamp-message" id="stampMessage">
+  <p class="msg-too" id="msgToo"></p>
+  <p class="msg-tiel" id="msgTiel"></p>
+</div>
 
     <button class="scan-btn" id="scanBtn" onclick="openScanner()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -404,10 +408,41 @@
         reward.classList.remove('show');
       }
     }
+    const MESSAGES = [
+  { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
+  { too: "They're evolving 😳", tiel: "You came back. Impressive." },
+  { too: "At this rate, they'll unlock my secret recipe!", tiel: "You don't have one." },
+  { too: "This is a lifestyle.", tiel: "This is no longer casual." },
+  { too: "Halfway there! I'm proud of you.", tiel: "…don't get emotional." },
+  { too: "That's… a lot.", tiel: "You've officially eaten more oats than Too thinks in a day." },
+  { too: "At this point, you're basically part of the team.", tiel: "Unpaid." },
+  { too: "And maybe my respect.", tiel: "One more and you unlock greatness." },
+  { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
+];
+
+function showMessage(stampNumber) {
+  const msg = MESSAGES[stampNumber - 1];
+  if (!msg) return;
+  
+  const el = document.getElementById('stampMessage');
+  const too = document.getElementById('msgToo');
+  const tiel = document.getElementById('msgTiel');
+
+  too.textContent = '🦜 Too: "' + msg.too + '"';
+  tiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
+
+  el.classList.remove('show');
+  setTimeout(() => {
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3500);
+  }, 100);
+}
+
 function addStamp() {
   if (stamps >= TOTAL_STAMPS) return;
   playStampSound();
   stamps++;
+  showMessage(stamps);
 
       localStorage.setItem(STORAGE_KEY, stamps);
       renderStamps();
