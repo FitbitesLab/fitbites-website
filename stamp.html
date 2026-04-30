@@ -376,11 +376,11 @@
         reward.classList.remove('show');
       }
     }
+function addStamp() {
+  if (stamps >= TOTAL_STAMPS) return;
+  playStampSound();
+  stamps++;
 
-    function addStamp() {
-      if (stamps >= TOTAL_STAMPS) return;
-
-      stamps++;
       localStorage.setItem(STORAGE_KEY, stamps);
       renderStamps();
 
@@ -389,7 +389,40 @@
         filled[filled.length - 1].classList.add('new');
       }
     }
+    function playStampSound() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  // Thud
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.frequency.setValueAtTime(150, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.1);
+  gain.gain.setValueAtTime(0.8, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.2);
+}
+
+function playCelebrationSound() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  [523, 659, 784, 1047].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.3);
+    osc.start(ctx.currentTime + i * 0.15);
+    osc.stop(ctx.currentTime + i * 0.15 + 0.3);
+  });
+}
+
 function fireConfetti() {
+  playCelebrationSound();
   confetti({
     particleCount: 150,
     spread: 80,
