@@ -219,6 +219,34 @@
       text-transform: uppercase;
       margin: 0 auto;
     }
+    /* STAMP MESSAGE */
+.stamp-message {
+  text-align: center;
+  margin: 16px 0 0;
+  min-height: 52px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.stamp-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stamp-message .msg-too {
+  font-size: 12px;
+  color: var(--brown);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stamp-message .msg-tiel {
+  font-size: 11px;
+  color: #8a6a4a;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
 
     /* SCANNER OVERLAY */
     .scanner-overlay {
