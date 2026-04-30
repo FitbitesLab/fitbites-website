@@ -328,6 +328,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
 
   <script>
     const SECRET_CODE = 'FITBITES-STAMP-2025';
@@ -363,8 +365,12 @@
       const reward = document.getElementById('reward');
 
       if (stamps >= TOTAL_STAMPS) {
-        scanBtn.style.display = 'none';
-        reward.classList.add('show');
+  scanBtn.style.display = 'none';
+  if (!reward.classList.contains('show')) {
+    fireConfetti();
+  }
+  reward.classList.add('show');
+
       } else {
         scanBtn.style.display = 'flex';
         reward.classList.remove('show');
@@ -383,6 +389,32 @@
         filled[filled.length - 1].classList.add('new');
       }
     }
+function fireConfetti() {
+  confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 },
+    colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0']
+  });
+  setTimeout(() => {
+    confetti({
+      particleCount: 80,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ['#c47a3a', '#e8a96a']
+    });
+  }, 200);
+  setTimeout(() => {
+    confetti({
+      particleCount: 80,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ['#c47a3a', '#e8a96a']
+    });
+  }, 400);
+}
 
     function resetCard() {
       stamps = 0;
