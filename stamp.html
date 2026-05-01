@@ -73,20 +73,9 @@
       transition: transform 0.2s;
     }
 
-    .stamp.empty {
-      border: 2px solid var(--stamp-empty);
-      background: transparent;
-    }
-
-    .stamp.filled {
-      border: 2px solid var(--brown);
-      background: var(--brown);
-      box-shadow: 0 6px 16px rgba(196, 122, 58, 0.28);
-    }
-
-    .stamp.new {
-      animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    .stamp.empty { border: 2px solid var(--stamp-empty); background: transparent; }
+    .stamp.filled { border: 2px solid var(--brown); background: var(--brown); box-shadow: 0 6px 16px rgba(196, 122, 58, 0.28); }
+    .stamp.new { animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
     @keyframes stampIn {
       0% { transform: scale(0); opacity: 0; }
@@ -142,12 +131,7 @@
 
     .reward.show { display: block; }
 
-    .reward-emoji {
-      font-size: 48px;
-      margin-bottom: 12px;
-      display: block;
-      animation: bounce 0.6s ease;
-    }
+    .reward-emoji { font-size: 48px; margin-bottom: 12px; display: block; animation: bounce 0.6s ease; }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
@@ -213,7 +197,6 @@
       color: #c4a882;
       margin-top: 12px;
       min-height: 14px;
-      transition: opacity 0.3s;
     }
 
     .scanner-overlay {
@@ -277,6 +260,136 @@
       color: var(--brown);
       text-decoration: none;
     }
+
+    /* ── REGISTRATION MODAL ─────────────────────────────────────────────── */
+    .reg-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 26, 14, 0.7);
+      z-index: 2000;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      backdrop-filter: blur(4px);
+    }
+
+    .reg-overlay.open { display: flex; }
+
+    .reg-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--cream);
+      border-radius: 28px 28px 0 0;
+      padding: 32px 28px 48px;
+      animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .reg-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    .reg-birds {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .reg-title {
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--bark);
+      margin-bottom: 6px;
+    }
+
+    .reg-subtitle {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-align: center;
+      color: #8a6a4a;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .reg-field {
+      margin-bottom: 16px;
+    }
+
+    .reg-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 8px;
+    }
+
+    .reg-input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--bark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .reg-input:focus { border-color: var(--brown); }
+
+    .reg-submit {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      background: var(--brown);
+      color: white;
+      padding: 18px;
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .reg-submit:hover { background: var(--brown-dark); }
+    .reg-submit:active { transform: scale(0.98); }
+
+    .reg-skip {
+      display: block;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c4a882;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      margin: 16px auto 0;
+    }
+
+    .reg-error {
+      font-size: 11px;
+      color: #c0392b;
+      text-align: center;
+      margin-top: 8px;
+      min-height: 16px;
+    }
   </style>
 
 </head>
@@ -315,12 +428,49 @@
 
 <a href="/" class="back-link">← back to fitbites</a>
 
+  <!-- SCANNER OVERLAY -->
+
   <div class="scanner-overlay" id="scannerOverlay">
     <p class="scanner-title">point at the café QR code</p>
     <video id="qr-video" autoplay playsinline muted></video>
     <button class="scanner-close" onclick="closeScanner()">cancel</button>
     <p class="scanner-status" id="scannerStatus">scanning...</p>
   </div>
+
+  <!-- REGISTRATION MODAL -->
+<div class="reg-overlay" id="regOverlay">
+  <div class="reg-sheet">
+    <div class="reg-handle"></div>
+    <div class="reg-birds">🦜😤</div>
+
+    <h2 class="reg-title">welcome to the family.</h2>
+    <p class="reg-subtitle">
+      Too is excited. Tiel is trying not to show it.<br>
+      tell us who you are — just once, we promise.
+    </p>
+
+    <div class="reg-field">
+      <label class="reg-label" for="regName">your name</label>
+      <input class="reg-input" id="regName" type="text" />
+    </div>
+
+    <div class="reg-field">
+      <label class="reg-label" for="regPhone">phone number</label>
+      <input class="reg-input" id="regPhone" type="tel" />
+    </div>
+
+    <p class="reg-error" id="regError"></p>
+
+    <button class="reg-submit" onclick="submitRegistration()">
+      join the fitbites family 🦜
+    </button>
+
+    <button class="reg-skip" onclick="skipRegistration()">
+      maybe later
+    </button>
+  </div>
+</div>
+  
 
   <!-- Firebase SDK with Anonymous Auth -->
 
@@ -344,12 +494,9 @@
     const db   = getFirestore(app);
     const auth = getAuth(app);
 
-    // ─── Pre-expose _fb so app script can reference it ───────────────────
     window._fb = { db, doc, getDoc, setDoc, addDoc, collection, serverTimestamp,
                    getUid: () => null, ready: false };
 
-    // ─── Anonymous Auth ──────────────────────────────────────────────────
-    // Firebase manages a persistent UID — survives cache clears & reinstalls
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         const cred = await signInAnonymously(auth);
@@ -359,18 +506,21 @@
       const uid = user.uid;
       window._fb.getUid = () => uid;
 
-      // ── Load stamps from Firestore ──────────────────────────────────
       window._fb.loadFromCloud = async function() {
         try {
           const ref  = doc(db, 'stamps', uid);
           const snap = await getDoc(ref);
           if (snap.exists()) {
-            const data       = snap.data();
+            const data        = snap.data();
             const cloudStamps = data.stamps     || 0;
             const cardNumber  = data.cardNumber || 1;
+            const name        = data.name       || null;
+            const phone       = data.phone      || null;
             localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
             localStorage.setItem('fitbites_card_number', cardNumber);
-            return { stamps: cloudStamps, cardNumber };
+            if (name)  localStorage.setItem('fitbites_name',  name);
+            if (phone) localStorage.setItem('fitbites_phone', phone);
+            return { stamps: cloudStamps, cardNumber, name, phone };
           }
         } catch (e) {
           console.warn('Firestore load failed:', e);
@@ -378,7 +528,6 @@
         return null;
       };
 
-      // ── Save stamps to Firestore ────────────────────────────────────
       window._fb.saveToCloud = async function(stampCount, cardNumber) {
         try {
           const ref = doc(db, 'stamps', uid);
@@ -395,20 +544,38 @@
           setSyncStatus('saved locally');
         }
       };
+window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
+  try {
+    const ref = doc(db, 'stamps', uid);
 
-      // ── Log completed card ──────────────────────────────────────────
+    await setDoc(ref, {
+      name,
+      phone,
+      stamps: stampCount,
+      cardNumber,
+      uid,
+      profileUpdated: serverTimestamp(),
+      lastUpdated: serverTimestamp()
+    }, { merge: true });
+
+    console.log('Profile saved 🦜');
+    setSyncStatus('profile saved ☁️');
+  } catch (e) {
+    console.warn('Profile save failed:', e);
+    setSyncStatus('profile saved locally');
+  }
+};
+      
       window._fb.logCompletedCard = async function(cardNumber) {
         try {
           await addDoc(collection(db, 'completedCards'), {
             uid, cardNumber, completedAt: serverTimestamp()
           });
-          console.log('Completed card logged 🎉');
         } catch (e) {
           console.warn('Failed to log completed card:', e);
         }
       };
 
-      // ── Signal ready ────────────────────────────────────────────────
       window._fb.ready = true;
       if (typeof window._fbReadyCallback === 'function') {
         window._fbReadyCallback();
@@ -438,7 +605,7 @@
       throw new Error('PWA only page');
     }
 
-    // ─── Daily rotating code (same formula as staff.html) ────────────────
+    // ─── Daily rotating code ─────────────────────────────────────────────
     const SALT = 'fb_cafe_secret_9x2k';
 
     function getTodayCode() {
@@ -467,16 +634,24 @@
     let cardNumber = parseInt(localStorage.getItem(CARD_KEY)    || '1');
     if (isNaN(stamps)     || stamps < 0     || stamps > TOTAL_STAMPS) stamps     = 0;
     if (isNaN(cardNumber) || cardNumber < 1)                           cardNumber = 1;
+// ─── Profile state ─────────────────────────────────────────────
+let userRegistered = !!localStorage.getItem('fitbites_name');
 
-    let scanning    = false;
-    let videoStream = null;
+// ─── Scanner state ─────────────────────────────────────────────
+let scanning = false;
+let videoStream = null;
+let lastScanTime = 0;
 
-    function setSyncStatus(msg) {
-      const el = document.getElementById('syncStatus');
-      if (!el) return;
-      el.textContent = msg;
-      setTimeout(() => { el.textContent = ''; }, 3000);
-    }
+function setSyncStatus(msg) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+
+  el.textContent = msg;
+
+  setTimeout(() => {
+    el.textContent = '';
+  }, 3000);
+}
 
     function renderStamps() {
       const grid = document.getElementById('stampGrid');
@@ -530,21 +705,96 @@
       }, 100);
     }
 
-    function addStamp() {
-      if (stamps >= TOTAL_STAMPS) return;
-      playStampSound();
-      stamps++;
-      localStorage.setItem(STORAGE_KEY, stamps);
-      renderStamps();
-      showMessage(stamps);
-      const filled = document.querySelectorAll('.stamp.filled');
-      if (filled.length > 0) filled[filled.length - 1].classList.add('new');
-      setSyncStatus('syncing...');
-      if (window._fb && window._fb.ready) {
-        window._fb.saveToCloud(stamps, cardNumber);
-        if (stamps >= TOTAL_STAMPS) window._fb.logCompletedCard(cardNumber);
-      }
+    // ─── Registration modal ──────────────────────────────────────────────
+    function openRegistration() {
+      document.getElementById('regOverlay').classList.add('open');
+      setTimeout(() => document.getElementById('regName').focus(), 400);
     }
+
+    function skipRegistration() {
+      document.getElementById('regOverlay').classList.remove('open');
+    }
+function submitRegistration() {
+  const nameRaw  = document.getElementById('regName').value.trim();
+  const phoneRaw = document.getElementById('regPhone').value.trim();
+  const error    = document.getElementById('regError');
+
+  const cleanPhone = phoneRaw.replace(/\D/g, '');
+
+  if (!nameRaw) {
+    error.textContent = 'please enter your name 🦜';
+    return;
+  }
+
+  if (cleanPhone.length < 9) {
+    error.textContent = 'invalid phone number';
+    return;
+  }
+
+  error.textContent = '';
+
+  localStorage.setItem('fitbites_name', nameRaw);
+  localStorage.setItem('fitbites_phone', cleanPhone);
+  userRegistered = true;
+
+  if (window._fb && window._fb.ready) {
+    window._fb.saveProfile(nameRaw, cleanPhone, stamps, cardNumber);
+  }
+
+  document.getElementById('regOverlay').classList.remove('open');
+
+  const el   = document.getElementById('stampMessage');
+  const too  = document.getElementById('msgToo');
+  const tiel = document.getElementById('msgTiel');
+
+  too.textContent  = '🦜 Too: "' + nameRaw + '!! YOU ARE ONE OF US NOW!"';
+  tiel.textContent = '😤 Tiel: "…welcome. officially."';
+
+  el.classList.remove('show');
+
+  setTimeout(() => {
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 4000);
+  }, 100);
+}
+
+   function addStamp() {
+  const now = Date.now();
+
+  if (now - lastScanTime < 3000) return;
+  lastScanTime = now;
+
+  if (stamps >= TOTAL_STAMPS) return;
+
+  playStampSound();
+
+  stamps++;
+
+  localStorage.setItem(STORAGE_KEY, stamps);
+
+  renderStamps();
+  showMessage(stamps);
+
+  const filled = document.querySelectorAll('.stamp.filled');
+
+  if (filled.length > 0) {
+    filled[filled.length - 1].classList.add('new');
+  }
+
+  setSyncStatus('syncing...');
+
+  if (window._fb && window._fb.ready) {
+    window._fb.saveToCloud(stamps, cardNumber);
+
+    if (stamps >= TOTAL_STAMPS) {
+      window._fb.logCompletedCard(cardNumber);
+    }
+  }
+
+  if (stamps === 1 && !userRegistered) {
+    setTimeout(openRegistration, 400);
+  }
+}
 
     function resetCard() {
       stamps = 0;
@@ -672,6 +922,8 @@
           localStorage.setItem(CARD_KEY, cardNumber);
           renderStamps();
         }
+        // Update registration status from cloud
+        if (result.name) userRegistered = true;
         setSyncStatus('synced ☁️');
       }
     }
