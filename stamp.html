@@ -69,14 +69,13 @@
     }
 
     .stamp {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
 
     .stamp.empty {
       border: 2px solid var(--stamp-empty);
@@ -219,34 +218,47 @@
       text-transform: uppercase;
       margin: 0 auto;
     }
+
     /* STAMP MESSAGE */
-.stamp-message {
-  text-align: center;
-  margin: 16px 0 0;
-  min-height: 52px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
+    .stamp-message {
+      text-align: center;
+      margin: 16px 0 0;
+      min-height: 52px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
 
-.stamp-message.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .stamp-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.stamp-message .msg-too {
-  font-size: 12px;
-  color: var(--brown);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
+    .stamp-message .msg-too {
+      font-size: 12px;
+      color: var(--brown);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
 
-.stamp-message .msg-tiel {
-  font-size: 11px;
-  color: #8a6a4a;
-  font-style: italic;
-  letter-spacing: 0.5px;
-}
+    .stamp-message .msg-tiel {
+      font-size: 11px;
+      color: #8a6a4a;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    /* SYNC STATUS */
+    .sync-status {
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c4a882;
+      margin-top: 12px;
+      min-height: 14px;
+      transition: opacity 0.3s;
+    }
 
     /* SCANNER OVERLAY */
     .scanner-overlay {
@@ -318,11 +330,11 @@
   <main class="loyalty-card">
     <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
 
-    <h1 class="title">your loyalty card</h1>
+<h1 class="title">your loyalty card</h1>
 
-    <section class="stamp-grid" id="stampGrid"></section>
+<section class="stamp-grid" id="stampGrid"></section>
 
-    <p class="progress">
+<p class="progress">
   <span id="stampCount">0</span> / 9 stamps
 </p>
 <div class="stamp-message" id="stampMessage">
@@ -330,27 +342,30 @@
   <p class="msg-tiel" id="msgTiel"></p>
 </div>
 
-    <button class="scan-btn" id="scanBtn" onclick="openScanner()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-        <rect x="7" y="7" width="10" height="10" rx="1"/>
-      </svg>
-      scan to stamp
-    </button>
+<button class="scan-btn" id="scanBtn" onclick="openScanner()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+    <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+    <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+    <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+    <rect x="7" y="7" width="10" height="10" rx="1"/>
+  </svg>
+  scan to stamp
+</button>
 
-    <section class="reward" id="reward">
-      <span class="reward-emoji">🎉</span>
-      <h2>you earned it.</h2>
-      <p>show this screen to our team at the café to claim your free reward.</p>
-      <div class="reward-badge">🎁 1 free fitbites</div>
-      <button class="reward-reset" onclick="resetCard()">start a new card</button>
-    </section>
+<section class="reward" id="reward">
+  <span class="reward-emoji">🎉</span>
+  <h2>you earned it.</h2>
+  <p>show this screen to our team at the café to claim your free reward.</p>
+  <div class="reward-badge">🎁 1 free fitbites</div>
+  <button class="reward-reset" onclick="resetCard()">start a new card</button>
+</section>
+
+<p class="sync-status" id="syncStatus"></p>
+
   </main>
 
-  <a href="/" class="back-link">← back to fitbites</a>
+<a href="/" class="back-link">← back to fitbites</a>
 
   <div class="scanner-overlay" id="scannerOverlay">
     <p class="scanner-title">point at the café QR code</p>
@@ -359,34 +374,167 @@
     <p class="scanner-status" id="scannerStatus">scanning...</p>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <!-- Firebase SDK -->
 
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // ─── Firebase config ───────────────────────────────────────────────
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7TYG1ALoYVQh4qGB4Bllgqcm3JA6IpjE",
+      authDomain: "fitbites-2f35b.firebaseapp.com",
+      projectId: "fitbites-2f35b",
+      storageBucket: "fitbites-2f35b.firebasestorage.app",
+      messagingSenderId: "1065518174152",
+      appId: "1:1065518174152:web:d19d5282b4f7c783c77afd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ─── Anonymous device ID ────────────────────────────────────────────
+    // We store only the ID in localStorage — not the stamps
+    function getDeviceId() {
+      let id = localStorage.getItem('fitbites_device_id');
+      if (!id) {
+        id = 'device_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+        localStorage.setItem('fitbites_device_id', id);
+      }
+      return id;
+    }
+
+    // ─── Expose Firebase helpers to global scope ────────────────────────
+    window._fb = {
+      db,
+      getDeviceId,
+      doc,
+      getDoc,
+      setDoc,
+      addDoc,
+      collection,
+      serverTimestamp
+    };
+
+    // ─── Load stamps from Firestore on init ─────────────────────────────
+    window._fb.loadFromCloud = async function() {
+      try {
+        const deviceId = getDeviceId();
+        const ref = doc(db, 'stamps', deviceId);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          const data = snap.data();
+          const cloudStamps = data.stamps || 0;
+          const cardNumber = data.cardNumber || 1;
+          // Update localStorage cache
+          localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
+          localStorage.setItem('fitbites_card_number', cardNumber);
+          return { stamps: cloudStamps, cardNumber };
+        }
+      } catch (e) {
+        console.warn('Firestore load failed, using local cache:', e);
+      }
+      return null;
+    };
+
+    // ─── Save stamps to Firestore ────────────────────────────────────────
+    window._fb.saveToCloud = async function(stampCount, cardNumber) {
+      try {
+        const deviceId = getDeviceId();
+        const ref = doc(db, 'stamps', deviceId);
+        await setDoc(ref, {
+          stamps: stampCount,
+          cardNumber: cardNumber,
+          deviceId: deviceId,
+          lastUpdated: serverTimestamp(),
+          // createdAt only set on first write via merge below
+        }, { merge: true });
+
+        // Set createdAt only if first time (won't overwrite existing)
+        const snap = await getDoc(ref);
+        if (snap.exists() && !snap.data().createdAt) {
+          await setDoc(ref, { createdAt: serverTimestamp() }, { merge: true });
+        }
+
+        setSyncStatus('synced ☁️');
+      } catch (e) {
+        console.warn('Firestore save failed:', e);
+        setSyncStatus('saved locally');
+      }
+    };
+
+    // ─── Log completed card to Firestore ────────────────────────────────
+    window._fb.logCompletedCard = async function(cardNumber) {
+      try {
+        const deviceId = getDeviceId();
+        await addDoc(collection(db, 'completedCards'), {
+          deviceId: deviceId,
+          cardNumber: cardNumber,
+          completedAt: serverTimestamp()
+        });
+        console.log('Completed card logged to Firestore 🎉');
+      } catch (e) {
+        console.warn('Failed to log completed card:', e);
+      }
+    };
+
+    // ─── Init app once Firebase is ready ────────────────────────────────
+    window._fb.ready = true;
+    if (typeof window._fbReadyCallback === 'function') {
+      window._fbReadyCallback();
+    }
+  </script>
+
+  <!-- App scripts -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
-    // Block access if not running as installed PWA
-if (!window.matchMedia('(display-mode: standalone)').matches) {
-  document.body.innerHTML = `
-    <div style="font-family:'Helvetica Neue',sans-serif;background:#fdf9f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;">
-      <img src="/icons/icon-192.png" style="width:80px;margin-bottom:24px;" />
-      <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c47a3a;margin-bottom:12px;">loyalty card</p>
-      <p style="font-size:15px;color:#2c1a0e;margin-bottom:8px;font-weight:700;">app only feature</p>
-      <p style="font-size:13px;color:#8a6a4a;line-height:1.8;max-width:260px;">add fitbites to your home screen to access your loyalty card.</p>
-      <a href="/" style="margin-top:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c47a3a;text-decoration:none;">← back to fitbites</a>
-    </div>`;
-}
+    // ─── PWA lock ────────────────────────────────────────────────────────
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
 
-    const SECRET_CODE = 'FITBITES-STAMP-2025';
+    if (!isStandalone) {
+      document.body.innerHTML = `
+        <div style="font-family:'Helvetica Neue',sans-serif;background:#fdf9f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;">
+          <img src="/icons/icon-192.png" style="width:80px;margin-bottom:24px;" alt="fitbites" />
+          <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c47a3a;margin-bottom:12px;">loyalty card</p>
+          <p style="font-size:15px;color:#2c1a0e;margin-bottom:8px;font-weight:700;">app only feature</p>
+          <p style="font-size:13px;color:#8a6a4a;line-height:1.8;max-width:260px;">add fitbites to your home screen to access your loyalty card.</p>
+          <a href="/" style="margin-top:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c47a3a;text-decoration:none;">← back to fitbites</a>
+        </div>`;
+      throw new Error('PWA only page');
+    }
+
+    // ─── Constants ───────────────────────────────────────────────────────
+    const SECRET_CODE  = 'FITBITES-STAMP-2025';
     const TOTAL_STAMPS = 9;
-    const STORAGE_KEY = 'fitbites_loyalty_stamps';
-    const STAMP_ICON = '/icons/stamp-icon.png';
+    const STORAGE_KEY  = 'fitbites_loyalty_stamps';
+    const CARD_KEY     = 'fitbites_card_number';
+    const STAMP_ICON   = '/icons/stamp-icon.png';
 
-    let stamps = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+    // ─── State (load from localStorage immediately for instant render) ───
+    let stamps      = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+    let cardNumber  = parseInt(localStorage.getItem(CARD_KEY) || '1');
     if (isNaN(stamps) || stamps < 0 || stamps > TOTAL_STAMPS) stamps = 0;
+    if (isNaN(cardNumber) || cardNumber < 1) cardNumber = 1;
 
-    let scanning = false;
+    let scanning    = false;
     let videoStream = null;
 
+    // ─── Sync status helper ──────────────────────────────────────────────
+    function setSyncStatus(msg) {
+      const el = document.getElementById('syncStatus');
+      if (!el) return;
+      el.textContent = msg;
+      setTimeout(() => { el.textContent = ''; }, 3000);
+    }
+
+    // ─── Render ──────────────────────────────────────────────────────────
     function renderStamps() {
       const grid = document.getElementById('stampGrid');
       grid.innerHTML = '';
@@ -394,11 +542,9 @@ if (!window.matchMedia('(display-mode: standalone)').matches) {
       for (let i = 0; i < TOTAL_STAMPS; i++) {
         const div = document.createElement('div');
         div.className = i < stamps ? 'stamp filled' : 'stamp empty';
-
         const img = document.createElement('img');
         img.src = STAMP_ICON;
         img.alt = '';
-
         div.appendChild(img);
         grid.appendChild(div);
       }
@@ -406,132 +552,135 @@ if (!window.matchMedia('(display-mode: standalone)').matches) {
       document.getElementById('stampCount').textContent = stamps;
 
       const scanBtn = document.getElementById('scanBtn');
-      const reward = document.getElementById('reward');
+      const reward  = document.getElementById('reward');
 
       if (stamps >= TOTAL_STAMPS) {
-  scanBtn.style.display = 'none';
-  if (!reward.classList.contains('show')) {
-    fireConfetti();
-  }
-  reward.classList.add('show');
-
+        scanBtn.style.display = 'none';
+        if (!reward.classList.contains('show')) {
+          fireConfetti();
+        }
+        reward.classList.add('show');
       } else {
         scanBtn.style.display = 'flex';
         reward.classList.remove('show');
       }
     }
+
+    // ─── Messages ────────────────────────────────────────────────────────
     const MESSAGES = [
-  { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
-  { too: "They're evolving 😳", tiel: "You came back. Impressive." },
-  { too: "At this rate, they'll unlock my secret recipe!", tiel: "You don't have one." },
-  { too: "This is a lifestyle.", tiel: "This is no longer casual." },
-  { too: "Halfway there! I'm proud of you.", tiel: "…don't get emotional." },
-  { too: "That's… a lot.", tiel: "You've officially eaten more oats than Too thinks in a day." },
-  { too: "At this point, you're basically part of the team.", tiel: "Unpaid." },
-  { too: "And maybe my respect.", tiel: "One more and you unlock greatness." },
-  { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
-];
+      { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
+      { too: "They're evolving 😳", tiel: "You came back. Impressive." },
+      { too: "At this rate, they'll unlock my secret recipe!", tiel: "You don't have one." },
+      { too: "This is a lifestyle.", tiel: "This is no longer casual." },
+      { too: "Halfway there! I'm proud of you.", tiel: "…don't get emotional." },
+      { too: "That's… a lot.", tiel: "You've officially eaten more oats than Too thinks in a day." },
+      { too: "At this point, you're basically part of the team.", tiel: "Unpaid." },
+      { too: "And maybe my respect.", tiel: "One more and you unlock greatness." },
+      { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
+    ];
 
-function showMessage(stampNumber) {
-  const msg = MESSAGES[stampNumber - 1];
-  if (!msg) return;
-  
-  const el = document.getElementById('stampMessage');
-  const too = document.getElementById('msgToo');
-  const tiel = document.getElementById('msgTiel');
+    function showMessage(stampNumber) {
+      const msg = MESSAGES[stampNumber - 1];
+      if (!msg) return;
+      const el   = document.getElementById('stampMessage');
+      const too  = document.getElementById('msgToo');
+      const tiel = document.getElementById('msgTiel');
+      too.textContent  = '🦜 Too: "' + msg.too + '"';
+      tiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
+      el.classList.remove('show');
+      setTimeout(() => {
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 3500);
+      }, 100);
+    }
 
-  too.textContent = '🦜 Too: "' + msg.too + '"';
-  tiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
+    // ─── Add stamp ───────────────────────────────────────────────────────
+    function addStamp() {
+      if (stamps >= TOTAL_STAMPS) return;
+      playStampSound();
+      stamps++;
 
-  el.classList.remove('show');
-  setTimeout(() => {
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 3500);
-  }, 100);
-}
-
-function addStamp() {
-  if (stamps >= TOTAL_STAMPS) return;
-  playStampSound();
-  stamps++;
-  showMessage(stamps);
-
+      // 1. Save to localStorage immediately (instant, no wait)
       localStorage.setItem(STORAGE_KEY, stamps);
       renderStamps();
+      showMessage(stamps);
 
+      // Animate the new stamp
       const filled = document.querySelectorAll('.stamp.filled');
       if (filled.length > 0) {
         filled[filled.length - 1].classList.add('new');
       }
+
+      setSyncStatus('syncing...');
+
+      // 2. Save to Firestore in background
+      if (window._fb) {
+        window._fb.saveToCloud(stamps, cardNumber);
+
+        // If card just completed, log it
+        if (stamps >= TOTAL_STAMPS) {
+          window._fb.logCompletedCard(cardNumber);
+        }
+      }
     }
-    function playStampSound() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  
-  // Bubble pop!
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(400, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
-  osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
-  gain.gain.setValueAtTime(0.4, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.15);
-}
 
-function playCelebrationSound() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  [523, 659, 784, 1047].forEach((freq, i) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = freq;
-    osc.type = 'sine';
-    gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.15);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.3);
-    osc.start(ctx.currentTime + i * 0.15);
-    osc.stop(ctx.currentTime + i * 0.15 + 0.3);
-  });
-}
-
-function fireConfetti() {
-  playCelebrationSound();
-  confetti({
-    particleCount: 150,
-    spread: 80,
-    origin: { y: 0.6 },
-    colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0']
-  });
-  setTimeout(() => {
-    confetti({
-      particleCount: 80,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 },
-      colors: ['#c47a3a', '#e8a96a']
-    });
-  }, 200);
-  setTimeout(() => {
-    confetti({
-      particleCount: 80,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 },
-      colors: ['#c47a3a', '#e8a96a']
-    });
-  }, 400);
-}
-
+    // ─── Reset card ──────────────────────────────────────────────────────
     function resetCard() {
       stamps = 0;
+      cardNumber++;
+
       localStorage.setItem(STORAGE_KEY, 0);
+      localStorage.setItem(CARD_KEY, cardNumber);
       renderStamps();
+
+      setSyncStatus('syncing...');
+
+      if (window._fb) {
+        window._fb.saveToCloud(0, cardNumber);
+      }
     }
 
+    // ─── Sounds ──────────────────────────────────────────────────────────
+    function playStampSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.4, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.15);
+    }
+
+    function playCelebrationSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [523, 659, 784, 1047].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.3);
+        osc.start(ctx.currentTime + i * 0.15);
+        osc.stop(ctx.currentTime + i * 0.15 + 0.3);
+      });
+    }
+
+    function fireConfetti() {
+      playCelebrationSound();
+      confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0'] });
+      setTimeout(() => confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#c47a3a', '#e8a96a'] }), 200);
+      setTimeout(() => confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#c47a3a', '#e8a96a'] }), 400);
+    }
+
+    // ─── Scanner ─────────────────────────────────────────────────────────
     function openScanner() {
       document.getElementById('scannerOverlay').classList.add('open');
       document.getElementById('scannerStatus').textContent = 'starting camera...';
@@ -544,86 +693,93 @@ function fireConfetti() {
     }
 
     async function startCamera() {
-  try {
-    stopCamera();
-
-    if (typeof jsQR === 'undefined') {
-      document.getElementById('scannerStatus').textContent = 'scanner library not loaded';
-      return;
+      try {
+        stopCamera();
+        if (typeof jsQR === 'undefined') {
+          document.getElementById('scannerStatus').textContent = 'scanner library not loaded';
+          return;
+        }
+        videoStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' } },
+          audio: false
+        });
+        const video = document.getElementById('qr-video');
+        video.srcObject = videoStream;
+        await video.play();
+        scanning = true;
+        document.getElementById('scannerStatus').textContent = 'scanning...';
+        startScanningLoop(video);
+      } catch (err) {
+        console.error('CAMERA ERROR:', err);
+        document.getElementById('scannerStatus').textContent = 'camera error: ' + err.name;
+      }
     }
-
-    videoStream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: { ideal: 'environment' }
-      },
-      audio: false
-    });
-
-    const video = document.getElementById('qr-video');
-    video.srcObject = videoStream;
-
-    await video.play();
-
-    scanning = true;
-    document.getElementById('scannerStatus').textContent = 'scanning...';
-
-    startScanningLoop(video);
-
-  } catch (err) {
-    console.error('CAMERA ERROR:', err);
-    document.getElementById('scannerStatus').textContent = 'camera error: ' + err.name;
-  }
-}
 
     function stopCamera() {
       scanning = false;
-
       if (videoStream) {
         videoStream.getTracks().forEach(track => track.stop());
         videoStream = null;
       }
     }
 
-   function startScanningLoop(video) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+    function startScanningLoop(video) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      function tick() {
+        if (!scanning) return;
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width  = video.videoWidth;
+          canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: 'attemptBoth' });
+          if (code) {
+            const scanned = code.data.trim();
+            document.getElementById('scannerStatus').textContent = 'DETECTED: ' + scanned;
+            if (scanned === SECRET_CODE) {
+              closeScanner();
+              addStamp();
+              return;
+            }
+            document.getElementById('scannerStatus').textContent = 'invalid QR: ' + scanned;
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }
 
-  function tick() {
-    if (!scanning) return;
-
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-      const code = jsQR(imageData.data, canvas.width, canvas.height, {
-        inversionAttempts: 'attemptBoth'
-      });
-
-    if (code) {
-  console.log('QR DETECTED:', code.data);
-
-  const scanned = code.data.trim();
-  document.getElementById('scannerStatus').textContent = 'DETECTED: ' + scanned;
-
-  if (scanned === SECRET_CODE) {
-    closeScanner();
-    addStamp();
-    return;
-  }
-
-  document.getElementById('scannerStatus').textContent = 'invalid QR: ' + scanned;
-}
-}
-    requestAnimationFrame(tick);
-  }
-
-  tick();
-}
+    // ─── Init ─────────────────────────────────────────────────────────────
+    // Render immediately from localStorage (instant UX)
     renderStamps();
+
+    // Then silently sync from Firestore in background
+    async function syncFromCloud() {
+      if (!window._fb) return;
+      const result = await window._fb.loadFromCloud();
+      if (result !== null) {
+        const cloudStamps = result.stamps;
+        const cloudCard   = result.cardNumber;
+        // Only update if cloud has more (trust the cloud)
+        if (cloudStamps !== stamps || cloudCard !== cardNumber) {
+          stamps     = cloudStamps;
+          cardNumber = cloudCard;
+          localStorage.setItem(STORAGE_KEY, stamps);
+          localStorage.setItem(CARD_KEY, cardNumber);
+          renderStamps();
+        }
+        setSyncStatus('synced ☁️');
+      }
+    }
+
+    // Wait for Firebase module to be ready
+    if (window._fb && window._fb.ready) {
+      syncFromCloud();
+    } else {
+      window._fbReadyCallback = syncFromCloud;
+    }
   </script>
+
 </body>
 </html>
