@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -28,7 +27,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 20px;
+      padding: 24px 20px 120px;
     }
 
     .loyalty-card {
@@ -71,11 +70,23 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.2s;
+      will-change: transform;
     }
 
-    .stamp.empty { border: 2px solid var(--stamp-empty); background: transparent; }
-    .stamp.filled { border: 2px solid var(--brown); background: var(--brown); box-shadow: 0 6px 16px rgba(196, 122, 58, 0.28); }
-    .stamp.new { animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .stamp.empty {
+      border: 2px solid var(--stamp-empty);
+      background: transparent;
+    }
+
+    .stamp.filled {
+      border: 2px solid var(--brown);
+      background: var(--brown);
+      box-shadow: 0 6px 16px rgba(196, 122, 58, 0.28);
+    }
+
+    .stamp.new {
+      animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
     @keyframes stampIn {
       0% { transform: scale(0); opacity: 0; }
@@ -83,7 +94,12 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    .stamp img { width: 75%; height: 75%; object-fit: contain; }
+    .stamp img {
+      width: 75%;
+      height: 75%;
+      object-fit: contain;
+    }
+
     .stamp.empty img { opacity: 0.28; }
     .stamp.filled img { filter: brightness(0) invert(1); opacity: 1; }
 
@@ -96,7 +112,10 @@
       margin-bottom: 24px;
     }
 
-    .progress span { color: var(--brown); font-weight: 700; }
+    .progress span {
+      color: var(--brown);
+      font-weight: 700;
+    }
 
     .scan-btn {
       width: 100%;
@@ -119,7 +138,12 @@
 
     .scan-btn:hover { background: var(--brown-dark); }
     .scan-btn:active { transform: scale(0.98); }
-    .scan-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .scan-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
 
     .reward {
       display: none;
@@ -131,14 +155,23 @@
 
     .reward.show { display: block; }
 
-    .reward-emoji { font-size: 48px; margin-bottom: 12px; display: block; animation: bounce 0.6s ease; }
+    .reward-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+      animation: bounce 0.6s ease;
+    }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
 
-    .reward h2 { font-size: 24px; margin-bottom: 10px; color: var(--bark); }
+    .reward h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--bark);
+    }
 
     .reward p {
       font-size: 13px;
@@ -185,9 +218,24 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .stamp-message.show { opacity: 1; transform: translateY(0); }
-    .stamp-message .msg-too { font-size: 12px; color: var(--brown); letter-spacing: 0.5px; margin-bottom: 4px; }
-    .stamp-message .msg-tiel { font-size: 11px; color: #8a6a4a; font-style: italic; letter-spacing: 0.5px; }
+    .stamp-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stamp-message .msg-too {
+      font-size: 12px;
+      color: var(--brown);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .stamp-message .msg-tiel {
+      font-size: 11px;
+      color: #8a6a4a;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
 
     .sync-status {
       text-align: center;
@@ -252,16 +300,6 @@
       min-height: 20px;
     }
 
-    .back-link {
-      margin-top: 20px;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--brown);
-      text-decoration: none;
-    }
-
-    /* ── REGISTRATION MODAL ─────────────────────────────────────────────── */
     .reg-overlay {
       display: none;
       position: fixed;
@@ -270,7 +308,6 @@
       z-index: 2000;
       align-items: flex-end;
       justify-content: center;
-      padding: 0;
       backdrop-filter: blur(4px);
     }
 
@@ -287,7 +324,7 @@
 
     @keyframes slideUp {
       from { transform: translateY(100%); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .reg-handle {
@@ -321,9 +358,7 @@
       line-height: 1.6;
     }
 
-    .reg-field {
-      margin-bottom: 16px;
-    }
+    .reg-field { margin-bottom: 16px; }
 
     .reg-label {
       display: block;
@@ -390,22 +425,168 @@
       margin-top: 8px;
       min-height: 16px;
     }
-  </style>
 
+    .nav-wrapper {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 400px;
+      z-index: 998;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav-cookie-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: -28px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .nav-cookie-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 2px solid rgba(196, 122, 58, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(44, 26, 14, 0.12), 0 0 0 4px var(--cream);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    .nav-cookie-btn img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      transition: filter 0.3s ease;
+    }
+
+    .nav-cookie-btn.active {
+      background: var(--brown);
+      border-color: var(--brown);
+      box-shadow: 0 6px 24px rgba(196, 122, 58, 0.5), 0 0 0 4px var(--cream);
+      transform: translateY(-4px) scale(1.08);
+    }
+
+    .nav-cookie-btn.active img { filter: brightness(0) invert(1); }
+    .nav-cookie-btn:active { transform: scale(0.88) !important; }
+
+    .nav-cookie-label {
+      font-size: 7.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(44, 26, 14, 0.4);
+      transition: color 0.3s ease;
+      position: absolute;
+      bottom: -18px;
+    }
+
+    .nav-cookie-wrap.active .nav-cookie-label { color: var(--brown); }
+
+    .nav-bar {
+      width: 100%;
+      height: 64px;
+      background: var(--cream);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(44, 26, 14, 0.11), 0 2px 8px rgba(44, 26, 14, 0.07), 0 0 0 1px rgba(44, 26, 14, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 6px;
+      position: relative;
+    }
+
+    .nav-bubble {
+      position: absolute;
+      top: 8px;
+      left: 0;
+      height: 48px;
+      background: var(--brown);
+      border-radius: 24px;
+      z-index: 0;
+      pointer-events: none;
+      transform: translateX(0);
+      will-change: transform, width, opacity;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+      box-shadow: 0 2px 12px rgba(196, 122, 58, 0.25);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      padding: 8px 10px;
+      border-radius: 20px;
+      flex: 1;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .nav-spacer { flex: 1; pointer-events: none; }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: rgba(44, 26, 14, 0.3);
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2;
+      transition: stroke 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform, stroke;
+    }
+
+    .nav-label {
+      font-size: 7.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(44, 26, 14, 0.3);
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-item.active svg {
+      stroke: var(--cream);
+      transform: translateY(-2px) scale(1.08);
+    }
+
+    .nav-item.active .nav-label { color: var(--cream); }
+    .nav-item:active svg { transform: scale(0.85) !important; }
+  </style>
 </head>
 
 <body>
   <main class="loyalty-card">
     <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
     <h1 class="title">your loyalty card</h1>
+
     <section class="stamp-grid" id="stampGrid"></section>
+
     <p class="progress">
       <span id="stampCount">0</span> / 9 stamps
     </p>
+
     <div class="stamp-message" id="stampMessage">
       <p class="msg-too" id="msgToo"></p>
       <p class="msg-tiel" id="msgTiel"></p>
     </div>
+
     <button class="scan-btn" id="scanBtn" onclick="openScanner()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
@@ -416,6 +597,7 @@
       </svg>
       scan to stamp
     </button>
+
     <section class="reward" id="reward">
       <span class="reward-emoji">🎉</span>
       <h2>you earned it.</h2>
@@ -423,12 +605,9 @@
       <div class="reward-badge">🎁 1 free fitbites</div>
       <button class="reward-reset" onclick="resetCard()">start a new card</button>
     </section>
+
     <p class="sync-status" id="syncStatus"></p>
   </main>
-
-<a href="/" class="back-link">← back to fitbites</a>
-
-  <!-- SCANNER OVERLAY -->
 
   <div class="scanner-overlay" id="scannerOverlay">
     <p class="scanner-title">point at the café QR code</p>
@@ -437,42 +616,80 @@
     <p class="scanner-status" id="scannerStatus">scanning...</p>
   </div>
 
-  <!-- REGISTRATION MODAL -->
-<div class="reg-overlay" id="regOverlay">
-  <div class="reg-sheet">
-    <div class="reg-handle"></div>
-    <div class="reg-birds">🦜😤</div>
+  <div class="reg-overlay" id="regOverlay">
+    <div class="reg-sheet">
+      <div class="reg-handle"></div>
+      <div class="reg-birds">🦜😤</div>
+      <h2 class="reg-title">welcome to the family.</h2>
+      <p class="reg-subtitle">Too is excited. Tiel is trying not to show it.<br>tell us who you are — just once, we promise.</p>
 
-    <h2 class="reg-title">welcome to the family.</h2>
-    <p class="reg-subtitle">
-      Too is excited. Tiel is trying not to show it.<br>
-      tell us who you are — just once, we promise.
-    </p>
+      <div class="reg-field">
+        <label class="reg-label" for="regName">your name</label>
+        <input class="reg-input" id="regName" type="text" />
+      </div>
 
-    <div class="reg-field">
-      <label class="reg-label" for="regName">your name</label>
-      <input class="reg-input" id="regName" type="text" />
+      <div class="reg-field">
+        <label class="reg-label" for="regPhone">phone number</label>
+        <input class="reg-input" id="regPhone" type="tel" />
+      </div>
+
+      <p class="reg-error" id="regError"></p>
+      <button class="reg-submit" onclick="submitRegistration()">join the fitbites family 🦜</button>
+      <button class="reg-skip" onclick="skipRegistration()">maybe later</button>
     </div>
-
-    <div class="reg-field">
-      <label class="reg-label" for="regPhone">phone number</label>
-      <input class="reg-input" id="regPhone" type="tel" />
-    </div>
-
-    <p class="reg-error" id="regError"></p>
-
-    <button class="reg-submit" onclick="submitRegistration()">
-      join the fitbites family 🦜
-    </button>
-
-    <button class="reg-skip" onclick="skipRegistration()">
-      maybe later
-    </button>
   </div>
-</div>
-  
 
-  <!-- Firebase SDK with Anonymous Auth -->
+  <div class="nav-wrapper">
+    <div class="nav-cookie-wrap" id="nav-home" onclick="window.location.href='/'">
+      <div class="nav-cookie-btn" id="nav-home-btn">
+        <img src="/icons/home-b.png" alt="home" />
+      </div>
+      <span class="nav-cookie-label">home</span>
+    </div>
+
+    <nav class="nav-bar" id="navBar">
+      <div class="nav-bubble" id="navBubble"></div>
+
+      <div class="nav-item" id="nav-menu" onclick="window.location.href='/#menu'">
+        <svg viewBox="0 0 24 24">
+          <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+          <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+          <path d="m2.1 21.8 6.4-6.3"/>
+          <path d="m19 5-7 7"/>
+        </svg>
+        <span class="nav-label">menu</span>
+      </div>
+
+      <div class="nav-item active" id="nav-card">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 10h2"/>
+          <path d="M16 14h2"/>
+          <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
+          <circle cx="9" cy="11" r="2"/>
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+        </svg>
+        <span class="nav-label">my card</span>
+      </div>
+
+      <div class="nav-spacer"></div>
+
+      <div class="nav-item" id="nav-profile" onclick="window.location.href='/myfitbites.html'">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M20 21a8 8 0 0 0-16 0"/>
+        </svg>
+        <span class="nav-label">my fitbites</span>
+      </div>
+
+      <div class="nav-item" id="nav-story" onclick="window.location.href='/#story'">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 7v14"/>
+          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+        </svg>
+        <span class="nav-label">story</span>
+      </div>
+    </nav>
+  </div>
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -490,12 +707,21 @@
       appId: "1:1065518174152:web:d19d5282b4f7c783c77afd"
     };
 
-    const app  = initializeApp(firebaseConfig);
-    const db   = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     const auth = getAuth(app);
 
-    window._fb = { db, doc, getDoc, setDoc, addDoc, collection, serverTimestamp,
-                   getUid: () => null, ready: false };
+    window._fb = {
+      db,
+      doc,
+      getDoc,
+      setDoc,
+      addDoc,
+      collection,
+      serverTimestamp,
+      getUid: () => null,
+      ready: false
+    };
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -508,68 +734,82 @@
 
       window._fb.loadFromCloud = async function() {
         try {
-          const ref  = doc(db, 'stamps', uid);
+          const ref = doc(db, 'stamps', uid);
           const snap = await getDoc(ref);
-          if (snap.exists()) {
-            const data        = snap.data();
-            const cloudStamps = data.stamps     || 0;
-            const cardNumber  = data.cardNumber || 1;
-            const name        = data.name       || null;
-            const phone       = data.phone      || null;
-            localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
-            localStorage.setItem('fitbites_card_number', cardNumber);
-            if (name)  localStorage.setItem('fitbites_name',  name);
-            if (phone) localStorage.setItem('fitbites_phone', phone);
-            return { stamps: cloudStamps, cardNumber, name, phone };
-          }
+
+          if (!snap.exists()) return null;
+
+          const data = snap.data();
+
+          const cloudStamps = data.stamps || 0;
+          const cardNumber = data.cardNumber || 1;
+          const name = data.name || null;
+          const phone = data.phone || null;
+
+          localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
+          localStorage.setItem('fitbites_card_number', cardNumber);
+
+          if (name) localStorage.setItem('fitbites_name', name);
+          if (phone) localStorage.setItem('fitbites_phone', phone);
+
+          return { stamps: cloudStamps, cardNumber, name, phone };
         } catch (e) {
           console.warn('Firestore load failed:', e);
+          return null;
         }
-        return null;
       };
 
       window._fb.saveToCloud = async function(stampCount, cardNumber) {
         try {
           const ref = doc(db, 'stamps', uid);
+
           await setDoc(ref, {
-            stamps: stampCount, cardNumber, uid, lastUpdated: serverTimestamp()
+            stamps: stampCount,
+            cardNumber,
+            uid,
+            lastUpdated: serverTimestamp()
           }, { merge: true });
+
           const snap = await getDoc(ref);
+
           if (snap.exists() && !snap.data().createdAt) {
             await setDoc(ref, { createdAt: serverTimestamp() }, { merge: true });
           }
+
           setSyncStatus('synced ☁️');
         } catch (e) {
           console.warn('Firestore save failed:', e);
           setSyncStatus('saved locally');
         }
       };
-window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
-  try {
-    const ref = doc(db, 'stamps', uid);
 
-    await setDoc(ref, {
-      name,
-      phone,
-      stamps: stampCount,
-      cardNumber,
-      uid,
-      profileUpdated: serverTimestamp(),
-      lastUpdated: serverTimestamp()
-    }, { merge: true });
+      window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
+        try {
+          const ref = doc(db, 'stamps', uid);
 
-    console.log('Profile saved 🦜');
-    setSyncStatus('profile saved ☁️');
-  } catch (e) {
-    console.warn('Profile save failed:', e);
-    setSyncStatus('profile saved locally');
-  }
-};
-      
+          await setDoc(ref, {
+            name,
+            phone,
+            stamps: stampCount,
+            cardNumber,
+            uid,
+            profileUpdated: serverTimestamp(),
+            lastUpdated: serverTimestamp()
+          }, { merge: true });
+
+          setSyncStatus('profile saved ☁️');
+        } catch (e) {
+          console.warn('Profile save failed:', e);
+          setSyncStatus('profile saved locally');
+        }
+      };
+
       window._fb.logCompletedCard = async function(cardNumber) {
         try {
           await addDoc(collection(db, 'completedCards'), {
-            uid, cardNumber, completedAt: serverTimestamp()
+            uid,
+            cardNumber,
+            completedAt: serverTimestamp()
           });
         } catch (e) {
           console.warn('Failed to log completed card:', e);
@@ -577,6 +817,7 @@ window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
       };
 
       window._fb.ready = true;
+
       if (typeof window._fbReadyCallback === 'function') {
         window._fbReadyCallback();
       }
@@ -584,11 +825,9 @@ window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
-    // ─── PWA lock ────────────────────────────────────────────────────────
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
@@ -605,78 +844,45 @@ window._fb.saveProfile = async function(name, phone, stampCount, cardNumber) {
       throw new Error('PWA only page');
     }
 
-    // ─── Daily rotating code ─────────────────────────────────────────────
     const SALT = 'fb_cafe_secret_9x2k';
-
-    function getTodayCode() {
-      const now     = new Date();
-      const yyyy    = now.getFullYear();
-      const mm      = String(now.getMonth() + 1).padStart(2, '0');
-      const dd      = String(now.getDate()).padStart(2, '0');
-      const dateStr = `${yyyy}${mm}${dd}`;
-      let hash      = 0;
-      const input   = dateStr + SALT;
-      for (let i = 0; i < input.length; i++) {
-        hash = ((hash << 5) - hash) + input.charCodeAt(i);
-        hash |= 0;
-      }
-      return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
-    }
-
-    // ─── Constants ───────────────────────────────────────────────────────
     const TOTAL_STAMPS = 9;
-    const STORAGE_KEY  = 'fitbites_loyalty_stamps';
-    const CARD_KEY     = 'fitbites_card_number';
-    const STAMP_ICON   = '/icons/stamp-icon.png';
+    const STORAGE_KEY = 'fitbites_loyalty_stamps';
+    const CARD_KEY = 'fitbites_card_number';
+    const STAMP_ICON = '/icons/stamp-icon.png';
 
-    // ─── State ───────────────────────────────────────────────────────────
-    let stamps     = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-    let cardNumber = parseInt(localStorage.getItem(CARD_KEY)    || '1');
-    if (isNaN(stamps)     || stamps < 0     || stamps > TOTAL_STAMPS) stamps     = 0;
-    if (isNaN(cardNumber) || cardNumber < 1)                           cardNumber = 1;
-// ─── Profile state ─────────────────────────────────────────────
-let userRegistered = !!localStorage.getItem('fitbites_name');
+    let stamps = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+    let cardNumber = parseInt(localStorage.getItem(CARD_KEY) || '1');
+    let userRegistered = !!localStorage.getItem('fitbites_name');
 
-// ─── Scanner state ─────────────────────────────────────────────
-let scanning = false;
-let videoStream = null;
-let lastScanTime = 0;
+    let scanning = false;
+    let videoStream = null;
+    let lastStampTime = 0;
+    let lastScanFrameTime = 0;
+    let stampElements = [];
 
-function setSyncStatus(msg) {
-  const el = document.getElementById('syncStatus');
-  if (!el) return;
+    if (isNaN(stamps) || stamps < 0 || stamps > TOTAL_STAMPS) stamps = 0;
+    if (isNaN(cardNumber) || cardNumber < 1) cardNumber = 1;
 
-  el.textContent = msg;
-
-  setTimeout(() => {
-    el.textContent = '';
-  }, 3000);
-}
-
-    function renderStamps() {
-      const grid = document.getElementById('stampGrid');
-      grid.innerHTML = '';
-      for (let i = 0; i < TOTAL_STAMPS; i++) {
-        const div = document.createElement('div');
-        div.className = i < stamps ? 'stamp filled' : 'stamp empty';
-        const img = document.createElement('img');
-        img.src = STAMP_ICON;
-        img.alt = '';
-        div.appendChild(img);
-        grid.appendChild(div);
-      }
-      document.getElementById('stampCount').textContent = stamps;
-      const scanBtn = document.getElementById('scanBtn');
-      const reward  = document.getElementById('reward');
-      if (stamps >= TOTAL_STAMPS) {
-        scanBtn.style.display = 'none';
-        if (!reward.classList.contains('show')) fireConfetti();
-        reward.classList.add('show');
-      } else {
-        scanBtn.style.display = 'flex';
-        reward.classList.remove('show');
-      }
-    }
+    const els = {
+      stampGrid: document.getElementById('stampGrid'),
+      stampCount: document.getElementById('stampCount'),
+      scanBtn: document.getElementById('scanBtn'),
+      reward: document.getElementById('reward'),
+      stampMessage: document.getElementById('stampMessage'),
+      msgToo: document.getElementById('msgToo'),
+      msgTiel: document.getElementById('msgTiel'),
+      syncStatus: document.getElementById('syncStatus'),
+      scannerOverlay: document.getElementById('scannerOverlay'),
+      scannerStatus: document.getElementById('scannerStatus'),
+      qrVideo: document.getElementById('qr-video'),
+      regOverlay: document.getElementById('regOverlay'),
+      regName: document.getElementById('regName'),
+      regPhone: document.getElementById('regPhone'),
+      regError: document.getElementById('regError'),
+      navBar: document.getElementById('navBar'),
+      navBubble: document.getElementById('navBubble'),
+      navCard: document.getElementById('nav-card')
+    };
 
     const MESSAGES = [
       { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
@@ -690,145 +896,237 @@ function setSyncStatus(msg) {
       { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
     ];
 
+    function getTodayCode() {
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+      const input = dateStr + SALT;
+
+      let hash = 0;
+
+      for (let i = 0; i < input.length; i++) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0;
+      }
+
+      return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
+    }
+
+    function setSyncStatus(msg) {
+      if (!els.syncStatus) return;
+
+      els.syncStatus.textContent = msg;
+
+      setTimeout(() => {
+        els.syncStatus.textContent = '';
+      }, 3000);
+    }
+
+    function initStamps() {
+      els.stampGrid.innerHTML = '';
+      stampElements = [];
+
+      for (let i = 0; i < TOTAL_STAMPS; i++) {
+        const div = document.createElement('div');
+        div.className = 'stamp empty';
+
+        const img = document.createElement('img');
+        img.src = STAMP_ICON;
+        img.alt = '';
+
+        div.appendChild(img);
+        els.stampGrid.appendChild(div);
+        stampElements.push(div);
+      }
+    }
+
+    function updateStamps() {
+      stampElements.forEach((el, i) => {
+        el.className = i < stamps ? 'stamp filled' : 'stamp empty';
+      });
+
+      els.stampCount.textContent = stamps;
+
+      if (stamps >= TOTAL_STAMPS) {
+        els.scanBtn.style.display = 'none';
+
+        if (!els.reward.classList.contains('show')) {
+          fireConfetti();
+        }
+
+        els.reward.classList.add('show');
+      } else {
+        els.scanBtn.style.display = 'flex';
+        els.reward.classList.remove('show');
+      }
+    }
+
+    function animateNewestStamp() {
+      const newest = stampElements[stamps - 1];
+      if (!newest) return;
+
+      newest.classList.remove('new');
+
+      requestAnimationFrame(() => {
+        newest.classList.add('new');
+      });
+    }
+
     function showMessage(stampNumber) {
       const msg = MESSAGES[stampNumber - 1];
       if (!msg) return;
-      const el   = document.getElementById('stampMessage');
-      const too  = document.getElementById('msgToo');
-      const tiel = document.getElementById('msgTiel');
-      too.textContent  = '🦜 Too: "' + msg.too + '"';
-      tiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
-      el.classList.remove('show');
+
+      els.msgToo.textContent = '🦜 Too: "' + msg.too + '"';
+      els.msgTiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
+
+      els.stampMessage.classList.remove('show');
+
       setTimeout(() => {
-        el.classList.add('show');
-        setTimeout(() => el.classList.remove('show'), 3500);
+        els.stampMessage.classList.add('show');
+
+        setTimeout(() => {
+          els.stampMessage.classList.remove('show');
+        }, 3500);
       }, 100);
     }
 
-    // ─── Registration modal ──────────────────────────────────────────────
     function openRegistration() {
-      document.getElementById('regOverlay').classList.add('open');
-      setTimeout(() => document.getElementById('regName').focus(), 400);
+      els.regOverlay.classList.add('open');
+
+      setTimeout(() => {
+        els.regName.focus();
+      }, 400);
     }
 
     function skipRegistration() {
-      document.getElementById('regOverlay').classList.remove('open');
+      els.regOverlay.classList.remove('open');
     }
-function submitRegistration() {
-  const nameRaw  = document.getElementById('regName').value.trim();
-  const phoneRaw = document.getElementById('regPhone').value.trim();
-  const error    = document.getElementById('regError');
 
-  const cleanPhone = phoneRaw.replace(/\D/g, '');
+    function submitRegistration() {
+      const nameRaw = els.regName.value.trim();
+      const phoneRaw = els.regPhone.value.trim();
+      const cleanPhone = phoneRaw.replace(/\D/g, '');
 
-  if (!nameRaw) {
-    error.textContent = 'please enter your name 🦜';
-    return;
-  }
+      if (!nameRaw) {
+        els.regError.textContent = 'please enter your name 🦜';
+        return;
+      }
 
-  if (cleanPhone.length < 9) {
-    error.textContent = 'invalid phone number';
-    return;
-  }
+      if (cleanPhone.length < 9) {
+        els.regError.textContent = 'invalid phone number';
+        return;
+      }
 
-  error.textContent = '';
+      els.regError.textContent = '';
 
-  localStorage.setItem('fitbites_name', nameRaw);
-  localStorage.setItem('fitbites_phone', cleanPhone);
-  userRegistered = true;
+      localStorage.setItem('fitbites_name', nameRaw);
+      localStorage.setItem('fitbites_phone', cleanPhone);
 
-  if (window._fb && window._fb.ready) {
-    window._fb.saveProfile(nameRaw, cleanPhone, stamps, cardNumber);
-  }
+      userRegistered = true;
 
-  document.getElementById('regOverlay').classList.remove('open');
+      if (window._fb && window._fb.ready) {
+        window._fb.saveProfile(nameRaw, cleanPhone, stamps, cardNumber);
+      }
 
-  const el   = document.getElementById('stampMessage');
-  const too  = document.getElementById('msgToo');
-  const tiel = document.getElementById('msgTiel');
+      els.regOverlay.classList.remove('open');
 
-  too.textContent  = '🦜 Too: "' + nameRaw + '!! YOU ARE ONE OF US NOW!"';
-  tiel.textContent = '😤 Tiel: "…welcome. officially."';
+      els.msgToo.textContent = '🦜 Too: "' + nameRaw + '!! YOU ARE ONE OF US NOW!"';
+      els.msgTiel.textContent = '😤 Tiel: "…welcome. officially."';
 
-  el.classList.remove('show');
+      els.stampMessage.classList.remove('show');
 
-  setTimeout(() => {
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 4000);
-  }, 100);
-}
+      setTimeout(() => {
+        els.stampMessage.classList.add('show');
 
-   function addStamp() {
-  const now = Date.now();
-
-  if (now - lastScanTime < 3000) return;
-  lastScanTime = now;
-
-  if (stamps >= TOTAL_STAMPS) return;
-
-  playStampSound();
-
-  stamps++;
-
-  localStorage.setItem(STORAGE_KEY, stamps);
-
-  renderStamps();
-  showMessage(stamps);
-
-  const filled = document.querySelectorAll('.stamp.filled');
-
-  if (filled.length > 0) {
-    filled[filled.length - 1].classList.add('new');
-  }
-
-  setSyncStatus('syncing...');
-
-  if (window._fb && window._fb.ready) {
-    window._fb.saveToCloud(stamps, cardNumber);
-
-    if (stamps >= TOTAL_STAMPS) {
-      window._fb.logCompletedCard(cardNumber);
+        setTimeout(() => {
+          els.stampMessage.classList.remove('show');
+        }, 4000);
+      }, 100);
     }
-  }
 
-  if (stamps === 1 && !userRegistered) {
-    setTimeout(openRegistration, 400);
-  }
-}
+    function addStamp() {
+      const now = Date.now();
+
+      if (now - lastStampTime < 3000) return;
+      lastStampTime = now;
+
+      if (stamps >= TOTAL_STAMPS) return;
+
+      playStampSound();
+
+      stamps++;
+
+      localStorage.setItem(STORAGE_KEY, stamps);
+
+      updateStamps();
+      animateNewestStamp();
+      showMessage(stamps);
+
+      setSyncStatus('syncing...');
+
+      if (window._fb && window._fb.ready) {
+        window._fb.saveToCloud(stamps, cardNumber);
+
+        if (stamps >= TOTAL_STAMPS) {
+          window._fb.logCompletedCard(cardNumber);
+        }
+      }
+
+      if (stamps === 1 && !userRegistered) {
+        setTimeout(openRegistration, 400);
+      }
+    }
 
     function resetCard() {
       stamps = 0;
       cardNumber++;
+
       localStorage.setItem(STORAGE_KEY, 0);
       localStorage.setItem(CARD_KEY, cardNumber);
-      renderStamps();
+
+      updateStamps();
       setSyncStatus('syncing...');
-      if (window._fb && window._fb.ready) window._fb.saveToCloud(0, cardNumber);
+
+      if (window._fb && window._fb.ready) {
+        window._fb.saveToCloud(0, cardNumber);
+      }
     }
 
     function playStampSound() {
-      const ctx  = new (window.AudioContext || window.webkitAudioContext)();
-      const osc  = ctx.createOscillator();
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
       osc.type = 'sine';
       osc.frequency.setValueAtTime(400, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
       osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+
       gain.gain.setValueAtTime(0.4, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.15);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.15);
     }
 
     function playCelebrationSound() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
       [523, 659, 784, 1047].forEach((freq, i) => {
-        const osc  = ctx.createOscillator();
+        const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = freq; osc.type = 'sine';
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+
         gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.15);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.3);
+
         osc.start(ctx.currentTime + i * 0.15);
         osc.stop(ctx.currentTime + i * 0.15 + 0.3);
       });
@@ -836,104 +1134,185 @@ function submitRegistration() {
 
     function fireConfetti() {
       playCelebrationSound();
-      confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0'] });
-      setTimeout(() => confetti({ particleCount: 80, angle: 60,  spread: 55, origin: { x: 0 }, colors: ['#c47a3a', '#e8a96a'] }), 200);
-      setTimeout(() => confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#c47a3a', '#e8a96a'] }), 400);
+
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0']
+      });
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#c47a3a', '#e8a96a']
+        });
+      }, 200);
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#c47a3a', '#e8a96a']
+        });
+      }, 400);
     }
 
     function openScanner() {
-      document.getElementById('scannerOverlay').classList.add('open');
-      document.getElementById('scannerStatus').textContent = 'starting camera...';
+      els.scannerOverlay.classList.add('open');
+      els.scannerStatus.textContent = 'starting camera...';
       startCamera();
     }
 
     function closeScanner() {
-      document.getElementById('scannerOverlay').classList.remove('open');
+      els.scannerOverlay.classList.remove('open');
       stopCamera();
     }
 
     async function startCamera() {
       try {
         stopCamera();
+
         if (typeof jsQR === 'undefined') {
-          document.getElementById('scannerStatus').textContent = 'scanner library not loaded';
+          els.scannerStatus.textContent = 'scanner library not loaded';
           return;
         }
+
         videoStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: 'environment' } }, audio: false
+          video: { facingMode: { ideal: 'environment' } },
+          audio: false
         });
-        const video = document.getElementById('qr-video');
-        video.srcObject = videoStream;
-        await video.play();
+
+        els.qrVideo.srcObject = videoStream;
+        await els.qrVideo.play();
+
         scanning = true;
-        document.getElementById('scannerStatus').textContent = 'scanning...';
-        startScanningLoop(video);
+        els.scannerStatus.textContent = 'scanning...';
+
+        startScanningLoop(els.qrVideo);
       } catch (err) {
         console.error('CAMERA ERROR:', err);
-        document.getElementById('scannerStatus').textContent = 'camera error: ' + err.name;
+        els.scannerStatus.textContent = 'camera error: ' + err.name;
       }
     }
 
     function stopCamera() {
       scanning = false;
-      if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
+
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+      }
     }
 
     function startScanningLoop(video) {
       const canvas = document.createElement('canvas');
-      const ctx    = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d');
+
       function tick() {
         if (!scanning) return;
+
+        const now = Date.now();
+
+        if (now - lastScanFrameTime < 200) {
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        lastScanFrameTime = now;
+
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          canvas.width  = video.videoWidth;
+          canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
+
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
           const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: 'attemptBoth' });
+          const code = jsQR(imageData.data, canvas.width, canvas.height, {
+            inversionAttempts: 'attemptBoth'
+          });
+
           if (code) {
             const scanned = code.data.trim();
-            document.getElementById('scannerStatus').textContent = 'DETECTED: ' + scanned;
+
+            els.scannerStatus.textContent = 'validating...';
+
             if (scanned === getTodayCode()) {
+              els.scannerStatus.textContent = 'stamp unlocked.';
               closeScanner();
               addStamp();
               return;
             }
-            document.getElementById('scannerStatus').textContent = 'invalid QR: ' + scanned;
+
+            els.scannerStatus.textContent = 'not a fitbites code.';
           }
         }
+
         requestAnimationFrame(tick);
       }
+
       tick();
     }
 
-    // ─── Init ─────────────────────────────────────────────────────────────
-    renderStamps();
-
     async function syncFromCloud() {
       if (!window._fb) return;
+
       const result = await window._fb.loadFromCloud();
+
       if (result !== null) {
         const cloudStamps = result.stamps;
-        const cloudCard   = result.cardNumber;
+        const cloudCard = result.cardNumber;
+
         if (cloudStamps !== stamps || cloudCard !== cardNumber) {
-          stamps     = cloudStamps;
+          stamps = cloudStamps;
           cardNumber = cloudCard;
+
           localStorage.setItem(STORAGE_KEY, stamps);
           localStorage.setItem(CARD_KEY, cardNumber);
-          renderStamps();
+
+          updateStamps();
         }
-        // Update registration status from cloud
-        if (result.name) userRegistered = true;
+
+        if (result.name) {
+          userRegistered = true;
+        }
+
         setSyncStatus('synced ☁️');
       }
     }
+
+    function snapBubbleToCard() {
+      const navRect = els.navBar.getBoundingClientRect();
+      const cardRect = els.navCard.getBoundingClientRect();
+
+      els.navBubble.style.transition = 'none';
+      els.navBubble.style.transform = `translateX(${cardRect.left - navRect.left}px)`;
+      els.navBubble.style.width = cardRect.width + 'px';
+      els.navBubble.style.opacity = '1';
+
+      requestAnimationFrame(() => {
+        els.navBubble.style.transition =
+          'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease';
+      });
+    }
+
+    initStamps();
+    updateStamps();
 
     if (window._fb && window._fb.ready) {
       syncFromCloud();
     } else {
       window._fbReadyCallback = syncFromCloud;
     }
-  </script>
 
+    requestAnimationFrame(() => requestAnimationFrame(snapBubbleToCard));
+    window.addEventListener('resize', snapBubbleToCard);
+    window.addEventListener('orientationchange', snapBubbleToCard);
+  </script>
 </body>
 </html>
