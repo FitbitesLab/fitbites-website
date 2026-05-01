@@ -22,7 +22,6 @@
       background: var(--oat);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding-bottom: 120px;
@@ -37,52 +36,133 @@
       text-transform: uppercase;
     }
 
-    /* ── FLOATING NAV BAR ───────────────────────────────────────────────── */
-    .nav-bar {
+    /* ── NAV WRAPPER — positions everything ─────────────────────────────── */
+    .nav-wrapper {
       position: fixed;
-      bottom: 24px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       width: calc(100% - 32px);
       max-width: 400px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── B COOKIE — sits above the pill ────────────────────────────────── */
+    .nav-cookie-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: -28px; /* overlap into pill */
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .nav-cookie-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 2px solid rgba(196, 122, 58, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 4px 16px rgba(44, 26, 14, 0.12),
+        0 0 0 4px var(--oat); /* gap between cookie and pill */
+      transition:
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    .nav-cookie-btn img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: none; /* inactive = show original brown cookie */
+      transition: filter 0.3s ease;
+    }
+
+    .nav-cookie-btn.active {
+      background: var(--brown);
+      border-color: var(--brown);
+      box-shadow:
+        0 6px 24px rgba(196, 122, 58, 0.5),
+        0 0 0 4px var(--oat);
+      transform: translateY(-4px) scale(1.08);
+    }
+
+    .nav-cookie-btn.active img {
+      filter: brightness(0) invert(1); /* active = white cookie */
+    }
+
+    .nav-cookie-btn:active {
+      transform: scale(0.88) !important;
+    }
+
+    .nav-cookie-label {
+      font-size: 7.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(44, 26, 14, 0.4);
+      margin-top: 32px; /* below the pill */
+      transition: color 0.3s ease;
+      position: absolute;
+      bottom: -18px;
+    }
+
+    .nav-cookie-wrap.active .nav-cookie-label {
+      color: var(--brown);
+    }
+
+    /* ── FLOATING PILL ──────────────────────────────────────────────────── */
+    .nav-bar {
+      width: 100%;
       height: 64px;
       background: var(--cream);
       border-radius: 32px;
       box-shadow:
-        0 8px 32px rgba(44, 26, 14, 0.12),
-        0 2px 8px rgba(44, 26, 14, 0.08),
-        0 0 0 1px rgba(44, 26, 14, 0.06);
+        0 8px 32px rgba(44, 26, 14, 0.11),
+        0 2px 8px rgba(44, 26, 14, 0.07),
+        0 0 0 1px rgba(44, 26, 14, 0.05);
       display: flex;
       align-items: center;
       justify-content: space-around;
       padding: 0 6px;
-      z-index: 999;
-      /* Fix pixel rendering artifacts */
-      -webkit-transform: translateX(-50%) translateZ(0);
-      transform: translateX(-50%) translateZ(0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      overflow: hidden; /* clips bubble to pill shape — kills pixel lines */
+      position: relative;
+      /* NO overflow:hidden — lets cookie float above */
     }
 
     /* ── SLIDING BUBBLE ─────────────────────────────────────────────────── */
-    .nav-bubble {
-      position: absolute;
-      height: 48px;
-      background: var(--brown);
-      border-radius: 24px;
-      z-index: 0;
-      pointer-events: none;
-      transition:
-        left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-        width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.3s ease;
-      will-change: left, width;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      box-shadow: 0 4px 16px rgba(196, 122, 58, 0.3);
-    }
+.nav-bubble {
+  position: absolute;
+  top: 8px;
+  left: 0; /* anchor point */
+  height: 48px;
+  background: var(--brown);
+  border-radius: 24px;
+  z-index: 0;
+  pointer-events: none;
 
+  /* GPU acceleration */
+  transform: translateX(0);
+  will-change: transform, width, opacity;
+
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease;
+
+  box-shadow: 0 2px 12px rgba(196, 122, 58, 0.25);
+}
     /* ── NAV ITEMS ──────────────────────────────────────────────────────── */
     .nav-item {
       display: flex;
@@ -100,10 +180,16 @@
       user-select: none;
     }
 
+    /* spacer for center cookie */
+    .nav-spacer {
+      flex: 1;
+      pointer-events: none;
+    }
+
     .nav-item svg {
       width: 20px;
       height: 20px;
-      stroke: rgba(44, 26, 14, 0.35);
+      stroke: rgba(44, 26, 14, 0.3);
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -118,14 +204,14 @@
       font-size: 7.5px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: rgba(44, 26, 14, 0.35);
+      color: rgba(44, 26, 14, 0.3);
       transition: color 0.3s ease;
       white-space: nowrap;
     }
 
     .nav-item.active svg {
       stroke: var(--cream);
-      transform: translateY(-2px) scale(1.1);
+      transform: translateY(-2px) scale(1.08);
     }
 
     .nav-item.active .nav-label {
@@ -133,88 +219,7 @@
     }
 
     .nav-item:active svg {
-      transform: scale(0.85);
-    }
-
-    /* ── CENTER B COOKIE ────────────────────────────────────────────────── */
-    .nav-center {
-      position: relative;
-      z-index: 2;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0 2px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
-    .nav-center-btn {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      /* INACTIVE = cream background, brown border */
-      background: var(--cream);
-      border: 2.5px solid rgba(196, 122, 58, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow:
-        0 4px 16px rgba(44, 26, 14, 0.1),
-        0 0 0 3px var(--cream);
-      transition:
-        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.3s ease,
-        background 0.3s ease,
-        border-color 0.3s ease;
-      margin-bottom: 20px;
-      will-change: transform;
-    }
-
-    .nav-center-btn img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-      /* INACTIVE = show original brown cookie */
-      filter: none;
-      transition: filter 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      will-change: filter, transform;
-    }
-
-    /* ACTIVE = brown background, white cookie */
-    .nav-center-btn.active {
-      background: var(--brown);
-      border-color: var(--brown);
-      box-shadow:
-        0 4px 20px rgba(196, 122, 58, 0.55),
-        0 0 0 3px var(--cream),
-        0 0 0 5px rgba(196, 122, 58, 0.25);
-      transform: translateY(-4px) scale(1.08);
-    }
-
-    .nav-center-btn.active img {
-      filter: brightness(0) invert(1);
-    }
-
-    .nav-center-btn:active {
-      transform: scale(0.88) translateY(-2px) !important;
-    }
-
-    .nav-center-label {
-      font-size: 7.5px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(44, 26, 14, 0.35);
-      text-align: center;
-      margin-top: 2px;
-      transition: color 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .nav-center.active .nav-center-label {
-      color: var(--brown);
+      transform: scale(0.85) !important;
     }
   </style>
 
@@ -223,122 +228,164 @@
 <body>
   <p class="placeholder">fitbites nav test 🦜</p>
 
-  <nav class="nav-bar" id="navBar">
+  <!-- NAV WRAPPER -->
 
-<div class="nav-bubble" id="navBubble"></div>
+  <div class="nav-wrapper">
 
-<!-- Menu -->
-<div class="nav-item" id="nav-menu" onclick="setActive('menu')">
-  <svg viewBox="0 0 24 24">
-    <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
-    <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
-    <path d="m2.1 21.8 6.4-6.3"/>
-    <path d="m19 5-7 7"/>
-  </svg>
-  <span class="nav-label">menu</span>
-</div>
-
-<!-- My Card -->
-<div class="nav-item" id="nav-card" onclick="setActive('card')">
-  <svg viewBox="0 0 24 24">
-    <path d="M16 10h2"/>
-    <path d="M16 14h2"/>
-    <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
-    <circle cx="9" cy="11" r="2"/>
-    <rect x="2" y="5" width="20" height="14" rx="2"/>
-  </svg>
-  <span class="nav-label">my card</span>
-</div>
-
-<!-- CENTER B COOKIE -->
-<div class="nav-center" id="nav-home" onclick="setActive('home')">
-  <div class="nav-center-btn" id="nav-home-btn">
+```
+<!-- B COOKIE — floats above pill -->
+<div class="nav-cookie-wrap" id="nav-home" onclick="setActive('home')">
+  <div class="nav-cookie-btn" id="nav-home-btn">
     <img src="/icons/home-b.png" alt="home" />
   </div>
-  <span class="nav-center-label">home</span>
+  <span class="nav-cookie-label">home</span>
 </div>
 
-<!-- MyFitbites -->
-<div class="nav-item" id="nav-profile" onclick="setActive('profile')">
-  <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="5"/>
-    <path d="M20 21a8 8 0 0 0-16 0"/>
-  </svg>
-  <span class="nav-label">my fitbites</span>
-</div>
+<!-- PILL -->
+<nav class="nav-bar" id="navBar">
 
-<!-- Story -->
-<div class="nav-item" id="nav-story" onclick="setActive('story')">
-  <svg viewBox="0 0 24 24">
-    <path d="M12 7v14"/>
-    <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
-  </svg>
-  <span class="nav-label">story</span>
-</div>
+  <div class="nav-bubble" id="navBubble"></div>
 
-  </nav>
+  <!-- Menu -->
+  <div class="nav-item" id="nav-menu" onclick="setActive('menu')">
+    <svg viewBox="0 0 24 24">
+      <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+      <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+      <path d="m2.1 21.8 6.4-6.3"/>
+      <path d="m19 5-7 7"/>
+    </svg>
+    <span class="nav-label">menu</span>
+  </div>
 
-  <script>
-    let current = null;
-    const tabs = ['menu', 'card', 'profile', 'story'];
-    const bubble = document.getElementById('navBubble');
+  <!-- My Card -->
+  <div class="nav-item" id="nav-card" onclick="setActive('card')">
+    <svg viewBox="0 0 24 24">
+      <path d="M16 10h2"/>
+      <path d="M16 14h2"/>
+      <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
+      <circle cx="9" cy="11" r="2"/>
+      <rect x="2" y="5" width="20" height="14" rx="2"/>
+    </svg>
+    <span class="nav-label">my card</span>
+  </div>
 
-    function moveBubble(el) {
-      const navRect = document.getElementById('navBar').getBoundingClientRect();
-      const elRect  = el.getBoundingClientRect();
-      bubble.style.left    = (elRect.left - navRect.left) + 'px';
-      bubble.style.width   = elRect.width + 'px';
-      bubble.style.opacity = '1';
+  <!-- Spacer for cookie -->
+  <div class="nav-spacer"></div>
+
+  <!-- MyFitbites -->
+  <div class="nav-item" id="nav-profile" onclick="setActive('profile')">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="5"/>
+      <path d="M20 21a8 8 0 0 0-16 0"/>
+    </svg>
+    <span class="nav-label">my fitbites</span>
+  </div>
+
+  <!-- Story -->
+  <div class="nav-item" id="nav-story" onclick="setActive('story')">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 7v14"/>
+      <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+    </svg>
+    <span class="nav-label">story</span>
+  </div>
+
+</nav>
+```
+
+  </div>
+
+ <script>
+  const tabs = ['menu', 'card', 'profile', 'story'];
+
+  const navBar     = document.getElementById('navBar');
+  const bubble     = document.getElementById('navBubble');
+  const homeWrap   = document.getElementById('nav-home');
+  const homeBtn    = document.getElementById('nav-home-btn');
+
+  const tabElements = {};
+  tabs.forEach(t => {
+    tabElements[t] = document.getElementById('nav-' + t);
+  });
+
+  let current = null;
+
+  function getOffset(el) {
+    const navRect = navBar.getBoundingClientRect();
+    const elRect  = el.getBoundingClientRect();
+
+    return {
+      left: elRect.left - navRect.left,
+      width: elRect.width
+    };
+  }
+
+  function moveBubble(el) {
+    const { left, width } = getOffset(el);
+
+    bubble.style.transform = `translateX(${left}px)`;
+    bubble.style.width = width + 'px';
+    bubble.style.opacity = '1';
+  }
+
+  function hideBubble() {
+    bubble.style.opacity = '0';
+  }
+
+  function clearActive() {
+    tabs.forEach(t => tabElements[t].classList.remove('active'));
+    homeWrap.classList.remove('active');
+    homeBtn.classList.remove('active');
+  }
+
+  function setActive(tab) {
+    if (current === tab) return; // kill useless re-renders
+    current = tab;
+
+    clearActive();
+
+    if (tab === 'home') {
+      homeWrap.classList.add('active');
+      homeBtn.classList.add('active');
+      hideBubble();
+      return;
     }
 
-    function hideBubble() {
-      bubble.style.opacity = '0';
-    }
+    const el = tabElements[tab];
+    if (!el) return;
 
-    function setActive(tab) {
-      tabs.forEach(t => {
-        const el = document.getElementById('nav-' + t);
-        if (el) el.classList.remove('active');
-      });
-      document.getElementById('nav-home').classList.remove('active');
-      document.getElementById('nav-home-btn').classList.remove('active');
+    el.classList.add('active');
+    moveBubble(el);
+  }
 
-      current = tab;
+  // ── INIT (no flicker, no delay)
+  function initNav() {
+    const menuEl = tabElements['menu'];
+    const { left, width } = getOffset(menuEl);
 
-      if (tab === 'home') {
-        document.getElementById('nav-home').classList.add('active');
-        document.getElementById('nav-home-btn').classList.add('active');
-        hideBubble();
-      } else {
-        const el = document.getElementById('nav-' + tab);
-        if (el) {
-          el.classList.add('active');
-          moveBubble(el);
-        }
-      }
-    }
+    bubble.style.transition = 'none';
+    bubble.style.transform  = `translateX(${left}px)`;
+    bubble.style.width      = width + 'px';
+    bubble.style.opacity    = '0';
 
-    // Init
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bubble.style.transition = 'none';
-        bubble.style.opacity = '0';
-        const menuEl  = document.getElementById('nav-menu');
-        const navRect = document.getElementById('navBar').getBoundingClientRect();
-        const elRect  = menuEl.getBoundingClientRect();
-        bubble.style.left  = (elRect.left - navRect.left) + 'px';
-        bubble.style.width = elRect.width + 'px';
-        requestAnimationFrame(() => {
-          bubble.style.transition = `
-            left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-            width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-            opacity 0.3s ease
-          `;
-          setActive('menu');
-        });
-      });
+      bubble.style.transition = `
+        transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+        width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.25s ease
+      `;
+      setActive('menu');
     });
-  </script>
+  }
+
+  // ── Resize = realignment (no drift)
+  window.addEventListener('resize', () => {
+    if (!current || current === 'home') return;
+    moveBubble(tabElements[current]);
+  });
+
+  initNav();
+</script>
 
 </body>
 </html>
