@@ -18,11 +18,7 @@
       --stamp-empty: #e8d9c8;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
@@ -98,20 +94,9 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    .stamp img {
-      width: 75%;
-      height: 75%;
-      object-fit: contain;
-    }
-
-    .stamp.empty img {
-      opacity: 0.28;
-    }
-
-    .stamp.filled img {
-      filter: brightness(0) invert(1);
-      opacity: 1;
-    }
+    .stamp img { width: 75%; height: 75%; object-fit: contain; }
+    .stamp.empty img { opacity: 0.28; }
+    .stamp.filled img { filter: brightness(0) invert(1); opacity: 1; }
 
     .progress {
       text-align: center;
@@ -122,10 +107,7 @@
       margin-bottom: 24px;
     }
 
-    .progress span {
-      color: var(--brown);
-      font-weight: 700;
-    }
+    .progress span { color: var(--brown); font-weight: 700; }
 
     .scan-btn {
       width: 100%;
@@ -148,12 +130,7 @@
 
     .scan-btn:hover { background: var(--brown-dark); }
     .scan-btn:active { transform: scale(0.98); }
-
-    .scan-btn svg {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-    }
+    .scan-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
 
     .reward {
       display: none;
@@ -177,11 +154,7 @@
       50% { transform: translateY(-10px); }
     }
 
-    .reward h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: var(--bark);
-    }
+    .reward h2 { font-size: 24px; margin-bottom: 10px; color: var(--bark); }
 
     .reward p {
       font-size: 13px;
@@ -219,7 +192,6 @@
       margin: 0 auto;
     }
 
-    /* STAMP MESSAGE */
     .stamp-message {
       text-align: center;
       margin: 16px 0 0;
@@ -229,26 +201,10 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .stamp-message.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .stamp-message.show { opacity: 1; transform: translateY(0); }
+    .stamp-message .msg-too { font-size: 12px; color: var(--brown); letter-spacing: 0.5px; margin-bottom: 4px; }
+    .stamp-message .msg-tiel { font-size: 11px; color: #8a6a4a; font-style: italic; letter-spacing: 0.5px; }
 
-    .stamp-message .msg-too {
-      font-size: 12px;
-      color: var(--brown);
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .stamp-message .msg-tiel {
-      font-size: 11px;
-      color: #8a6a4a;
-      font-style: italic;
-      letter-spacing: 0.5px;
-    }
-
-    /* SYNC STATUS */
     .sync-status {
       text-align: center;
       font-size: 9px;
@@ -260,7 +216,6 @@
       transition: opacity 0.3s;
     }
 
-    /* SCANNER OVERLAY */
     .scanner-overlay {
       display: none;
       position: fixed;
@@ -329,40 +284,33 @@
 <body>
   <main class="loyalty-card">
     <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
-
-<h1 class="title">your loyalty card</h1>
-
-<section class="stamp-grid" id="stampGrid"></section>
-
-<p class="progress">
-  <span id="stampCount">0</span> / 9 stamps
-</p>
-<div class="stamp-message" id="stampMessage">
-  <p class="msg-too" id="msgToo"></p>
-  <p class="msg-tiel" id="msgTiel"></p>
-</div>
-
-<button class="scan-btn" id="scanBtn" onclick="openScanner()">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-    <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-    <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-    <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-    <rect x="7" y="7" width="10" height="10" rx="1"/>
-  </svg>
-  scan to stamp
-</button>
-
-<section class="reward" id="reward">
-  <span class="reward-emoji">🎉</span>
-  <h2>you earned it.</h2>
-  <p>show this screen to our team at the café to claim your free reward.</p>
-  <div class="reward-badge">🎁 1 free fitbites</div>
-  <button class="reward-reset" onclick="resetCard()">start a new card</button>
-</section>
-
-<p class="sync-status" id="syncStatus"></p>
-
+    <h1 class="title">your loyalty card</h1>
+    <section class="stamp-grid" id="stampGrid"></section>
+    <p class="progress">
+      <span id="stampCount">0</span> / 9 stamps
+    </p>
+    <div class="stamp-message" id="stampMessage">
+      <p class="msg-too" id="msgToo"></p>
+      <p class="msg-tiel" id="msgTiel"></p>
+    </div>
+    <button class="scan-btn" id="scanBtn" onclick="openScanner()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        <rect x="7" y="7" width="10" height="10" rx="1"/>
+      </svg>
+      scan to stamp
+    </button>
+    <section class="reward" id="reward">
+      <span class="reward-emoji">🎉</span>
+      <h2>you earned it.</h2>
+      <p>show this screen to our team at the café to claim your free reward.</p>
+      <div class="reward-badge">🎁 1 free fitbites</div>
+      <button class="reward-reset" onclick="resetCard()">start a new card</button>
+    </section>
+    <p class="sync-status" id="syncStatus"></p>
   </main>
 
 <a href="/" class="back-link">← back to fitbites</a>
@@ -374,14 +322,15 @@
     <p class="scanner-status" id="scannerStatus">scanning...</p>
   </div>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDK with Anonymous Auth -->
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getAuth, signInAnonymously, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-    // ─── Firebase config ───────────────────────────────────────────────
     const firebaseConfig = {
       apiKey: "AIzaSyD7TYG1ALoYVQh4qGB4Bllgqcm3JA6IpjE",
       authDomain: "fitbites-2f35b.firebaseapp.com",
@@ -391,102 +340,81 @@
       appId: "1:1065518174152:web:d19d5282b4f7c783c77afd"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const app  = initializeApp(firebaseConfig);
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
 
-    // ─── Anonymous device ID ────────────────────────────────────────────
-    // We store only the ID in localStorage — not the stamps
-    function getDeviceId() {
-      let id = localStorage.getItem('fitbites_device_id');
-      if (!id) {
-        id = 'device_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-        localStorage.setItem('fitbites_device_id', id);
+    // ─── Pre-expose _fb so app script can reference it ───────────────────
+    window._fb = { db, doc, getDoc, setDoc, addDoc, collection, serverTimestamp,
+                   getUid: () => null, ready: false };
+
+    // ─── Anonymous Auth ──────────────────────────────────────────────────
+    // Firebase manages a persistent UID — survives cache clears & reinstalls
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        const cred = await signInAnonymously(auth);
+        user = cred.user;
       }
-      return id;
-    }
 
-    // ─── Expose Firebase helpers to global scope ────────────────────────
-    window._fb = {
-      db,
-      getDeviceId,
-      doc,
-      getDoc,
-      setDoc,
-      addDoc,
-      collection,
-      serverTimestamp
-    };
+      const uid = user.uid;
+      window._fb.getUid = () => uid;
 
-    // ─── Load stamps from Firestore on init ─────────────────────────────
-    window._fb.loadFromCloud = async function() {
-      try {
-        const deviceId = getDeviceId();
-        const ref = doc(db, 'stamps', deviceId);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-          const data = snap.data();
-          const cloudStamps = data.stamps || 0;
-          const cardNumber = data.cardNumber || 1;
-          // Update localStorage cache
-          localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
-          localStorage.setItem('fitbites_card_number', cardNumber);
-          return { stamps: cloudStamps, cardNumber };
+      // ── Load stamps from Firestore ──────────────────────────────────
+      window._fb.loadFromCloud = async function() {
+        try {
+          const ref  = doc(db, 'stamps', uid);
+          const snap = await getDoc(ref);
+          if (snap.exists()) {
+            const data       = snap.data();
+            const cloudStamps = data.stamps     || 0;
+            const cardNumber  = data.cardNumber || 1;
+            localStorage.setItem('fitbites_loyalty_stamps', cloudStamps);
+            localStorage.setItem('fitbites_card_number', cardNumber);
+            return { stamps: cloudStamps, cardNumber };
+          }
+        } catch (e) {
+          console.warn('Firestore load failed:', e);
         }
-      } catch (e) {
-        console.warn('Firestore load failed, using local cache:', e);
-      }
-      return null;
-    };
+        return null;
+      };
 
-    // ─── Save stamps to Firestore ────────────────────────────────────────
-    window._fb.saveToCloud = async function(stampCount, cardNumber) {
-      try {
-        const deviceId = getDeviceId();
-        const ref = doc(db, 'stamps', deviceId);
-        await setDoc(ref, {
-          stamps: stampCount,
-          cardNumber: cardNumber,
-          deviceId: deviceId,
-          lastUpdated: serverTimestamp(),
-          // createdAt only set on first write via merge below
-        }, { merge: true });
-
-        // Set createdAt only if first time (won't overwrite existing)
-        const snap = await getDoc(ref);
-        if (snap.exists() && !snap.data().createdAt) {
-          await setDoc(ref, { createdAt: serverTimestamp() }, { merge: true });
+      // ── Save stamps to Firestore ────────────────────────────────────
+      window._fb.saveToCloud = async function(stampCount, cardNumber) {
+        try {
+          const ref = doc(db, 'stamps', uid);
+          await setDoc(ref, {
+            stamps: stampCount, cardNumber, uid, lastUpdated: serverTimestamp()
+          }, { merge: true });
+          const snap = await getDoc(ref);
+          if (snap.exists() && !snap.data().createdAt) {
+            await setDoc(ref, { createdAt: serverTimestamp() }, { merge: true });
+          }
+          setSyncStatus('synced ☁️');
+        } catch (e) {
+          console.warn('Firestore save failed:', e);
+          setSyncStatus('saved locally');
         }
+      };
 
-        setSyncStatus('synced ☁️');
-      } catch (e) {
-        console.warn('Firestore save failed:', e);
-        setSyncStatus('saved locally');
+      // ── Log completed card ──────────────────────────────────────────
+      window._fb.logCompletedCard = async function(cardNumber) {
+        try {
+          await addDoc(collection(db, 'completedCards'), {
+            uid, cardNumber, completedAt: serverTimestamp()
+          });
+          console.log('Completed card logged 🎉');
+        } catch (e) {
+          console.warn('Failed to log completed card:', e);
+        }
+      };
+
+      // ── Signal ready ────────────────────────────────────────────────
+      window._fb.ready = true;
+      if (typeof window._fbReadyCallback === 'function') {
+        window._fbReadyCallback();
       }
-    };
-
-    // ─── Log completed card to Firestore ────────────────────────────────
-    window._fb.logCompletedCard = async function(cardNumber) {
-      try {
-        const deviceId = getDeviceId();
-        await addDoc(collection(db, 'completedCards'), {
-          deviceId: deviceId,
-          cardNumber: cardNumber,
-          completedAt: serverTimestamp()
-        });
-        console.log('Completed card logged to Firestore 🎉');
-      } catch (e) {
-        console.warn('Failed to log completed card:', e);
-      }
-    };
-
-    // ─── Init app once Firebase is ready ────────────────────────────────
-    window._fb.ready = true;
-    if (typeof window._fbReadyCallback === 'function') {
-      window._fbReadyCallback();
-    }
+    });
   </script>
-
-  <!-- App scripts -->
 
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
@@ -510,23 +438,39 @@
       throw new Error('PWA only page');
     }
 
+    // ─── Daily rotating code (same formula as staff.html) ────────────────
+    const SALT = 'fb_cafe_secret_9x2k';
+
+    function getTodayCode() {
+      const now     = new Date();
+      const yyyy    = now.getFullYear();
+      const mm      = String(now.getMonth() + 1).padStart(2, '0');
+      const dd      = String(now.getDate()).padStart(2, '0');
+      const dateStr = `${yyyy}${mm}${dd}`;
+      let hash      = 0;
+      const input   = dateStr + SALT;
+      for (let i = 0; i < input.length; i++) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0;
+      }
+      return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
+    }
+
     // ─── Constants ───────────────────────────────────────────────────────
-    const SECRET_CODE  = 'FITBITES-STAMP-2025';
     const TOTAL_STAMPS = 9;
     const STORAGE_KEY  = 'fitbites_loyalty_stamps';
     const CARD_KEY     = 'fitbites_card_number';
     const STAMP_ICON   = '/icons/stamp-icon.png';
 
-    // ─── State (load from localStorage immediately for instant render) ───
-    let stamps      = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-    let cardNumber  = parseInt(localStorage.getItem(CARD_KEY) || '1');
-    if (isNaN(stamps) || stamps < 0 || stamps > TOTAL_STAMPS) stamps = 0;
-    if (isNaN(cardNumber) || cardNumber < 1) cardNumber = 1;
+    // ─── State ───────────────────────────────────────────────────────────
+    let stamps     = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+    let cardNumber = parseInt(localStorage.getItem(CARD_KEY)    || '1');
+    if (isNaN(stamps)     || stamps < 0     || stamps > TOTAL_STAMPS) stamps     = 0;
+    if (isNaN(cardNumber) || cardNumber < 1)                           cardNumber = 1;
 
     let scanning    = false;
     let videoStream = null;
 
-    // ─── Sync status helper ──────────────────────────────────────────────
     function setSyncStatus(msg) {
       const el = document.getElementById('syncStatus');
       if (!el) return;
@@ -534,11 +478,9 @@
       setTimeout(() => { el.textContent = ''; }, 3000);
     }
 
-    // ─── Render ──────────────────────────────────────────────────────────
     function renderStamps() {
       const grid = document.getElementById('stampGrid');
       grid.innerHTML = '';
-
       for (let i = 0; i < TOTAL_STAMPS; i++) {
         const div = document.createElement('div');
         div.className = i < stamps ? 'stamp filled' : 'stamp empty';
@@ -548,17 +490,12 @@
         div.appendChild(img);
         grid.appendChild(div);
       }
-
       document.getElementById('stampCount').textContent = stamps;
-
       const scanBtn = document.getElementById('scanBtn');
       const reward  = document.getElementById('reward');
-
       if (stamps >= TOTAL_STAMPS) {
         scanBtn.style.display = 'none';
-        if (!reward.classList.contains('show')) {
-          fireConfetti();
-        }
+        if (!reward.classList.contains('show')) fireConfetti();
         reward.classList.add('show');
       } else {
         scanBtn.style.display = 'flex';
@@ -566,7 +503,6 @@
       }
     }
 
-    // ─── Messages ────────────────────────────────────────────────────────
     const MESSAGES = [
       { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
       { too: "They're evolving 😳", tiel: "You came back. Impressive." },
@@ -594,78 +530,53 @@
       }, 100);
     }
 
-    // ─── Add stamp ───────────────────────────────────────────────────────
     function addStamp() {
       if (stamps >= TOTAL_STAMPS) return;
       playStampSound();
       stamps++;
-
-      // 1. Save to localStorage immediately (instant, no wait)
       localStorage.setItem(STORAGE_KEY, stamps);
       renderStamps();
       showMessage(stamps);
-
-      // Animate the new stamp
       const filled = document.querySelectorAll('.stamp.filled');
-      if (filled.length > 0) {
-        filled[filled.length - 1].classList.add('new');
-      }
-
+      if (filled.length > 0) filled[filled.length - 1].classList.add('new');
       setSyncStatus('syncing...');
-
-      // 2. Save to Firestore in background
-      if (window._fb) {
+      if (window._fb && window._fb.ready) {
         window._fb.saveToCloud(stamps, cardNumber);
-
-        // If card just completed, log it
-        if (stamps >= TOTAL_STAMPS) {
-          window._fb.logCompletedCard(cardNumber);
-        }
+        if (stamps >= TOTAL_STAMPS) window._fb.logCompletedCard(cardNumber);
       }
     }
 
-    // ─── Reset card ──────────────────────────────────────────────────────
     function resetCard() {
       stamps = 0;
       cardNumber++;
-
       localStorage.setItem(STORAGE_KEY, 0);
       localStorage.setItem(CARD_KEY, cardNumber);
       renderStamps();
-
       setSyncStatus('syncing...');
-
-      if (window._fb) {
-        window._fb.saveToCloud(0, cardNumber);
-      }
+      if (window._fb && window._fb.ready) window._fb.saveToCloud(0, cardNumber);
     }
 
-    // ─── Sounds ──────────────────────────────────────────────────────────
     function playStampSound() {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
+      const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+      const osc  = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      osc.connect(gain); gain.connect(ctx.destination);
       osc.type = 'sine';
       osc.frequency.setValueAtTime(400, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
       osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
       gain.gain.setValueAtTime(0.4, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.15);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.15);
     }
 
     function playCelebrationSound() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       [523, 659, 784, 1047].forEach((freq, i) => {
-        const osc = ctx.createOscillator();
+        const osc  = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.frequency.value = freq;
-        osc.type = 'sine';
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = freq; osc.type = 'sine';
         gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.15);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.3);
         osc.start(ctx.currentTime + i * 0.15);
@@ -676,11 +587,10 @@
     function fireConfetti() {
       playCelebrationSound();
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#c47a3a', '#e8a96a', '#2c1a0e', '#fdf9f5', '#f5ede0'] });
-      setTimeout(() => confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#c47a3a', '#e8a96a'] }), 200);
+      setTimeout(() => confetti({ particleCount: 80, angle: 60,  spread: 55, origin: { x: 0 }, colors: ['#c47a3a', '#e8a96a'] }), 200);
       setTimeout(() => confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#c47a3a', '#e8a96a'] }), 400);
     }
 
-    // ─── Scanner ─────────────────────────────────────────────────────────
     function openScanner() {
       document.getElementById('scannerOverlay').classList.add('open');
       document.getElementById('scannerStatus').textContent = 'starting camera...';
@@ -700,8 +610,7 @@
           return;
         }
         videoStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: 'environment' } },
-          audio: false
+          video: { facingMode: { ideal: 'environment' } }, audio: false
         });
         const video = document.getElementById('qr-video');
         video.srcObject = videoStream;
@@ -717,15 +626,12 @@
 
     function stopCamera() {
       scanning = false;
-      if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-      }
+      if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
     }
 
     function startScanningLoop(video) {
       const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const ctx    = canvas.getContext('2d');
       function tick() {
         if (!scanning) return;
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -737,7 +643,7 @@
           if (code) {
             const scanned = code.data.trim();
             document.getElementById('scannerStatus').textContent = 'DETECTED: ' + scanned;
-            if (scanned === SECRET_CODE) {
+            if (scanned === getTodayCode()) {
               closeScanner();
               addStamp();
               return;
@@ -751,17 +657,14 @@
     }
 
     // ─── Init ─────────────────────────────────────────────────────────────
-    // Render immediately from localStorage (instant UX)
     renderStamps();
 
-    // Then silently sync from Firestore in background
     async function syncFromCloud() {
       if (!window._fb) return;
       const result = await window._fb.loadFromCloud();
       if (result !== null) {
         const cloudStamps = result.stamps;
         const cloudCard   = result.cardNumber;
-        // Only update if cloud has more (trust the cloud)
         if (cloudStamps !== stamps || cloudCard !== cardNumber) {
           stamps     = cloudStamps;
           cardNumber = cloudCard;
@@ -773,7 +676,6 @@
       }
     }
 
-    // Wait for Firebase module to be ready
     if (window._fb && window._fb.ready) {
       syncFromCloud();
     } else {
