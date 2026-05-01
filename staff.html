@@ -248,7 +248,7 @@
       <p class="staff-date" id="staffDate"></p>
 
       <div class="qr-wrapper">
-        <canvas id="qrCanvas" width="220" height="220"></canvas>
+        <div id="qrCanvas"></div>
       </div>
 
       <p class="staff-instruction">show this to the customer</p>
@@ -259,7 +259,7 @@
     <button class="logout-btn" onclick="logout()">← lock screen</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
     const STAFF_PIN = '01090208';
@@ -305,14 +305,15 @@
       document.getElementById('staffDate').textContent = getTodayDisplay();
       document.getElementById('staffCodeDisplay').textContent = todayCode;
 
-      QRCode.toCanvas(document.getElementById('qrCanvas'), todayCode, {
-        width: 220,
-        margin: 1,
-        color: {
-          dark: '#2c1a0e',
-          light: '#ffffff'
-        }
-      });
+     const container = document.getElementById('qrCanvas');
+container.innerHTML = '';
+new QRCode(container, {
+  text: todayCode,
+  width: 220,
+  height: 220,
+  colorDark: '#2c1a0e',
+  colorLight: '#ffffff'
+});
     }
 
     function scheduleNextRefresh() {
