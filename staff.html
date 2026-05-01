@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>fitbites — staff</title>
+  <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
+
+  <style>
+    :root {
+      --brown: #c47a3a;
+      --brown-dark: #a5621e;
+      --bark: #2c1a0e;
+      --cream: #fdf9f5;
+      --oat: #f5ede0;
+      --border: #ede3d8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
+      background: var(--cream);
+      color: var(--bark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+    }
+
+    .pin-screen {
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+
+    .pin-screen img {
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 24px;
+    }
+
+    .pin-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 32px;
+    }
+
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--brown);
+      background: transparent;
+      transition: background 0.15s;
+    }
+
+    .pin-dot.filled {
+      background: var(--brown);
+    }
+
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 280px;
+      margin: 0 auto 20px;
+    }
+
+    .pin-btn {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--oat);
+      font-family: inherit;
+      font-size: 22px;
+      color: var(--bark);
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-btn:active {
+      background: var(--brown);
+      color: white;
+      transform: scale(0.94);
+    }
+
+    .pin-error {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c0392b;
+      min-height: 18px;
+      margin-top: 8px;
+    }
+
+    .staff-screen {
+      display: none;
+      width: 100%;
+      max-width: 390px;
+      text-align: center;
+    }
+
+    .staff-screen.show {
+      display: block;
+    }
+
+    .staff-card {
+      background: var(--oat);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 36px 28px 32px;
+      box-shadow: 0 10px 40px rgba(44, 26, 14, 0.08);
+    }
+
+    .staff-logo {
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 16px;
+    }
+
+    .staff-title {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 6px;
+    }
+
+    .staff-date {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 28px;
+      opacity: 0.6;
+    }
+
+    .qr-wrapper {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      display: inline-block;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(44, 26, 14, 0.08);
+    }
+
+    #qrCanvas {
+      display: block;
+      border-radius: 8px;
+    }
+
+    .staff-instruction {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8a6a4a;
+      margin-bottom: 8px;
+    }
+
+    .staff-code {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #c4a882;
+      margin-bottom: 28px;
+      font-style: italic;
+      word-break: break-all;
+    }
+
+    .refresh-info {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c4a882;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 4px;
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c4a882;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pin-screen" id="pinScreen">
+    <img src="/Fitbites_Logo.png" alt="fitbites" />
+    <p class="pin-label">staff access</p>
+
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+      <div class="pin-dot" id="d4"></div>
+      <div class="pin-dot" id="d5"></div>
+      <div class="pin-dot" id="d6"></div>
+      <div class="pin-dot" id="d7"></div>
+    </div>
+
+    <div class="pin-grid">
+      <button class="pin-btn" onclick="pressPin('1')">1</button>
+      <button class="pin-btn" onclick="pressPin('2')">2</button>
+      <button class="pin-btn" onclick="pressPin('3')">3</button>
+      <button class="pin-btn" onclick="pressPin('4')">4</button>
+      <button class="pin-btn" onclick="pressPin('5')">5</button>
+      <button class="pin-btn" onclick="pressPin('6')">6</button>
+      <button class="pin-btn" onclick="pressPin('7')">7</button>
+      <button class="pin-btn" onclick="pressPin('8')">8</button>
+      <button class="pin-btn" onclick="pressPin('9')">9</button>
+      <button class="pin-btn" onclick="clearPin()" style="font-size:14px;letter-spacing:1px;">CLR</button>
+      <button class="pin-btn" onclick="pressPin('0')">0</button>
+      <button class="pin-btn" onclick="deletePin()" style="font-size:18px;">⌫</button>
+    </div>
+
+    <p class="pin-error" id="pinError"></p>
+  </div>
+
+  <div class="staff-screen" id="staffScreen">
+    <div class="staff-card">
+      <img src="/Fitbites_Logo.png" alt="fitbites" class="staff-logo" />
+      <p class="staff-title">today's stamp qr</p>
+      <p class="staff-date" id="staffDate"></p>
+
+      <div class="qr-wrapper">
+        <canvas id="qrCanvas" width="220" height="220"></canvas>
+      </div>
+
+      <p class="staff-instruction">show this to the customer</p>
+      <p class="staff-code" id="staffCodeDisplay"></p>
+      <p class="refresh-info">qr rotates automatically at midnight ☁️</p>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">← lock screen</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <script>
+    const STAFF_PIN = '01090208';
+    const SALT = 'fb_cafe_secret_9x2k';
+
+    let pinEntry = '';
+    let midnightTimer = null;
+
+    function getTodayCode() {
+      const now = new Date();
+
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+
+      const dateStr = `${yyyy}${mm}${dd}`;
+      const input = dateStr + SALT;
+
+      let hash = 0;
+
+      for (let i = 0; i < input.length; i++) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0;
+      }
+
+      return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
+    }
+
+    function getTodayDisplay() {
+      const now = new Date();
+
+      return now.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+
+    function refreshQR() {
+      const todayCode = getTodayCode();
+
+      document.getElementById('staffDate').textContent = getTodayDisplay();
+      document.getElementById('staffCodeDisplay').textContent = todayCode;
+
+      QRCode.toCanvas(document.getElementById('qrCanvas'), todayCode, {
+        width: 220,
+        margin: 1,
+        color: {
+          dark: '#2c1a0e',
+          light: '#ffffff'
+        }
+      });
+    }
+
+    function scheduleNextRefresh() {
+      if (midnightTimer) clearTimeout(midnightTimer);
+
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+
+      const msUntilMidnight = midnight - now;
+
+      midnightTimer = setTimeout(() => {
+        refreshQR();
+        scheduleNextRefresh();
+      }, msUntilMidnight);
+    }
+
+    function pressPin(digit) {
+      if (pinEntry.length >= 8) return;
+
+      pinEntry += digit;
+      updateDots();
+
+      if (pinEntry.length === 8) {
+        setTimeout(checkPin, 150);
+      }
+    }
+
+    function deletePin() {
+      pinEntry = pinEntry.slice(0, -1);
+      updateDots();
+      document.getElementById('pinError').textContent = '';
+    }
+
+    function clearPin() {
+      pinEntry = '';
+      updateDots();
+      document.getElementById('pinError').textContent = '';
+    }
+
+    function updateDots() {
+      for (let i = 0; i < 8; i++) {
+        document.getElementById('d' + i).classList.toggle('filled', i < pinEntry.length);
+      }
+    }
+
+    function checkPin() {
+      if (pinEntry === STAFF_PIN) {
+        showStaffScreen();
+      } else {
+        document.getElementById('pinError').textContent = 'incorrect pin';
+        pinEntry = '';
+        updateDots();
+        shakeDots();
+      }
+    }
+
+    function shakeDots() {
+      const dots = document.getElementById('pinDots');
+      dots.style.transition = 'transform 0.05s';
+
+      let count = 0;
+
+      const shake = setInterval(() => {
+        dots.style.transform = count % 2 === 0 ? 'translateX(8px)' : 'translateX(-8px)';
+        count++;
+
+        if (count > 5) {
+          clearInterval(shake);
+          dots.style.transform = 'none';
+        }
+      }, 60);
+    }
+
+    function showStaffScreen() {
+      document.getElementById('pinScreen').style.display = 'none';
+      document.getElementById('staffScreen').classList.add('show');
+
+      refreshQR();
+      scheduleNextRefresh();
+    }
+
+    function logout() {
+      pinEntry = '';
+      updateDots();
+
+      document.getElementById('pinError').textContent = '';
+      document.getElementById('staffScreen').classList.remove('show');
+
+      const pinScreen = document.getElementById('pinScreen');
+      pinScreen.style.display = 'block';
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && document.getElementById('staffScreen').classList.contains('show')) {
+        refreshQR();
+      }
+    });
+
+    setInterval(() => {
+      if (document.getElementById('staffScreen').classList.contains('show')) {
+        refreshQR();
+      }
+    }, 60 * 60 * 1000);
+  </script>
+
+</body>
+</html>
