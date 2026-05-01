@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fitbites-v3';
+const CACHE_NAME = 'fitbites-v4';
 
 const urlsToCache = [
   '/',
