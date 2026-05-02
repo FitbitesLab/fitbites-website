@@ -651,7 +651,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 .nav-item.active .nav-label { color: var(--cream); }
 .nav-item:active svg { transform: scale(0.85) !important; }
 
-   /* ── PWA / BROWSER MODE CONTROL ── */
+    /* ── PWA / BROWSER MODE CONTROL ── */
 
 /* default = browser */
 .nav-wrapper {
@@ -688,6 +688,24 @@ html.pwa-mode .nav-burger {
   html.browser-mode .nav-links {
     display: flex !important;
   }
+
+  /* PWA APP MODE — bottom nav only, no top menu links */
+html.pwa-mode .nav-links {
+  display: none !important;
+}
+
+html.pwa-mode .nav-burger {
+  display: none !important;
+}
+
+html.pwa-mode .top-nav {
+  justify-content: center;
+}
+
+html.pwa-mode .nav-left {
+  width: 100%;
+  justify-content: center;
+}
 }
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
