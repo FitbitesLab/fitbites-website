@@ -651,63 +651,20 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 .nav-item.active .nav-label { color: var(--cream); }
 .nav-item:active svg { transform: scale(0.85) !important; }
 
-    /* ── PWA / BROWSER MODE CONTROL ── */
+    /* ── PWA / BROWSER MODE CONTROL — FINAL OVERRIDE ── */
 
-/* default = browser */
+/* Default browser: no bottom app nav */
 .nav-wrapper {
-  display: none;
-}
-
-/* PWA mode */
-html.pwa-mode .nav-wrapper {
-  display: flex;
-}
-
-/* PWA = no burger */
-html.pwa-mode .nav-burger {
   display: none !important;
 }
 
-/* browser mobile */
-@media (max-width: 1024px) {
-  html.browser-mode .nav-burger {
-    display: flex !important;
-  }
-
-  html.browser-mode .nav-links {
-    display: none !important;
-  }
+/* PWA app mode: bottom nav ON */
+html.pwa-mode .nav-wrapper,
+body.pwa-mode .nav-wrapper {
+  display: flex !important;
 }
 
-/* browser desktop */
-@media (min-width: 1025px) {
-  html.browser-mode .nav-burger {
-    display: none !important;
-  }
-
-  html.browser-mode .nav-links {
-    display: flex !important;
-  }
-
-  /* PWA APP MODE — bottom nav only, no top menu links */
-html.pwa-mode .nav-links {
-  display: none !important;
-}
-
-html.pwa-mode .nav-burger {
-  display: none !important;
-}
-
-html.pwa-mode .top-nav {
-  justify-content: center;
-}
-
-html.pwa-mode .nav-left {
-  width: 100%;
-  justify-content: center;
-}
-
-  /* ── FINAL PWA OVERRIDE — DO NOT MOVE ── */
+/* PWA app mode: top menu links OFF */
 html.pwa-mode .top-nav .nav-links,
 body.pwa-mode .top-nav .nav-links {
   display: none !important;
@@ -715,16 +672,13 @@ body.pwa-mode .top-nav .nav-links {
   pointer-events: none !important;
 }
 
+/* PWA app mode: burger OFF */
 html.pwa-mode .top-nav .nav-burger,
 body.pwa-mode .top-nav .nav-burger {
   display: none !important;
 }
 
-html.pwa-mode .nav-wrapper,
-body.pwa-mode .nav-wrapper {
-  display: flex !important;
-}
-
+/* PWA app mode: logo centered */
 html.pwa-mode .top-nav,
 body.pwa-mode .top-nav {
   justify-content: center !important;
@@ -734,6 +688,32 @@ html.pwa-mode .nav-left,
 body.pwa-mode .nav-left {
   width: 100% !important;
   justify-content: center !important;
+}
+
+/* Browser mobile/tablet: burger ON, top links OFF */
+@media (max-width: 1024px) {
+  html.browser-mode .top-nav .nav-burger,
+  body.browser-mode .top-nav .nav-burger {
+    display: flex !important;
+  }
+
+  html.browser-mode .top-nav .nav-links,
+  body.browser-mode .top-nav .nav-links {
+    display: none !important;
+  }
+}
+
+/* Browser desktop: top links ON, burger OFF */
+@media (min-width: 1025px) {
+  html.browser-mode .top-nav .nav-burger,
+  body.browser-mode .top-nav .nav-burger {
+    display: none !important;
+  }
+
+  html.browser-mode .top-nav .nav-links,
+  body.browser-mode .top-nav .nav-links {
+    display: flex !important;
+  }
 }
 }
   </style>
