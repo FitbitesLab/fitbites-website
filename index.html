@@ -1029,7 +1029,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
       <span class="nav-label">my fitbites</span>
     </div>
 
-    <div class="nav-item" id="nav-story-btn" onclick="setNavActive('story'); document.getElementById('too-tiel').scrollIntoView({behavior:'smooth'})">
+    onclick="setNavActive('story'); document.getElementById('our-story').scrollIntoView({behavior:'smooth'})"
       <svg viewBox="0 0 24 24">
         <path d="M12 7v14"/>
         <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
@@ -1201,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function detectActiveSection() {
     const y = window.scrollY;
     const menu = document.getElementById('menu');
-    const story = document.getElementById('too-tiel');
+    const story = document.getElementById('our-story');
 
     if (y < 300) return setNavActive('home');
     if (story && y >= story.offsetTop - 240) return setNavActive('story');
