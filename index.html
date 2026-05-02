@@ -651,6 +651,43 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 .nav-item.active .nav-label { color: var(--cream); }
 .nav-item:active svg { transform: scale(0.85) !important; }
 
+    /* ── PWA / BROWSER MODE CONTROL ── */
+
+/* default = browser */
+.nav-wrapper {
+  display: none !important;
+}
+
+/* PWA mode */
+body.pwa-mode .nav-wrapper {
+  display: flex !important;
+}
+
+body.pwa-mode .nav-burger {
+  display: none !important;
+}
+
+/* browser mobile */
+@media (max-width: 1024px) {
+  body.browser-mode .nav-burger {
+    display: flex !important;
+  }
+
+  body.browser-mode .nav-links {
+    display: none !important;
+  }
+}
+
+/* browser desktop */
+@media (min-width: 1025px) {
+  body.browser-mode .nav-burger {
+    display: none !important;
+  }
+
+  body.browser-mode .nav-links {
+    display: flex !important;
+  }
+}
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
   <link rel="preload" as="image" href="Greek_Yogurt_Hero.PNG">
@@ -1040,6 +1077,14 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 </div>
 
  <script>
+   const isStandalone =
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true;
+
+document.documentElement.classList.add(
+  isStandalone ? 'pwa-mode' : 'browser-mode'
+);
+
 document.addEventListener('DOMContentLoaded', () => {
   /* SLIDER */
   let cur = 0;
