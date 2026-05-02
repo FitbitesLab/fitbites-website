@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+</<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -706,6 +706,35 @@ html.pwa-mode .nav-left {
   width: 100%;
   justify-content: center;
 }
+
+  /* ── FINAL PWA OVERRIDE — DO NOT MOVE ── */
+html.pwa-mode .top-nav .nav-links,
+body.pwa-mode .top-nav .nav-links {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+html.pwa-mode .top-nav .nav-burger,
+body.pwa-mode .top-nav .nav-burger {
+  display: none !important;
+}
+
+html.pwa-mode .nav-wrapper,
+body.pwa-mode .nav-wrapper {
+  display: flex !important;
+}
+
+html.pwa-mode .top-nav,
+body.pwa-mode .top-nav {
+  justify-content: center !important;
+}
+
+html.pwa-mode .nav-left,
+body.pwa-mode .nav-left {
+  width: 100% !important;
+  justify-content: center !important;
+}
 }
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
@@ -1100,9 +1129,11 @@ html.pwa-mode .nav-left {
   window.matchMedia('(display-mode: standalone)').matches ||
   window.navigator.standalone === true;
 
-document.documentElement.classList.add(
-  isStandalone ? 'pwa-mode' : 'browser-mode'
-);
+document.documentElement.classList.add(isStandalone ? 'pwa-mode' : 'browser-mode');
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add(isStandalone ? 'pwa-mode' : 'browser-mode');
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   /* SLIDER */
