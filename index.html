@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>fitbites — health has never tasted this wrong.</title>
   <link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#c47a3a" />
+  <meta name="theme-color" content="#c47a3a" />
   <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
   <style>
     :root {
@@ -23,1009 +24,246 @@
       --green: #5a7a4a;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+html { scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
-      background: var(--cream);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 200;
-      height: 70px;
-      padding: 0 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(253, 249, 245, 0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-overflow: visible;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .nav-mascots {
-      display: flex;
-      align-items: flex-end;
-      height: 60px;
-      gap: 0;
-    }
-
-    .nav-mascots img {
-      height: 58px;
-      object-fit: contain;
-      margin-right: -8px;
-    }
-
-    .nav-logo img {
-      height: 36px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .nav-logo-text {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--bark);
-      letter-spacing: 1px;
-      text-decoration: none;
-    }
-
-    .nav-logo-text span {
-      color: var(--brown);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-mid);
-      font-size: 12px;
-      letter-spacing: 2px;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--brown);
-    }
-
-    .nav-order {
-      background: var(--brown) !important;
-      color: white !important;
-      padding: 10px 24px;
-      letter-spacing: 1.5px;
-      transition: background 0.2s !important;
-    }
-
-    .nav-order:hover {
-      background: var(--brown-dark) !important;
-    }
-
-    /* ── SPLIT HERO ── */
-    .hero {
-  margin-top: 70px;
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
-
-
-    .hero-slider {
-      position: relative;
-      overflow: hidden;
-      height: calc(100vh - 70px);
-    }
-
-    .slides {
-      display: flex;
-      height: 100%;
-      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
-    .slide {
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slide-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      transition: transform 8s ease;
-      transform: scale(1.06);
-    }
-
-    .slide.active .slide-img {
-      transform: scale(1);
-    }
-
-    .slide-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.1) 0%,
-        rgba(0, 0, 0, 0.45) 60%,
-        rgba(0, 0, 0, 0.75) 100%
-      );
-    }
-
-    .slide-text {
-      position: absolute;
-      bottom: 48px;
-      left: 60px;
-      right: 60px;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
-    }
-
-    .slide.active .slide-text {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .slide-label {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--brown-light);
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .slide-quote {
-      font-size: clamp(28px, 4vw, 52px);
-      font-weight: 700;
-      color: white;
-      line-height: 1.1;
-      letter-spacing: -1px;
-      max-width: 700px;
-    }
-
-    /* Slider controls */
-    .slider-controls {
-      position: absolute;
-      bottom: 48px;
-      right: 60px;
-      z-index: 10;
-      display: flex;
-      gap: 10px;
-    }
-
-    .sarrow {
-      width: 42px;
-      height: 42px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      backdrop-filter: blur(8px);
-    }
-
-    .sarrow:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .slider-dots {
-      position: absolute;
-      bottom: 58px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      display: flex;
-      gap: 8px;
-    }
-
-    .sdot {
-      width: 20px;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .sdot.active {
-      width: 40px;
-      background: white;
-    }
-
-    .slide-counter {
-      position: absolute;
-      top: 24px;
-      right: 60px;
-      z-index: 10;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .slide-counter b {
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 400;
-    }
-
-    /* ── CONTENT PANEL ── */
-    .hero-content {
-      background: var(--white);
-      border-top: 1px solid var(--border);
-      padding: 28px 60px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 40px;
-      min-height: 120px;
-      transition: all 0.4s ease;
-    }
-
-    .content-tag {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--brown);
-      margin-bottom: 8px;
-    }
-
-    .content-title {
-      font-size: 22px;
-      font-weight: 400;
-      color: var(--bark);
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-
-    .content-desc {
-      font-size: 13px;
-      color: var(--text-mid);
-      line-height: 1.7;
-      letter-spacing: 0.2px;
-      max-width: 560px;
-    }
-
-    .content-tags {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .ctag {
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      border: 1px solid var(--border);
-      color: var(--text-mid);
-      padding: 4px 12px;
-    }
-
-    .hero-content-right {
-      display: flex;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .btn-primary {
-      background: var(--brown);
-      color: white;
-      padding: 13px 28px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s;
-      white-space: nowrap;
-      font-family: 'Glacial Indifference', sans-serif;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary:hover {
-      background: var(--brown-dark);
-    }
-
-    .btn-ghost {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-mid);
-      padding: 13px 28px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.2s;
-      white-space: nowrap;
-      font-family: 'Glacial Indifference', sans-serif;
-      cursor: pointer;
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--brown);
-      color: var(--brown);
-    }
-
-    /* ── SLOGAN STRIP ── */
-    .slogan-strip {
-      background: var(--bark);
-      padding: 48px;
-      text-align: center;
-    }
-
-    .slogan-eye {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--brown-light);
-      margin-bottom: 16px;
-    }
-
-    .slogan-text {
-      font-size: clamp(24px, 4vw, 48px);
-      font-weight: 700;
-      color: white;
-      letter-spacing: -1px;
-      line-height: 1.1;
-    }
-
-    .slogan-text em {
-      font-style: italic;
-      color: var(--brown-light);
-    }
-
-    /* ── MENU SECTION ── */
-    #menu {
-      padding: 100px 60px;
-      background: var(--cream);
-    }
-
-    .menu-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 64px;
-      gap: 24px;
-    }
-
-    .eyebrow {
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 12px;
-    }
-
-    .heading {
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 700;
-      color: var(--bark);
-      letter-spacing: -1px;
-      line-height: 1.05;
-    }
-
-    .heading em {
-      font-style: normal;
-      color: var(--brown);
-    }
-
-    .menu-sub {
-      font-size: 13px;
-      color: var(--text-mid);
-      line-height: 1.8;
-      max-width: 260px;
-      text-align: right;
-    }
-
-    .menu-tabs {
-      display: flex;
-      gap: 2px;
-      margin-bottom: 2px;
-      background: var(--border);
-      width: fit-content;
-      flex-wrap: wrap;
-    }
-    .menu-banner {
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  margin-bottom: 0;
-}
-
-.menu-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-object-position: center center;
-  transition: opacity 0.4s ease;
-}
-
-
-    .mtab {
-      padding: 12px 24px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      background: var(--oat);
-      color: var(--text-mid);
-      cursor: pointer;
-      border: none;
-      font-family: 'Glacial Indifference', sans-serif;
-      transition: all 0.2s;
-    }
-
-    .mtab.active {
-      background: var(--bark);
-      color: white;
-    }
-
-    .mtab:hover:not(.active) {
-      background: var(--border);
-    }
-
-   .menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0;
+body {
+  font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
   background: var(--cream);
-  margin-top: 48px;
+  color: var(--text);
+  overflow-x: hidden;
+  padding-bottom: 100px; /* space for bottom nav */
 }
 
-.menu-item {
-  background: var(--cream);
-  padding: 36px 48px;
-  transition: background 0.2s;
-  display: none;
-  border-bottom: 1px solid var(--border);
-}
-
-.menu-item:nth-child(odd) {
-  border-right: 1px solid var(--border);
-}
-
-.menu-item.visible {
-  display: block;
-}
-
-
-    .menu-item:hover {
-      background: var(--oat);
-    }
-
-    .item-cat {
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  border: 1px solid var(--border);
-  padding: 4px 10px;
-  display: inline-block;
-  margin-bottom: 14px;
-}
-
-.item-name {
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--bark);
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
-}
-
-
-   .item-desc {
-  font-size: 12px;
-  color: var(--text-mid);
-  line-height: 1.8;
-  margin-bottom: 16px;
-  max-width: 400px;
-}
-
-.item-price {
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-light);
-  letter-spacing: 1px;
-}
-
-    /* ── OUR STORY ── */
-    #our-story {
-      background: var(--bark);
-      padding: 100px 60px;
-    }
-
-    .story-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .story-left .eyebrow {
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    .story-left .heading {
-      color: white;
-      margin-bottom: 24px;
-    }
-
-    .story-body {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-
-    .story-right {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .story-stat {
-      background: var(--bark);
-      padding: 32px 24px;
-      transition: background 0.2s;
-    }
-
-    .story-stat:hover {
-      background: #3d2510;
-    }
-
-    .stat-num {
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--brown-light);
-      letter-spacing: -1px;
-      margin-bottom: 8px;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.4);
-    }
-
-    /* ── TOO & TIEL SECTION ── */
-    /* ── STORY VIEWER ── */
-.story-overlay {
+/* ── TOP NAV ── */
+.top-nav {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.story-overlay.open {
-  display: flex;
-}
-
-.story-viewer {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 90vh;
-}
-
-.story-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.story-close {
-  position: absolute;
-  top: -40px;
+  top: 0;
+  left: 0;
   right: 0;
-  color: white;
-  font-size: 28px;
-  cursor: pointer;
-  background: none;
-  border: none;
+  z-index: 200;
+  height: 70px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(253, 249, 245, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  overflow: visible;
 }
 
-.story-prev, .story-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  font-size: 24px;
-  padding: 16px;
-  cursor: pointer;
-}
+.nav-left { display: flex; align-items: center; gap: 16px; }
 
+.nav-mascots { display: flex; align-items: flex-end; height: 60px; gap: 0; }
+.nav-mascots img { height: 58px; object-fit: contain; margin-right: -8px; }
+
+.nav-logo img { height: 36px; object-fit: contain; display: block; }
+
+.nav-logo-text { font-size: 22px; font-weight: 700; color: var(--bark); letter-spacing: 1px; text-decoration: none; }
+.nav-logo-text span { color: var(--brown); }
+
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-mid); font-size: 12px; letter-spacing: 2px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--brown); }
+
+.nav-order { background: var(--brown) !important; color: white !important; padding: 10px 24px; letter-spacing: 1.5px; transition: background 0.2s !important; }
+.nav-order:hover { background: var(--brown-dark) !important; }
+
+/* ── HERO ── */
+.hero { margin-top: 70px; display: grid; grid-template-rows: 1fr auto; }
+
+.hero-slider { position: relative; overflow: hidden; height: calc(100vh - 70px); }
+
+.slides { display: flex; height: 100%; transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1); }
+
+.slide { min-width: 100%; height: 100%; position: relative; overflow: hidden; }
+
+.slide-img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 8s ease; transform: scale(1.06); }
+.slide.active .slide-img { transform: scale(1); }
+
+.slide-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.75) 100%); }
+
+.slide-text { position: absolute; bottom: 48px; left: 60px; right: 60px; z-index: 2; opacity: 0; transform: translateY(20px); transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease; }
+.slide.active .slide-text { opacity: 1; transform: translateY(0); }
+
+.slide-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 12px; display: block; }
+.slide-quote { font-size: clamp(28px, 4vw, 52px); font-weight: 700; color: white; line-height: 1.1; letter-spacing: -1px; max-width: 700px; }
+
+.slider-controls { position: absolute; bottom: 48px; right: 60px; z-index: 10; display: flex; gap: 10px; }
+
+.sarrow { width: 42px; height: 42px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(8px); }
+.sarrow:hover { background: rgba(255,255,255,0.2); }
+
+.slider-dots { position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 8px; }
+.sdot { width: 20px; height: 2px; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; }
+.sdot.active { width: 40px; background: white; }
+
+.slide-counter { position: absolute; top: 24px; right: 60px; z-index: 10; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.4); }
+.slide-counter b { color: rgba(255,255,255,0.9); font-weight: 400; }
+
+/* ── CONTENT PANEL ── */
+.hero-content { background: var(--white); border-top: 1px solid var(--border); padding: 28px 60px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 40px; min-height: 120px; transition: all 0.4s ease; }
+
+.content-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--brown); margin-bottom: 8px; }
+.content-title { font-size: 22px; font-weight: 400; color: var(--bark); letter-spacing: -0.5px; margin-bottom: 6px; }
+.content-desc { font-size: 13px; color: var(--text-mid); line-height: 1.7; letter-spacing: 0.2px; max-width: 560px; }
+
+.content-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.ctag { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--border); color: var(--text-mid); padding: 4px 12px; }
+
+.hero-content-right { display: flex; gap: 12px; flex-shrink: 0; }
+
+.btn-primary { background: var(--brown); color: white; padding: 13px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: background 0.2s; white-space: nowrap; font-family: 'Glacial Indifference', sans-serif; border: none; cursor: pointer; }
+.btn-primary:hover { background: var(--brown-dark); }
+
+.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-mid); padding: 13px 28px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all 0.2s; white-space: nowrap; font-family: 'Glacial Indifference', sans-serif; cursor: pointer; }
+.btn-ghost:hover { border-color: var(--brown); color: var(--brown); }
+
+/* ── SLOGAN ── */
+.slogan-strip { background: var(--bark); padding: 48px; text-align: center; }
+.slogan-eye { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 16px; }
+.slogan-text { font-size: clamp(24px, 4vw, 48px); font-weight: 700; color: white; letter-spacing: -1px; line-height: 1.1; }
+.slogan-text em { font-style: italic; color: var(--brown-light); }
+
+/* ── MENU ── */
+#menu { padding: 100px 60px; background: var(--cream); }
+
+.menu-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 64px; gap: 24px; }
+
+.eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-light); margin-bottom: 12px; }
+.heading { font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--bark); letter-spacing: -1px; line-height: 1.05; }
+.heading em { font-style: normal; color: var(--brown); }
+
+.menu-sub { font-size: 13px; color: var(--text-mid); line-height: 1.8; max-width: 260px; text-align: right; }
+
+.menu-tabs { display: flex; gap: 2px; margin-bottom: 2px; background: var(--border); width: fit-content; flex-wrap: wrap; }
+
+.menu-banner { width: 100%; height: 500px; overflow: hidden; margin-bottom: 0; }
+.menu-banner-img { width: 100%; height: 100%; object-fit: cover; object-position: center center; transition: opacity 0.4s ease; }
+
+.mtab { padding: 12px 24px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; background: var(--oat); color: var(--text-mid); cursor: pointer; border: none; font-family: 'Glacial Indifference', sans-serif; transition: all 0.2s; }
+.mtab.active { background: var(--bark); color: white; }
+.mtab:hover:not(.active) { background: var(--border); }
+
+.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; background: var(--cream); margin-top: 48px; }
+
+.menu-item { background: var(--cream); padding: 36px 48px; transition: background 0.2s; display: none; border-bottom: 1px solid var(--border); }
+.menu-item:nth-child(odd) { border-right: 1px solid var(--border); }
+.menu-item.visible { display: block; }
+.menu-item:hover { background: var(--oat); }
+
+.item-cat { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-mid); border: 1px solid var(--border); padding: 4px 10px; display: inline-block; margin-bottom: 14px; }
+.item-name { font-size: 22px; font-weight: 400; color: var(--bark); margin-bottom: 8px; letter-spacing: -0.5px; }
+.item-desc { font-size: 12px; color: var(--text-mid); line-height: 1.8; margin-bottom: 16px; max-width: 400px; }
+.item-price { font-size: 13px; font-weight: 400; color: var(--text-light); letter-spacing: 1px; }
+
+/* ── OUR STORY ── */
+#our-story { background: var(--bark); padding: 100px 60px; }
+
+.story-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+.story-left .eyebrow { color: rgba(255,255,255,0.4); }
+.story-left .heading { color: white; margin-bottom: 24px; }
+.story-body { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.9; margin-bottom: 20px; }
+
+.story-right { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.08); }
+
+.story-stat { background: var(--bark); padding: 32px 24px; transition: background 0.2s; }
+.story-stat:hover { background: #3d2510; }
+
+.stat-num { font-size: 36px; font-weight: 700; color: var(--brown-light); letter-spacing: -1px; margin-bottom: 8px; }
+.stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+/* ── STORY VIEWER ── */
+.story-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
+.story-overlay.open { display: flex; }
+
+.story-viewer { position: relative; width: 100%; max-width: 900px; height: 90vh; }
+.story-img { width: 100%; height: 100%; object-fit: contain; }
+
+.story-close { position: absolute; top: -40px; right: 0; color: white; font-size: 28px; cursor: pointer; background: none; border: none; }
+.story-prev, .story-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: none; color: white; font-size: 24px; padding: 16px; cursor: pointer; }
 .story-prev { left: -60px; }
 .story-next { right: -60px; }
 
-.story-counter {
-  position: absolute;
-  bottom: -36px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255,255,255,0.5);
-  font-size: 12px;
-  letter-spacing: 2px;
-}
+.story-counter { position: absolute; bottom: -36px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.5); font-size: 12px; letter-spacing: 2px; }
+.story-progress { position: absolute; top: -16px; left: 0; right: 0; display: flex; gap: 4px; }
+.story-bar { flex: 1; height: 2px; background: rgba(255,255,255,0.2); }
+.story-bar.done { background: white; }
+.story-bar.active { background: var(--brown); }
 
-.story-progress {
-  position: absolute;
-  top: -16px;
-  left: 0;
-  right: 0;
-  display: flex;
-  gap: 4px;
-}
+/* ── TOO & TIEL ── */
+#too-tiel { background: var(--white); padding: 100px 60px; }
 
-.story-bar {
-  flex: 1;
-  height: 2px;
-  background: rgba(255,255,255,0.2);
-}
+.tt-inner { max-width: 1200px; margin: 0 auto; }
+.tt-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 24px; }
+.tt-sub { font-size: 13px; color: var(--text-mid); max-width: 280px; line-height: 1.8; text-align: right; }
 
-.story-bar.done {
-  background: white;
-}
+.tt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); }
+.tt-card { background: var(--cream); overflow: hidden; transition: transform 0.3s; cursor: pointer; }
+.tt-card:hover { transform: translateY(-4px); }
 
-.story-bar.active {
-  background: var(--brown);
-}
+.tt-img { width: 100%; height: 260px; object-fit: cover; object-position: center top; display: block; }
+.tt-body { padding: 20px; }
+.tt-ep { font-size: 10px; letter-spacing: 2px; color: var(--text-light); margin-bottom: 6px; }
+.tt-title { font-size: 15px; font-weight: 400; color: var(--bark); letter-spacing: -0.2px; }
 
-    #too-tiel {
-      background: var(--white);
-      padding: 100px 60px;
-    }
+/* ── ORDER ── */
+#order { background: var(--cream); padding: 100px 60px; }
 
-    .tt-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+.order-inner { max-width: 1200px; margin: 0 auto; }
+.order-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; gap: 24px; }
 
-    .tt-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 48px;
-      gap: 24px;
-    }
+.order-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); }
 
-    .tt-sub {
-      font-size: 13px;
-      color: var(--text-mid);
-      max-width: 280px;
-      line-height: 1.8;
-      text-align: right;
-    }
+.ocard { background: var(--white); padding: 48px 36px; display: flex; flex-direction: column; transition: background 0.2s; }
+.ocard:hover { background: var(--oat); }
 
-    .tt-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border);
-    }
+.ocard-n { font-size: 10px; letter-spacing: 2px; color: var(--text-light); margin-bottom: 28px; }
+.ocard-icon { font-size: 32px; margin-bottom: 18px; }
+.ocard-name { font-size: 20px; font-weight: 500; color: var(--bark); letter-spacing: -0.5px; margin-bottom: 10px; }
+.ocard-desc { font-size: 12px; color: var(--text-mid); line-height: 1.85; flex: 1; margin-bottom: 28px; }
+.ocard-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--brown); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: gap 0.2s; }
+.ocard-link:hover { gap: 18px; }
 
-    .tt-card {
-      background: var(--cream);
-      overflow: hidden;
-      transition: transform 0.3s;
-      cursor: pointer;
-    }
+/* ── FIND US ── */
+#find-us { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; }
 
-    .tt-card:hover {
-      transform: translateY(-4px);
-    }
+.find-visual { background: linear-gradient(145deg, var(--brown-dark), var(--bark)); display: flex; align-items: center; justify-content: center; padding: 60px; position: relative; overflow: hidden; }
+.find-visual::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(196,122,58,0.3), transparent 65%); }
 
-    .tt-img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
+.find-visual-inner { position: relative; z-index: 2; text-align: center; }
+.find-big { font-size: 80px; display: block; margin-bottom: 16px; }
+.find-tag { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.08); padding: 8px 18px; display: inline-block; }
 
-    .tt-body {
-      padding: 20px;
-    }
+.find-text { background: var(--white); padding: 72px 60px; display: flex; flex-direction: column; justify-content: center; }
 
-    .tt-ep {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--text-light);
-      margin-bottom: 6px;
-    }
+.find-addr { display: flex; gap: 14px; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 24px 0; }
+.addr-icon { font-size: 18px; margin-top: 2px; }
+.addr-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-bottom: 4px; }
+.addr-val { font-size: 15px; font-weight: 700; color: var(--bark); }
+.find-hours { font-size: 13px; color: var(--text-mid); line-height: 1.8; }
 
-    .tt-title {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--bark);
-      letter-spacing: -0.2px;
-    }
+/* ── FOOTER ── */
+footer { background: var(--bark); padding: 64px 60px 40px; }
 
-    /* ── ORDER ── */
-    #order {
-      background: var(--cream);
-      padding: 100px 60px;
-    }
+.foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
+.foot-brand { font-size: 22px; font-weight: 700; color: white; letter-spacing: 1px; margin-bottom: 12px; }
+.foot-brand span { color: var(--brown-light); }
+.foot-slogan { font-size: 12px; color: rgba(255,255,255,0.3); line-height: 1.8; font-style: italic; margin-bottom: 16px; }
 
-    .order-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+.fcol-title { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--brown-light); margin-bottom: 18px; }
+.flinks { list-style: none; }
+.flinks li { margin-bottom: 10px; }
+.flinks a { text-decoration: none; color: rgba(255,255,255,0.35); font-size: 13px; transition: color 0.2s; }
+.flinks a:hover { color: white; }
 
-    .order-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 48px;
-      gap: 24px;
-    }
+.foot-bottom { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.18); flex-wrap: wrap; gap: 8px; }
 
-    .order-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border);
-    }
-
-    .ocard {
-      background: var(--white);
-      padding: 48px 36px;
-      display: flex;
-      flex-direction: column;
-      transition: background 0.2s;
-    }
-
-    .ocard:hover {
-      background: var(--oat);
-    }
-
-    .ocard-n {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--text-light);
-      margin-bottom: 28px;
-    }
-
-    .ocard-icon {
-      font-size: 32px;
-      margin-bottom: 18px;
-    }
-
-    .ocard-name {
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--bark);
-      letter-spacing: -0.5px;
-      margin-bottom: 10px;
-    }
-
-    .ocard-desc {
-      font-size: 12px;
-      color: var(--text-mid);
-      line-height: 1.85;
-      flex: 1;
-      margin-bottom: 28px;
-    }
-
-    .ocard-link {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--brown);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: gap 0.2s;
-    }
-
-    .ocard-link:hover {
-      gap: 18px;
-    }
-
-    /* ── FIND US ── */
-    #find-us {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 500px;
-    }
-
-    .find-visual {
-      background: linear-gradient(145deg, var(--brown-dark), var(--bark));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 60px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .find-visual::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        ellipse at 50% 100%,
-        rgba(196, 122, 58, 0.3),
-        transparent 65%
-      );
-    }
-
-    .find-visual-inner {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
-
-    .find-big {
-      font-size: 80px;
-      display: block;
-      margin-bottom: 16px;
-    }
-
-    .find-tag {
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.5);
-      background: rgba(255, 255, 255, 0.08);
-      padding: 8px 18px;
-      display: inline-block;
-    }
-
-    .find-text {
-      background: var(--white);
-      padding: 72px 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .find-addr {
-      display: flex;
-      gap: 14px;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin: 24px 0;
-    }
-
-    .addr-icon {
-      font-size: 18px;
-      margin-top: 2px;
-    }
-
-    .addr-label {
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 4px;
-    }
-
-    .addr-val {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--bark);
-    }
-
-    .find-hours {
-      font-size: 13px;
-      color: var(--text-mid);
-      line-height: 1.8;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--bark);
-      padding: 64px 60px 40px;
-    }
-
-    .foot-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 28px;
-    }
-
-    .foot-brand {
-      font-size: 22px;
-      font-weight: 700;
-      color: white;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-
-    .foot-brand span {
-      color: var(--brown-light);
-    }
-
-    .foot-slogan {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.3);
-      line-height: 1.8;
-      font-style: italic;
-      margin-bottom: 16px;
-    }
-
-    .fcol-title {
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--brown-light);
-      margin-bottom: 18px;
-    }
-
-    .flinks {
-      list-style: none;
-    }
-
-    .flinks li {
-      margin-bottom: 10px;
-    }
-
-    .flinks a {
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 13px;
-      transition: color 0.2s;
-    }
-
-    .flinks a:hover {
-      color: white;
-    }
-
-    .foot-bottom {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.18);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* ── MOBILE ── */
-
-nav .nav-burger {
+/* ── MOBILE ── */
+.top-nav .nav-burger {
   display: none !important;
 }
 
@@ -1069,11 +307,11 @@ nav .nav-burger {
 }
 
 @media (max-width: 768px) {
-  nav {
+  .top-nav {
     padding: 0 20px;
   }
 
-  nav .nav-burger {
+  .top-nav .nav-burger {
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -1135,7 +373,10 @@ nav .nav-burger {
     padding: 48px 24px;
   }
 
-  #menu {
+  #menu,
+  #our-story,
+  #too-tiel,
+  #order {
     padding: 72px 24px;
   }
 
@@ -1158,9 +399,10 @@ nav .nav-burger {
     grid-template-columns: 1fr !important;
   }
 
-  /* MENU IMAGE — HERO STYLE ON MOBILE */
   .menu-banner {
+    width: 100vw;
     height: 58svh;
+    margin-left: -24px;
     overflow: hidden;
   }
 
@@ -1172,10 +414,29 @@ nav .nav-burger {
     object-position: center;
   }
 
-  #our-story,
-  #too-tiel,
-  #order {
-    padding: 72px 24px;
+  .menu-tabs,
+  .menu-categories {
+    margin-left: -24px;
+    margin-right: -24px;
+    width: calc(100% + 48px);
+  }
+
+  .menu-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100vw;
+    scrollbar-width: none;
+  }
+
+  .menu-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mtab {
+    flex: 0 0 auto;
   }
 
   .story-inner {
@@ -1208,25 +469,6 @@ nav .nav-burger {
     gap: 28px;
   }
 
-  /* Mobile: replace café picture with Tiel QR */
-  #order .ocard:nth-child(2) > img[alt="Visit our café"] {
-    display: none !important;
-  }
-
-  #order img[alt="Tiel holding Zalo QR"] {
-    position: static !important;
-    width: 240px !important;
-    max-width: 80%;
-    display: block;
-    margin: 28px auto 0 auto;
-    z-index: 1;
-  }
-
-  .ocard-cafe {
-    background: var(--cream);
-  }
-
-  /* STORY NAV FIX — MOBILE */
   .story-viewer {
     max-width: 100%;
     height: auto;
@@ -1243,7 +485,7 @@ nav .nav-burger {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1100;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     padding: 14px 16px;
   }
 
@@ -1259,154 +501,211 @@ nav .nav-burger {
     top: -36px;
     right: 16px;
   }
-  
-  /* MENU IMAGE — EDGE TO EDGE LIKE HERO */
-.menu-banner {
-  width: 100vw;
-  height: 58svh;
-  margin-left: -24px;
-  overflow: hidden;
+}
+/* ── ANIMATIONS ── */
+.rv { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.rv.on { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.08s; }
+.d2 { transition-delay: 0.16s; }
+.d3 { transition-delay: 0.24s; }
+.d4 { transition-delay: 0.32s; }
+
+/* ── BOTTOM NAV BAR ─────────────────────────────────────────────────── */
+.nav-wrapper {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 400px;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.menu-banner img,
-.menu-banner-img {
+.nav-cookie-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -28px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.nav-cookie-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid rgba(196, 122, 58, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(44, 26, 14, 0.12), 0 0 0 4px var(--cream);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.nav-cookie-btn img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+.nav-cookie-btn.active {
+  background: var(--brown);
+  border-color: var(--brown);
+  box-shadow: 0 6px 24px rgba(196, 122, 58, 0.5), 0 0 0 4px var(--cream);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.nav-cookie-btn.active img { filter: brightness(0) invert(1); }
+.nav-cookie-btn:active { transform: scale(0.88) !important; }
+
+.nav-cookie-label {
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(44, 26, 14, 0.4);
+  transition: color 0.3s ease;
+  position: absolute;
+  bottom: -18px;
+}
+
+.nav-cookie-wrap.active .nav-cookie-label { color: var(--brown); }
+
+.nav-bar {
   width: 100%;
-  height: 100% !important;
-  object-fit: cover;
-  object-position: center;
-}
-  .menu-tabs,
-.menu-categories {
-  margin-left: -24px;
-  margin-right: -24px;
-  width: calc(100% + 48px);
-}
-  
-  /* ↓ LAST — MENU TABS SCROLL */
-  .menu-tabs {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    width: 100vw;
-    margin-left: -24px;
-    margin-right: -24px;
-    scrollbar-width: none;
-  }
-
-  .menu-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .mtab {
-    flex: 0 0 auto;
-  }
-
+  height: 64px;
+  background: var(--cream);
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(44, 26, 14, 0.11), 0 2px 8px rgba(44, 26, 14, 0.07), 0 0 0 1px rgba(44, 26, 14, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 6px;
+  position: relative;
 }
 
-    /* ── ANIMATIONS ── */
-    .rv {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
+.nav-bubble {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 48px;
+  background: var(--brown);
+  border-radius: 24px;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateX(0);
+  will-change: transform, width, opacity;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+  box-shadow: 0 2px 12px rgba(196, 122, 58, 0.25);
+  opacity: 0;
+}
 
-    .rv.on {
-      opacity: 1;
-      transform: translateY(0);
-    }
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  padding: 8px 10px;
+  border-radius: 20px;
+  flex: 1;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
 
-    .d1 {
-      transition-delay: 0.08s;
-    }
+.nav-spacer { flex: 1; pointer-events: none; }
 
-    .d2 {
-      transition-delay: 0.16s;
-    }
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+  stroke: rgba(44, 26, 14, 0.3);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transition: stroke 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, stroke;
+}
 
-    .d3 {
-      transition-delay: 0.24s;
-    }
+.nav-label {
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(44, 26, 14, 0.3);
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
 
-    .d4 {
-      transition-delay: 0.32s;
-    }
+.nav-item.active svg { stroke: var(--cream); transform: translateY(-2px) scale(1.08); }
+.nav-item.active .nav-label { color: var(--cream); }
+.nav-item:active svg { transform: scale(0.85) !important; }
+
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
-<link rel="preload" as="image" href="Greek_Yogurt_Hero.PNG">
-<link rel="preload" as="image" href="Dessert_Hero.PNG">
-<link rel="preload" as="image" href="Coffee_Hero.PNG">
-<link rel="preload" as="image" href="Snacks_Hero.PNG">
+  <link rel="preload" as="image" href="Greek_Yogurt_Hero.PNG">
+  <link rel="preload" as="image" href="Dessert_Hero.PNG">
+  <link rel="preload" as="image" href="Coffee_Hero.PNG">
+  <link rel="preload" as="image" href="Snacks_Hero.PNG">
 </head>
-  
+
 <body>
 
-  <!-- NAV -->
-  <nav>
-  <div class="nav-left">
-    <a href="#" class="nav-logo">
-      <img src="Fitbites_Logo.png" style="height:190px;object-fit:contain;" alt="fitbites" />
-    </a>
-  </div>
-  <ul class="nav-links">
-    <li><a href="#">home</a></li>
-    <li><a href="#our-story">our story</a></li>
-    <li><a href="#menu">menu</a></li>
-    <li><a href="#too-tiel">too & tiel</a></li>
-    <li><a href="#find-us">find us</a></li>
-    <li><a href="#order" class="nav-order">order</a></li>
-  </ul>
-  <button class="nav-burger" onclick="toggleMenu()" id="navBurger">☰</button>
-</nav>
+  <!-- TOP NAV -->
 
+ <!-- TOP NAV -->
+<nav class="top-nav">
+    <div class="nav-left">
+      <a href="#" class="nav-logo">
+        <img src="Fitbites_Logo.png" style="height:190px;object-fit:contain;" alt="fitbites" />
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">home</a></li>
+      <li><a href="#our-story">our story</a></li>
+      <li><a href="#menu">menu</a></li>
+      <li><a href="#too-tiel">too & tiel</a></li>
+      <li><a href="#find-us">find us</a></li>
+      <li><a href="#order" class="nav-order">order</a></li>
+    </ul>
+    <button class="nav-burger" onclick="toggleMenu()" id="navBurger">☰</button>
+  </nav>
 
   <div class="nav-mobile-menu" id="navMobileMenu">
-  <button class="nav-mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="#" onclick="toggleMenu()">home</a>
-  <a href="#our-story" onclick="toggleMenu()">our story</a>
-  <a href="#menu" onclick="toggleMenu()">menu</a>
-  <a href="#too-tiel" onclick="toggleMenu()">too & tiel</a>
-  <a href="#find-us" onclick="toggleMenu()">find us</a>
-  <a href="#order" onclick="toggleMenu()" style="color:var(--brown)">order</a>
-<a href="/stamp.html" style="color:var(--brown)">my card</a>
-</div>
-
+    <button class="nav-mobile-close" onclick="toggleMenu()">✕</button>
+    <a href="#" onclick="toggleMenu()">home</a>
+    <a href="#our-story" onclick="toggleMenu()">our story</a>
+    <a href="#menu" onclick="toggleMenu()">menu</a>
+    <a href="#too-tiel" onclick="toggleMenu()">too & tiel</a>
+    <a href="#find-us" onclick="toggleMenu()">find us</a>
+    <a href="#order" onclick="toggleMenu()" style="color:var(--brown)">order</a>
+    <a href="/stamp.html" onclick="toggleMenu()" style="color:var(--brown)">my card 🎫</a>
+  </div>
 
   <!-- HERO SLIDER -->
+
   <div class="hero">
     <div class="hero-slider">
       <div class="slides" id="slides">
-
-        <!-- Slide 1 -->
-        <div
-          class="slide active"
-          data-tag="Overnight Oats"
-          data-title="Protein Overnight Oats"
-          data-desc="Protein Overnight Oats. +17g protein per cup. Amazing flavors such as Tiramisu, Chocolate Coconut, Caramel Apple Pie, Mango, Berry, Chocolate Nougat and more."
-          data-tags="Daily Go, Classic & Tropical"
-          data-btn="order now"
-          data-link="#order"
-        >
+        <div class="slide active" data-tag="Overnight Oats" data-title="Protein Overnight Oats" data-desc="Protein Overnight Oats. +17g protein per cup. Amazing flavors such as Tiramisu, Chocolate Coconut, Caramel Apple Pie, Mango, Berry, Chocolate Nougat and more." data-tags="Daily Go, Classic & Tropical" data-btn="order now" data-link="#order">
           <img src="Fitbites_Daily.PNG" class="slide-img" alt="Fitbites Daily" style="object-position:center bottom;">
-
           <div class="slide-overlay"></div>
           <div class="slide-text">
             <span class="slide-label">Fitbites Daily</span>
-           <h1 class="slide-quote">Protein Overnight Oats</h1>
+            <h1 class="slide-quote">Protein Overnight Oats</h1>
           </div>
         </div>
-
-        <!-- Slide 2 -->
-        <div
-          class="slide"
-          data-tag="Granola Delight"
-          data-title="Granola Bowls, done right."
-          data-desc="Thick, creamy, high in protein. Made from scratch daily using unpropcessed ingredients. Our Granola Delight bowl is a must-try."
-          data-tags="Homemade · High Protein · Craft Daily"
-          data-btn="Explore Flavors"
-          data-link="#menu"
-        >
+        <div class="slide" data-tag="Granola Delight" data-title="Granola Bowls, done right." data-desc="Thick, creamy, high in protein. Made from scratch daily using unpropcessed ingredients. Our Granola Delight bowl is a must-try." data-tags="Homemade · High Protein · Craft Daily" data-btn="Explore Flavors" data-link="#menu">
           <img src="Greek_Yogurt.PNG" class="slide-img" alt="Greek Yogurt" />
           <div class="slide-overlay"></div>
           <div class="slide-text">
@@ -1414,17 +713,7 @@ nav .nav-burger {
             <h1 class="slide-quote">So you think you know<br />Greek Yogurt?</h1>
           </div>
         </div>
-
-        <!-- Slide 3 -->
-        <div
-          class="slide"
-          data-tag="Protein Desserts"
-          data-title="Protein Ice Cream"
-          data-desc="Chocolate Hazelnut or Swiss Delight. 24-25g protein per 2 scoops. Creamy, indulgent, and made without the guilt. Café exclusive."
-          data-tags="24g protein · café exclusive · 2 scoops"
-          data-btn="visit our café"
-          data-link="#find-us"
-        >
+        <div class="slide" data-tag="Protein Desserts" data-title="Protein Ice Cream" data-desc="Chocolate Hazelnut or Swiss Delight. 24-25g protein per 2 scoops. Creamy, indulgent, and made without the guilt. Café exclusive." data-tags="24g protein · café exclusive · 2 scoops" data-btn="visit our café" data-link="#find-us">
           <img src="Protein_Ice_Cream.PNG" class="slide-img" alt="Protein Ice Cream" />
           <div class="slide-overlay"></div>
           <div class="slide-text">
@@ -1432,17 +721,7 @@ nav .nav-burger {
             <h1 class="slide-quote">They told you<br />this was impossible</h1>
           </div>
         </div>
-
-        <!-- Slide 4 -->
-        <div
-          class="slide"
-          data-tag="our café"
-          data-title="Our first location in Thao Dien"
-          data-desc="Now open in Thao Dien, HCMC. Not your typical café. This is where clean food stops tasting clean."
-          data-tags="thao dien · hcmc · now open"
-          data-btn="find us"
-          data-link="#find-us"
-        >
+        <div class="slide" data-tag="our café" data-title="Our first location in Thao Dien" data-desc="Now open in Thao Dien, HCMC. Not your typical café. This is where clean food stops tasting clean." data-tags="thao dien · hcmc · now open" data-btn="find us" data-link="#find-us">
           <img src="Too_Tiel.PNG" class="slide-img" alt="Fitbites Café" />
           <div class="slide-overlay"></div>
           <div class="slide-text">
@@ -1452,331 +731,134 @@ nav .nav-burger {
         </div>
       </div>
 
-      <div class="slide-counter"><b id="cnum">01</b> / 04</div>
+  <div class="slide-counter"><b id="cnum">01</b> / 04</div>
+  <div class="slider-dots">
+    <div class="sdot active" onclick="goTo(0)"></div>
+    <div class="sdot" onclick="goTo(1)"></div>
+    <div class="sdot" onclick="goTo(2)"></div>
+    <div class="sdot" onclick="goTo(3)"></div>
+  </div>
+  <div class="slider-controls">
+    <button class="sarrow" onclick="prev()">←</button>
+    <button class="sarrow" onclick="next()">→</button>
+  </div>
+</div>
 
-      <div class="slider-dots">
-        <div class="sdot active" onclick="goTo(0)"></div>
-        <div class="sdot" onclick="goTo(1)"></div>
-        <div class="sdot" onclick="goTo(2)"></div>
-        <div class="sdot" onclick="goTo(3)"></div>
-      </div>
-
-      <div class="slider-controls">
-        <button class="sarrow" onclick="prev()">←</button>
-        <button class="sarrow" onclick="next()">→</button>
-      </div>
+<div class="hero-content" id="heroContent">
+  <div class="hero-content-left">
+    <p class="content-tag" id="ctag">our signature</p>
+    <p class="content-title" id="ctitle">fitbites greek yogurt</p>
+    <p class="content-desc" id="cdesc">Thick, creamy, never tangy. Made from scratch daily using whole milk. No shortcuts, no fillers — just pure yogurt the way it should taste.</p>
+    <div class="content-tags" id="ctags">
+      <span class="ctag">homemade</span>
+      <span class="ctag">high protein</span>
+      <span class="ctag">500g jar</span>
     </div>
+  </div>
+  <div class="hero-content-right">
+    <a href="#order" class="btn-primary" id="cbtn">order now</a>
+    <a href="#menu" class="btn-ghost">see menu</a>
+  </div>
+</div>
 
-    <!-- CONTENT PANEL -->
-    <div class="hero-content" id="heroContent">
-      <div class="hero-content-left">
-        <p class="content-tag" id="ctag">our signature</p>
-        <p class="content-title" id="ctitle">fitbites greek yogurt</p>
-        <p class="content-desc" id="cdesc">
-          Thick, creamy, never tangy. Made from scratch daily using whole milk. No shortcuts, no fillers — just pure yogurt the way it should taste.
-        </p>
-        <div class="content-tags" id="ctags">
-          <span class="ctag">homemade</span>
-          <span class="ctag">high protein</span>
-          <span class="ctag">500g jar</span>
-        </div>
-      </div>
-
-      <div class="hero-content-right">
-        <a href="#order" class="btn-primary" id="cbtn">order now</a>
-        <a href="#menu" class="btn-ghost">see menu</a>
-      </div>
-    </div>
   </div>
 
   <!-- SLOGAN -->
+
   <div class="slogan-strip">
     <p class="slogan-eye rv">our philosophy</p>
     <p class="slogan-text rv">"health has never tasted <em>this wrong.</em>"</p>
   </div>
 
   <!-- MENU -->
+
   <section id="menu">
     <div class="menu-head">
       <div>
         <p class="eyebrow rv">our menu</p>
         <h2 class="heading rv">high protein.<br /><em>zero compromise.</em></h2>
       </div>
-      <p class="menu-sub rv">
-        Everything we make is crafted from scratch. From our high protein Greek Yogurt, protein Overnight Oats, to our homemade baked oats, protein crepes and protein ice-cream.
-      </p>
+      <p class="menu-sub rv">Everything we make is crafted from scratch. From our high protein Greek Yogurt, protein Overnight Oats, to our homemade baked oats, protein crepes and protein ice-cream.</p>
     </div>
 
-   <div class="menu-tabs">
+<div class="menu-tabs">
   <button class="mtab active" onclick="filterMenu(event, 'daily')">daily oats</button>
   <button class="mtab" onclick="filterMenu(event, 'yogurt')">greek yogurt</button>
   <button class="mtab" onclick="filterMenu(event, 'desserts')">desserts</button>
   <button class="mtab" onclick="filterMenu(event, 'coffee')">coffee</button>
   <button class="mtab" onclick="filterMenu(event, 'snacks')">protein snacks</button>
 </div>
-    <div class="menu-banner" id="menuBanner">
+
+<div class="menu-banner" id="menuBanner">
   <img src="Fitbites_Daily_Hero.PNG" id="menuBannerImg" class="menu-banner-img" alt="category" />
 </div>
 
+<div class="menu-grid">
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily go</p><p class="item-name">Blueberry Go</p><p class="item-desc">Creamy overnight oats layered with rich blueberry coulis.</p><p class="item-price">45k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily go</p><p class="item-name">Peach Go</p><p class="item-desc">Silky oats infused with sweet peach coulis.</p><p class="item-price">45k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily go</p><p class="item-name">Pineapple Go</p><p class="item-desc">Chilled oats with bright pineapple coulis — fresh, tropical, and clean fuel.</p><p class="item-price">45k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">Tirami'Oats</p><p class="item-desc">Rich chocolate oats with real cacao — deep, smooth, and dangerously close to dessert.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">Cappuccin'Oats</p><p class="item-desc">High in protein. Creamy, indulgent with an iced cappuccino touch.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">Caramel Apple Pie</p><p class="item-desc">Warm baked apple with a caramel touch.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">The Cookie-Cookie</p><p class="item-desc">Creamy oats with a cookie butter vibe.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">Candy Cloud</p><p class="item-desc">Creamy, delicious and indulgent. High in protein.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily classic</p><p class="item-name">Cocon'Oats</p><p class="item-desc">Chocolate meets coconut in a creamy, indulgent blend.</p><p class="item-price">55k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily tropical</p><p class="item-name">Tropical Apple</p><p class="item-desc">Bright green apple with a fresh tropical edge.</p><p class="item-price">65k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily tropical</p><p class="item-name">Tropical Mango</p><p class="item-desc">Light mango oats — smooth, juicy, and clean.</p><p class="item-price">65k</p></div>
+  <div class="menu-item visible" data-cat="daily"><p class="item-cat">daily tropical</p><p class="item-name">Tropical Nougat</p><p class="item-desc">Peach and Nougat teaming up in this creamy creation.</p><p class="item-price">65k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Granola Delight</p><p class="item-desc">100g Greek Yogurt · Granola · Apple · Banana · Strawberry · Mango</p><p class="item-price">90k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Greek Yogurt Blueberry</p><p class="item-desc">125g Greek Yogurt served with a coulis of blueberry</p><p class="item-price">59k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Greek Yogurt Peach</p><p class="item-desc">125g Greek Yogurt served with a coulis of peach</p><p class="item-price">59k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Greek Yogurt Pineapple</p><p class="item-desc">125g Greek Yogurt served with a coulis of pineapple</p><p class="item-price">59k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Greek Yogurt Kiwi</p><p class="item-desc">125g Greek Yogurt served with a coulis of kiwi</p><p class="item-price">59k</p></div>
+  <div class="menu-item visible" data-cat="yogurt"><p class="item-cat">greek yogurt</p><p class="item-name">Greek Yogurt Lychee</p><p class="item-desc">125g Greek Yogurt served with a coulis of lychee</p><p class="item-price">59k</p></div>
+  <div class="menu-item visible" data-cat="desserts"><p class="item-cat">protein desserts</p><p class="item-name">Protein Ice Cream — Chocolate Hazelnut</p><p class="item-desc">24g protein · 2 scoops · Café exclusive</p><p class="item-price">café only</p></div>
+  <div class="menu-item visible" data-cat="desserts"><p class="item-cat">protein desserts</p><p class="item-name">Protein Ice Cream — Swiss Delight</p><p class="item-desc">25g protein · 2 scoops · Café exclusive</p><p class="item-price">café only</p></div>
+  <div class="menu-item visible" data-cat="desserts"><p class="item-cat">protein desserts</p><p class="item-name">Saturdae</p><p class="item-desc">Greek Yogurt + Protein Chocolate Coulis · 22g protein</p><p class="item-price">café only</p></div>
+  <div class="menu-item visible" data-cat="desserts"><p class="item-cat">protein desserts</p><p class="item-name">Protein Crepe</p><p class="item-desc">Served with honey, chocolate or caramel · 9g protein</p><p class="item-price">café only</p></div>
+  <div class="menu-item visible" data-cat="desserts"><p class="item-cat">protein desserts</p><p class="item-name">Protein Crepe + Greek Yogurt & Fruits</p><p class="item-desc">Blueberry · Pineapple · Strawberry · Peach · Kiwi · 14g protein</p><p class="item-price">café only</p></div>
+  <div class="menu-item visible" data-cat="coffee"><p class="item-cat">coffee</p><p class="item-name">Espresso</p><p class="item-desc">Pure, bold, unapologetic.</p><p class="item-price">30k</p></div>
+  <div class="menu-item visible" data-cat="coffee"><p class="item-cat">coffee</p><p class="item-name">Americano</p><p class="item-desc">The more, the better.</p><p class="item-price">35k</p></div>
+  <div class="menu-item visible" data-cat="coffee"><p class="item-cat">coffee</p><p class="item-name">Cacao Bliss</p><p class="item-desc">Espresso · Cacao · Whey · 12g protein</p><p class="item-price">75k</p></div>
+  <div class="menu-item visible" data-cat="coffee"><p class="item-cat">coffee</p><p class="item-name">Milkyway</p><p class="item-desc">Espresso · Milk · Casein · 12g protein</p><p class="item-price">75k</p></div>
+  <div class="menu-item visible" data-cat="coffee"><p class="item-cat">coffee</p><p class="item-name">Cappuccino</p><p class="item-desc">Classic. Rich. The way it should be.</p><p class="item-price">55k</p></div>
+</div>
 
-    <div class="menu-grid">
-      <!-- DAILY GO -->
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily go</p>
-        <p class="item-name">Blueberry Go</p>
-        <p class="item-desc">Creamy overnight oats layered with rich blueberry coulis. <br>Smooth, fresh, and dangerously easy to finish.</p>
-        <p class="item-price">45k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily go</p>
-        <p class="item-name">Peach Go</p>
-        <p class="item-desc">Silky oats infused with sweet peach coulis. Soft, juicy, and summer in every bite.</p>
-        <p class="item-price">45k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily go</p>
-        <p class="item-name">Pineapple Go</p>
-        <p class="item-desc">Chilled oats with bright pineapple coulis — <br>fresh, tropical, and clean fuel with a sharp edge.</p>
-        <p class="item-price">45k</p>
-      </div>
-
-      <!-- DAILY CLASSIC -->
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">Tirami'Oats</p>
-        <p class="item-desc">Rich chocolate oats with real cacao — <br>deep, smooth, and dangerously close to dessert.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">Cappuccin'Oats</p>
-        <p class="item-desc">High in protein. Creamy, indulgent with an iced cappuccino touch.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">Caramel Apple Pie</p>
-        <p class="item-desc">Warm baked apple with a caramel touch; pure childhood comfort in every bite.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">The Cookie-Cookie</p>
-        <p class="item-desc">Creamy oats with a cookie butter vibe. Sweet, smooth, and impossible to stop.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">Candy Cloud</p>
-        <p class="item-desc">Creamy, delicious and indulgent. High in protein.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily classic</p>
-        <p class="item-name">Cocon'Oats</p>
-        <p class="item-desc">Chocolate meets coconut in a creamy, indulgent blend. <br>Soft, sweet, and addictive.</p>
-        <p class="item-price">55k</p>
-      </div>
-
-      <!-- DAILY TROPICAL -->
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily tropical</p>
-        <p class="item-name">Tropical Apple</p>
-        <p class="item-desc">Bright green apple with a fresh tropical edge. <br>Crisp, sharp, and ultra refreshing.</p>
-        <p class="item-price">65k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily tropical</p>
-        <p class="item-name">Tropical Mango</p>
-        <p class="item-desc">Light mango oats — <br>smooth, juicy, and clean from the first bite to the last.</p>
-        <p class="item-price">65k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="daily">
-        <p class="item-cat">daily tropical</p>
-        <p class="item-name">Tropical Nougat</p>
-        <p class="item-desc">Peach and Nougat are teaming up in this creamy creation, high in protein.</p>
-        <p class="item-price">65k</p>
-      </div>
-
-      <!-- GREEK YOGURT -->
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Granola Delight</p>
-        <p class="item-desc">100g Greek Yogurt · Granola · Apple · Banana · Strawberry · Mango</p>
-        <p class="item-price">90k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Greek Yogurt Blueberry</p>
-        <p class="item-desc">125g Greek Yogurt served with a coulis of blueberry</p>
-        <p class="item-price">59k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Greek Yogurt Peach</p>
-        <p class="item-desc">125g Greek Yogurt served with a coulis of peach</p>
-        <p class="item-price">59k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Greek Yogurt Pineapple</p>
-        <p class="item-desc">125g Greek Yogurt served with a coulis of pineapple</p>
-        <p class="item-price">59k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Greek Yogurt Kiwi</p>
-        <p class="item-desc">125g Greek Yogurt served with a coulis of kiwi</p>
-        <p class="item-price">59k</p>
-      </div>
-      
-      <div class="menu-item visible" data-cat="yogurt">
-        <p class="item-cat">greek yogurt</p>
-        <p class="item-name">Greek Yogurt Lychee</p>
-        <p class="item-desc">125g Greek Yogurt served with a coulis of lychee</p>
-        <p class="item-price">59k</p>
-      </div>
-
-
-      <!-- DESSERTS -->
-      <div class="menu-item visible" data-cat="desserts">
-        <p class="item-cat">protein desserts</p>
-        <p class="item-name">Protein Ice Cream — Chocolate Hazelnut</p>
-        <p class="item-desc">24g protein · 2 scoops · Café exclusive</p>
-        <p class="item-price">café only</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="desserts">
-        <p class="item-cat">protein desserts</p>
-        <p class="item-name">Protein Ice Cream — Swiss Delight</p>
-        <p class="item-desc">25g protein · 2 scoops · Café exclusive</p>
-        <p class="item-price">café only</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="desserts">
-        <p class="item-cat">protein desserts</p>
-        <p class="item-name">Saturdae</p>
-        <p class="item-desc">Greek Yogurt + Protein Chocolate Coulis · 22g protein</p>
-        <p class="item-price">café only</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="desserts">
-        <p class="item-cat">protein desserts</p>
-        <p class="item-name">Protein Crepe</p>
-        <p class="item-desc">Served with honey, chocolate or caramel · 9g protein</p>
-        <p class="item-price">café only</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="desserts">
-        <p class="item-cat">protein desserts</p>
-        <p class="item-name">Protein Crepe + Greek Yogurt & Fruits</p>
-        <p class="item-desc">Blueberry · Pineapple · Strawberry · Peach · Kiwi · 14g protein</p>
-        <p class="item-price">café only</p>
-      </div>
-
-      <!-- COFFEE -->
-      <div class="menu-item visible" data-cat="coffee">
-        <p class="item-cat">coffee</p>
-        <p class="item-name">Espresso</p>
-        <p class="item-desc">Pure, bold, unapologetic.</p>
-        <p class="item-price">30k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="coffee">
-        <p class="item-cat">coffee</p>
-        <p class="item-name">Americano</p>
-        <p class="item-desc">The more, the better. </p>
-        <p class="item-price">35k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="coffee">
-        <p class="item-cat">coffee</p>
-        <p class="item-name">Cacao Bliss</p>
-        <p class="item-desc">Espresso · Cacao · Whey · 12g protein</p>
-        <p class="item-price">75k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="coffee">
-        <p class="item-cat">coffee</p>
-        <p class="item-name">Milkyway</p>
-        <p class="item-desc">Espresso · Milk · Casein · 12g protein</p>
-        <p class="item-price">75k</p>
-      </div>
-
-      <div class="menu-item visible" data-cat="coffee">
-        <p class="item-cat">coffee</p>
-        <p class="item-name">Cappuccino</p>
-        <p class="item-desc">Classic. Rich. The way it should be.</p>
-        <p class="item-price">55k</p>
-      </div>
-    </div>
   </section>
 
   <!-- OUR STORY -->
+
   <section id="our-story">
     <div class="story-inner">
       <div class="story-left">
         <p class="eyebrow rv">our story</p>
-        <h2 class="heading rv">
-          We were tired of<br />
-          choosing between<br />
-          <em style="color:var(--brown-light)">taste & health.</em>
-        </h2>
-        <p class="story-body rv">
-          So we stopped choosing. Fitbites started as a cloud kitchen in Ho Chi Minh City with one obsession; food that's genuinely good for you and genuinely delicious. 
-          <br />Both. Always. No exceptions.
-        </p>
-        <p class="story-body rv">
-          We craft our Greek Yogurt from scratch daily. We bake our own granola. We develop every recipe ourselves. Because if it doesn't taste amazing, it doesn't make the menu.
-        </p>
+        <h2 class="heading rv">We were tired of<br />choosing between<br /><em style="color:var(--brown-light)">taste & health.</em></h2>
+        <p class="story-body rv">So we stopped choosing. Fitbites started as a cloud kitchen in Ho Chi Minh City with one obsession; food that's genuinely good for you and genuinely delicious. Both. Always. No exceptions.</p>
+        <p class="story-body rv">We craft our Greek Yogurt from scratch daily. We bake our own granola. We develop every recipe ourselves. Because if it doesn't taste amazing, it doesn't make the menu.</p>
       </div>
-
       <div class="story-right rv">
-        <div class="story-stat">
-          <div class="stat-num">2+</div>
-          <div class="stat-label">year in HCMC</div>
-        </div>
-        <div class="story-stat">
-          <div class="stat-num">+25</div>
-          <div class="stat-label">healthy creations</div>
-        </div>
-        <div class="story-stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">homemade</div>
-        </div>
-        <div class="story-stat">
-          <div class="stat-num">0</div>
-          <div class="stat-label">shortcuts taken</div>
-        </div>
+        <div class="story-stat"><div class="stat-num">2+</div><div class="stat-label">year in HCMC</div></div>
+        <div class="story-stat"><div class="stat-num">+25</div><div class="stat-label">healthy creations</div></div>
+        <div class="story-stat"><div class="stat-num">100%</div><div class="stat-label">homemade</div></div>
+        <div class="story-stat"><div class="stat-num">0</div><div class="stat-label">shortcuts taken</div></div>
       </div>
     </div>
   </section>
 
-  <!-- TOO & TIEL -->
-  <!-- STORY VIEWER OVERLAY -->
-<div class="story-overlay" id="storyOverlay">
-  <div class="story-viewer">
-    <div class="story-progress" id="storyProgress"></div>
-    <button class="story-close" onclick="closeStory()">✕</button>
-    <img class="story-img" id="storyImg" src="" alt="Too & Tiel" />
-    <button class="story-prev" onclick="storyNav(-1)">←</button>
-    <button class="story-next" onclick="storyNav(1)">→</button>
-    <div class="story-counter" id="storyCounter"></div>
+  <!-- STORY VIEWER -->
+
+  <div class="story-overlay" id="storyOverlay">
+    <div class="story-viewer">
+      <div class="story-progress" id="storyProgress"></div>
+      <button class="story-close" onclick="closeStory()">✕</button>
+      <img class="story-img" id="storyImg" src="" alt="Too & Tiel" />
+      <button class="story-prev" onclick="storyNav(-1)">←</button>
+      <button class="story-next" onclick="storyNav(1)">→</button>
+      <div class="story-counter" id="storyCounter"></div>
+    </div>
   </div>
-</div>
+
+  <!-- TOO & TIEL -->
 
   <section id="too-tiel">
     <div class="tt-inner">
@@ -1787,100 +869,67 @@ nav .nav-burger {
         </div>
         <p class="tt-sub">Too has the ideas. Tiel makes them work. Together they run Fitbites. Somehow!</p>
       </div>
-
       <div class="tt-grid rv">
-        <div class="tt-card" onclick="openStory(1)"><img src="TooTielEp1_Cover.png" class="tt-img" alt="The Coffee Experiment" />
-          <div class="tt-body">
-            <p class="tt-ep">Episode 01</p>
-            <p class="tt-title">The Coffee Experiment</p>
-          </div>
+        <div class="tt-card" onclick="openStory(1)">
+          <img src="TooTielEp1_Cover.png" class="tt-img" alt="The Coffee Experiment" />
+          <div class="tt-body"><p class="tt-ep">Episode 01</p><p class="tt-title">The Coffee Experiment</p></div>
         </div>
-
         <div class="tt-card" onclick="openStory(2)">
           <img src="TooTielEp2_Cover.png" class="tt-img" alt="Too's Philosophy" />
-          <div class="tt-body">
-            <p class="tt-ep">Episode 02</p>
-            <p class="tt-title">Too's Philosophy</p>
-          </div>
+          <div class="tt-body"><p class="tt-ep">Episode 02</p><p class="tt-title">Too's Philosophy</p></div>
         </div>
-
         <div class="tt-card">
           <img src="Coming_Soon.PNG" class="tt-img" alt="Coming Soon" />
-          <div class="tt-body">
-            <p class="tt-ep">Coming soon</p>
-            <p class="tt-title">Follow Too & Tiel on Instagram →</p>
-          </div>
+          <div class="tt-body"><p class="tt-ep">Coming soon</p><p class="tt-title">Follow Too & Tiel on Instagram →</p></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ORDER -->
-<section id="order">
-  <div class="order-inner">
-    <div class="order-head rv">
-      <div>
-        <p class="eyebrow">get fitbites</p>
-        <h2 class="heading">how would you<br />like to <em>order?</em></h2>
+
+  <section id="order">
+    <div class="order-inner">
+      <div class="order-head rv">
+        <div>
+          <p class="eyebrow">get fitbites</p>
+          <h2 class="heading">how would you<br />like to <em>order?</em></h2>
+        </div>
       </div>
-      <p style="font-size:13px;color:var(--text-mid);max-width:220px;line-height:1.8;text-align:right">
-  
-      </p>
+      <div class="order-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="ocard rv d1" style="padding:0;overflow:hidden;position:relative;">
+          <img src="Grab_Delivery.png" alt="Order on GrabFood" style="width:100%;height:420px;object-fit:cover;object-position:center top;display:block;" />
+          <div style="padding:28px 36px 36px;">
+            <p class="ocard-n">01</p>
+            <p class="ocard-name">GrabFood</p>
+            <p class="ocard-desc">Too's on his way. Order on GrabFood for fast delivery across Ho Chi Minh City.</p>
+            <a href="https://r.grab.com/g/6-20260423_140207_BC95909AFAA145C29037A7A53F5E4861_MEXMPS-5-C6UXLAAJRJNFNT" target="_blank" class="ocard-link">order on grabfood →</a>
+          </div>
+        </div>
+        <div class="ocard rv d2 ocard-cafe" style="padding:0;overflow:visible;position:relative;">
+          <img src="Visit_Us.png" alt="Visit our café" style="width:100%;height:420px;object-fit:cover;object-position:center center;display:block;" />
+          <img src="Tiel_Zalo.png" alt="Tiel holding Zalo QR" style="position:absolute;top:-218px;right:20px;width:200px;object-fit:contain;z-index:10;" />
+          <div style="padding:28px 36px 36px;">
+            <p class="ocard-n">02</p>
+            <p class="ocard-name">Visit us now!</p>
+            <p class="ocard-desc">Come to Thao Dien. Or scan Tiel's QR to order on Zalo. She insists. 😤</p>
+            <a href="#find-us" class="ocard-link">get directions →</a>
+          </div>
+        </div>
+      </div>
     </div>
-<div class="order-grid" style="grid-template-columns: 1fr 1fr;">
-
-  <!-- CARD 1 — GRAB -->
-  <div class="ocard rv d1" style="padding:0;overflow:hidden;position:relative;">
-    <img src="Grab_Delivery.png" alt="Order on GrabFood" style="width:100%;height:420px;object-fit:cover;object-position:center top;display:block;" />
-    <div style="padding:28px 36px 36px;">
-      <p class="ocard-n">01</p>
-      <p class="ocard-name">GrabFood</p>
-      <p class="ocard-desc">Too's on his way. Order on GrabFood for fast delivery across Ho Chi Minh City.</p>
-      <a href="https://r.grab.com/g/6-20260423_140207_BC95909AFAA145C29037A7A53F5E4861_MEXMPS-5-C6UXLAAJRJNFNT" target="_blank" class="ocard-link">order on grabfood →</a>
-    </div>
-  </div>
-
-  <!-- CARD 2 — CAFÉ + TIEL -->
-  <div class="ocard rv d2 ocard-cafe" style="padding:0;overflow:visible;position:relative;">
-    <img src="Visit_Us.png" alt="Visit our café" style="width:100%;height:420px;object-fit:cover;object-position:center center;display:block;" />
-    <!-- TIEL floating on top -->
-    <img src="Tiel_Zalo.png" alt="Tiel holding Zalo QR" style="position:absolute;top:-218px;right:20px;width:200px;object-fit:contain;z-index:10;" />
-    <div style="padding:28px 36px 36px;">
-      <p class="ocard-n">02</p>
-      <p class="ocard-name">Visit us now!</p>
-      <p class="ocard-desc">Come to Thao Dien. Or scan Tiel's QR to order on Zalo. She insists. 😤</p>
-      <a href="#find-us" class="ocard-link">get directions →</a>
-    </div>
-  </div>
-
-</div>
-
-
-    </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- FIND US -->
+
   <section id="find-us">
     <div class="find-visual" style="padding:0;overflow:hidden;">
-  <iframe
-    src="https://maps.google.com/maps?q=10.812269,106.729886&z=17&output=embed"
-    width="100%"
-    height="100%"
-    style="border:0;display:block;min-height:500px;"
-    allowfullscreen=""
-    loading="lazy">
-  </iframe>
-</div>
-
+      <iframe src="https://maps.google.com/maps?q=10.812269,106.729886&z=17&output=embed" width="100%" height="100%" style="border:0;display:block;min-height:500px;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
     <div class="find-text">
       <p class="eyebrow rv">find us</p>
       <h2 class="heading rv" style="margin-bottom:16px">our cafe<br />in <em>Thao Dien.</em></h2>
-      <p style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:0" class="rv">
-        Come visit us. Try protein crepes, brownies, ice cream and specialty coffees you can't get from delivery.
-      </p>
-
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:0" class="rv">Come visit us. Try protein crepes, brownies, ice cream and specialty coffees you can't get from delivery.</p>
       <div class="find-addr rv">
         <span class="addr-icon">📍</span>
         <div>
@@ -1888,7 +937,6 @@ nav .nav-burger {
           <p class="addr-val">No 58A Street 47, Thao Dien</p>
         </div>
       </div>
-
       <div class="find-hours rv">
         <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:8px">hours</p>
         <p>Monday – Sunday</p>
@@ -1898,17 +946,14 @@ nav .nav-burger {
   </section>
 
   <!-- FOOTER -->
+
   <footer>
     <div class="foot-top">
       <div>
         <p class="foot-brand">fit<span>bites</span></p>
         <p class="foot-slogan">"health has never tasted this wrong."</p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.8">
-          Homemade Greek Yogurt, Protein Overnight Oats & Protein Snacks.<br />
-          Freshly made every single day.
-        </p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.8">Homemade Greek Yogurt, Protein Overnight Oats & Protein Snacks.<br />Freshly made every single day.</p>
       </div>
-
       <div>
         <p class="fcol-title">MENU</p>
         <ul class="flinks">
@@ -1918,7 +963,6 @@ nav .nav-burger {
           <li><a href="#menu">Coffee</a></li>
         </ul>
       </div>
-
       <div>
         <p class="fcol-title">VISIT US</p>
         <ul class="flinks">
@@ -1927,7 +971,6 @@ nav .nav-burger {
           <li><a href="#find-us">Our Cafe</a></li>
         </ul>
       </div>
-
       <div>
         <p class="fcol-title">FOLLOW US</p>
         <ul class="flinks">
@@ -1937,41 +980,79 @@ nav .nav-burger {
         </ul>
       </div>
     </div>
-
     <div class="foot-bottom">
       <span>© 2025 Fitbites. Ho Chi Minh City, Vietnam.</span>
       <span>powered by Too & Tiel</span>
     </div>
   </footer>
 
+  <!-- BOTTOM FLOATING NAV BAR — home (B cookie) active -->
+
+  <div class="nav-wrapper">
+    <div class="nav-cookie-wrap active" id="nav-home" onclick="window.location.href='/'">
+      <div class="nav-cookie-btn active" id="nav-home-btn">
+        <img src="/icons/home-b.png" alt="home" />
+      </div>
+      <span class="nav-cookie-label">home</span>
+    </div>
+    <nav class="nav-bar" id="navBarBottom">
+      <div class="nav-bubble" id="navBubble"></div>
+      <div class="nav-item" id="nav-menu-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24">
+          <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+          <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+          <path d="m2.1 21.8 6.4-6.3"/>
+          <path d="m19 5-7 7"/>
+        </svg>
+        <span class="nav-label">menu</span>
+      </div>
+      <div class="nav-item" id="nav-card-btn" onclick="window.location.href='/stamp.html'">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 10h2"/>
+          <path d="M16 14h2"/>
+          <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
+          <circle cx="9" cy="11" r="2"/>
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+        </svg>
+        <span class="nav-label">my card</span>
+      </div>
+      <div class="nav-spacer"></div>
+      <div class="nav-item" id="nav-profile-btn" onclick="window.location.href='/myfitbites.html'">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="5"/>
+          <path d="M20 21a8 8 0 0 0-16 0"/>
+        </svg>
+        <span class="nav-label">my fitbites</span>
+      </div>
+      <div class="nav-item" id="nav-story-btn" onclick="document.getElementById('too-tiel').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 7v14"/>
+          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+        </svg>
+        <span class="nav-label">story</span>
+      </div>
+    </nav>
+  </div>
+
   <script>
-    // SLIDER
+    // ── SLIDER ──
     let cur = 0;
     const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.sdot');
+    const dots   = document.querySelectorAll('.sdot');
     const totalSlides = slides.length;
     let timer;
 
     function updateContent() {
       const slide = slides[cur];
-      const tag = slide.dataset.tag || '';
-      const title = slide.dataset.title || '';
-      const desc = slide.dataset.desc || '';
-      const tags = slide.dataset.tags || '';
-      const btn = slide.dataset.btn || 'order now';
-      const link = slide.dataset.link || '#order';
-
-      document.getElementById('ctag').textContent = tag;
-      document.getElementById('ctitle').textContent = title;
-      document.getElementById('cdesc').textContent = desc;
-      document.getElementById('cbtn').textContent = btn;
-      document.getElementById('cbtn').href = link;
-
+      document.getElementById('ctag').textContent   = slide.dataset.tag   || '';
+      document.getElementById('ctitle').textContent = slide.dataset.title || '';
+      document.getElementById('cdesc').textContent  = slide.dataset.desc  || '';
+      document.getElementById('cbtn').textContent   = slide.dataset.btn   || 'order now';
+      document.getElementById('cbtn').href          = slide.dataset.link  || '#order';
       const tagsEl = document.getElementById('ctags');
       tagsEl.innerHTML = '';
-
-      if (tags) {
-        tags.split('·').forEach((t) => {
+      if (slide.dataset.tags) {
+        slide.dataset.tags.split('·').forEach(t => {
           const span = document.createElement('span');
           span.className = 'ctag';
           span.textContent = t.trim();
@@ -1988,154 +1069,121 @@ nav .nav-burger {
     function goTo(i) {
       slides[cur].classList.remove('active');
       dots[cur].classList.remove('active');
-
       cur = ((i % totalSlides) + totalSlides) % totalSlides;
-
       slides[cur].classList.add('active');
       dots[cur].classList.add('active');
       document.getElementById('slides').style.transform = `translateX(-${cur * 100}%)`;
       document.getElementById('cnum').textContent = String(cur + 1).padStart(2, '0');
-
       updateContent();
-    
       restartTimer();
     }
 
-    function next() {
-      goTo(cur + 1);
-    }
+    function next() { goTo(cur + 1); }
+    function prev() { goTo(cur - 1); }
 
-    function prev() {
-      goTo(cur - 1);
-    }
-
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('storyOverlay').classList.contains('open')) return;
       if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowLeft')  prev();
     });
 
-    // Touch
     let tx = 0;
     const sw = document.querySelector('.hero-slider');
-
-    sw.addEventListener('touchstart', (e) => {
-      tx = e.touches[0].clientX;
-    }, { passive: true });
-
-    sw.addEventListener('touchend', (e) => {
+    sw.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    sw.addEventListener('touchend',   e => {
       const d = tx - e.changedTouches[0].clientX;
-      if (Math.abs(d) > 50) {
-        d > 0 ? next() : prev();
-      }
+      if (Math.abs(d) > 50) { d > 0 ? next() : prev(); }
     });
 
     timer = setInterval(() => goTo(cur + 1), 5500);
-    
-function filterMenu(event, cat) {
-  document.querySelectorAll('.mtab').forEach((t) => t.classList.remove('active'));
-  event.target.classList.add('active');
 
-  document.querySelectorAll('.menu-item').forEach((item) => {
-    if (item.dataset.cat === cat) {
-      item.classList.add('visible');
-    } else {
-      item.classList.remove('visible');
+    // ── MENU FILTER ──
+    function filterMenu(event, cat) {
+      document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.toggle('visible', item.dataset.cat === cat);
+      });
+      const bannerMap = { daily: 'Fitbites_Daily_Hero.PNG', yogurt: 'Greek_Yogurt_Hero.PNG', desserts: 'Dessert_Hero.PNG', coffee: 'Coffee_Hero.PNG', snacks: 'Snacks_Hero.PNG' };
+      const img = document.getElementById('menuBannerImg');
+      img.style.opacity = '0';
+      setTimeout(() => { img.src = bannerMap[cat]; img.style.opacity = '1'; }, 200);
     }
-  });
 
-  const bannerMap = {
-    daily: 'Fitbites_Daily_Hero.PNG',
-    yogurt: 'Greek_Yogurt_Hero.PNG',
-    desserts: 'Dessert_Hero.PNG',
-    coffee: 'Coffee_Hero.PNG',
-    snacks: 'Snacks_Hero.PNG'
-  };
+    // ── STORY VIEWER ──
+    const episodes = {
+      1: ['TooTielEp1_01.png','TooTielEp1_02.png','TooTielEp1_03.png','TooTielEp1_04.png','TooTielEp1_05.png','TooTielEp1_06.png','TooTielEp1_07.png','TooTielEp1_08.png'],
+      2: ['TooTielEp2_01.png','TooTielEp2_02.png','TooTielEp2_03.png','TooTielEp2_04.png','TooTielEp2_05.png','TooTielEp2_06.png']
+    };
+    let storyCur = 0;
+    let storySlides = [];
 
-  const img = document.getElementById('menuBannerImg');
-  img.style.opacity = '0';
-  setTimeout(() => {
-    img.src = bannerMap[cat];
-    img.style.opacity = '1';
-  }, 200);
-}
+    function openStory(ep) {
+      storySlides = episodes[ep]; storyCur = 0;
+      document.getElementById('storyOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      updateStory();
+    }
 
-    
+    function closeStory() {
+      document.getElementById('storyOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-    // SCROLL REVEAL
-    // STORY VIEWER
-const episodes = {
-  1: ['TooTielEp1_01.png','TooTielEp1_02.png','TooTielEp1_03.png','TooTielEp1_04.png','TooTielEp1_05.png','TooTielEp1_06.png','TooTielEp1_07.png','TooTielEp1_08.png'],
-  2: ['TooTielEp2_01.png','TooTielEp2_02.png','TooTielEp2_03.png','TooTielEp2_04.png','TooTielEp2_05.png','TooTielEp2_06.png']
-};
+    function storyNav(dir) {
+      storyCur = Math.max(0, Math.min(storySlides.length - 1, storyCur + dir));
+      updateStory();
+    }
 
+    function updateStory() {
+      document.getElementById('storyImg').src = storySlides[storyCur];
+      document.getElementById('storyCounter').textContent = (storyCur + 1) + ' / ' + storySlides.length;
+      const prog = document.getElementById('storyProgress');
+      prog.innerHTML = '';
+      storySlides.forEach((_, i) => {
+        const bar = document.createElement('div');
+        bar.className = 'story-bar' + (i < storyCur ? ' done' : i === storyCur ? ' active' : '');
+        prog.appendChild(bar);
+      });
+    }
 
-let storyCur = 0;
-let storySlides = [];
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('storyOverlay').classList.contains('open')) return;
+      if (e.key === 'ArrowRight') storyNav(1);
+      if (e.key === 'ArrowLeft')  storyNav(-1);
+      if (e.key === 'Escape')     closeStory();
+    });
 
-function openStory(ep) {
-  storySlides = episodes[ep];
-  storyCur = 0;
-  document.getElementById('storyOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  updateStory();
-}
-
-function closeStory() {
-  document.getElementById('storyOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function storyNav(dir) {
-  storyCur = Math.max(0, Math.min(storySlides.length - 1, storyCur + dir));
-  updateStory();
-}
-
-function updateStory() {
-  document.getElementById('storyImg').src = storySlides[storyCur];
-  document.getElementById('storyCounter').textContent = (storyCur + 1) + ' / ' + storySlides.length;
-  const prog = document.getElementById('storyProgress');
-  prog.innerHTML = '';
-  storySlides.forEach((_, i) => {
-    const bar = document.createElement('div');
-    bar.className = 'story-bar' + (i < storyCur ? ' done' : i === storyCur ? ' active' : '');
-    prog.appendChild(bar);
-  });
-}
-
-document.addEventListener('keydown', (e) => {
-  if (document.getElementById('storyOverlay').classList.contains('open')) {
-    if (e.key === 'ArrowRight') storyNav(1);
-    if (e.key === 'ArrowLeft') storyNav(-1);
-    if (e.key === 'Escape') closeStory();
-  }
-});
-
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('on');
-          obs.unobserve(entry.target);
-        }
+    // ── SCROLL REVEAL ──
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('on'); obs.unobserve(entry.target); }
       });
     }, { threshold: 0.1 });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-    document.querySelectorAll('.rv').forEach((el) => obs.observe(el));
+    // ── MOBILE MENU ──
+    function toggleMenu() {
+      document.getElementById('navMobileMenu').classList.toggle('open');
+    }
 
-    // Initial sync
-updateContent();
-filterMenu({target: document.querySelector('.mtab.active')}, 'daily');
-
-function toggleMenu() {
-  document.getElementById('navMobileMenu').classList.toggle('open');
-}
+    // ── SERVICE WORKER ──
     if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('SW registered'))
-      .catch(err => console.log('SW error', err));
-  });
-}
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('SW registered'))
+          .catch(err => console.log('SW error', err));
+      });
+    }
+
+    // ── INIT ──
+    updateContent();
+    filterMenu({ target: document.querySelector('.mtab.active') }, 'daily');
+
+    // ── BOTTOM NAV — home is active, bubble stays hidden ──
+    // No bubble needed since home = cookie button, not a pill tab
+    // Nav items just navigate on click — no bubble animation needed on index
   </script>
+
 </body>
 </html>
