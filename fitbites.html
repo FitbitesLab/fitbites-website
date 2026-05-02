@@ -39,7 +39,7 @@
     }
 
     /* ── NAV ── */
-    nav {
+   .top-nav {
       position: fixed;
       top: 0;
       left: 0;
@@ -1065,12 +1065,129 @@
     .d4 {
       transition-delay: 0.32s;
     }
+    /* ── BOTTOM NAV BAR ───────────────────────────────────── */
+body {
+  padding-bottom: 110px;
+}
+
+.nav-wrapper {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 400px;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-cookie-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -28px;
+  cursor: pointer;
+}
+
+.nav-cookie-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid rgba(196, 122, 58, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(44, 26, 14, 0.12), 0 0 0 4px var(--cream);
+}
+
+.nav-cookie-btn img {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-cookie-btn.active {
+  background: var(--brown);
+  border-color: var(--brown);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.nav-cookie-btn.active img {
+  filter: brightness(0) invert(1);
+}
+
+.nav-cookie-label {
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brown);
+  position: absolute;
+  bottom: -18px;
+}
+
+.nav-bar {
+  width: 100%;
+  height: 64px;
+  background: var(--cream);
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(44, 26, 14, 0.11);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 6px;
+  position: relative;
+}
+
+.nav-bubble {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 48px;
+  background: var(--brown);
+  border-radius: 24px;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+}
+
+.nav-item {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.nav-spacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+.nav-label {
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(44, 26, 14, 0.35);
+  white-space: nowrap;
+}
+
+.nav-item.active .nav-label {
+  color: var(--cream);
+}
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
+ <nav class="top-nav">
     <div class="nav-left">
     
       <a href="#" class="nav-logo">
@@ -1616,122 +1733,251 @@
       <span>powered by too & tiel 🦜</span>
     </div>
   </footer>
+  <div class="nav-wrapper">
+  <div class="nav-cookie-wrap active" id="nav-home" onclick="window.location.href='/'">
+    <div class="nav-cookie-btn active" id="nav-home-btn">
+      <img src="/icons/home-b.png" alt="home" />
+    </div>
+    <span class="nav-cookie-label">home</span>
+  </div>
 
-  <script>
-    // SLIDER
-    let cur = 0;
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.sdot');
-    const totalSlides = slides.length;
-    let timer;
+  <nav class="nav-bar" id="navBarBottom">
+    <div class="nav-bubble" id="navBubble"></div>
 
-    function updateContent() {
-      const slide = slides[cur];
-      const tag = slide.dataset.tag || '';
-      const title = slide.dataset.title || '';
-      const desc = slide.dataset.desc || '';
-      const tags = slide.dataset.tags || '';
-      const btn = slide.dataset.btn || 'order now';
-      const link = slide.dataset.link || '#order';
+    <div class="nav-item" id="nav-menu-btn" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+      <span class="nav-label">menu</span>
+    </div>
 
-      document.getElementById('ctag').textContent = tag;
-      document.getElementById('ctitle').textContent = title;
-      document.getElementById('cdesc').textContent = desc;
-      document.getElementById('cbtn').textContent = btn;
-      document.getElementById('cbtn').href = link;
+    <div class="nav-item" id="nav-card-btn" onclick="window.location.href='/stamp.html'">
+      <span class="nav-label">my card</span>
+    </div>
 
-      const tagsEl = document.getElementById('ctags');
-      tagsEl.innerHTML = '';
+    <div class="nav-spacer"></div>
 
-      if (tags) {
-        tags.split('·').forEach((t) => {
-          const span = document.createElement('span');
-          span.className = 'ctag';
-          span.textContent = t.trim();
-          tagsEl.appendChild(span);
-        });
-      }
+    <div class="nav-item" id="nav-profile-btn" onclick="window.location.href='/myfitbites.html'">
+      <span class="nav-label">my fitbites</span>
+    </div>
+
+    <div class="nav-item" id="nav-story-btn" onclick="document.getElementById('too-tiel').scrollIntoView({behavior:'smooth'})">
+      <span class="nav-label">story</span>
+    </div>
+  </nav>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ── SLIDER ─────────────────────────────────────────────
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.sdot');
+  const totalSlides = slides.length;
+  let timer;
+
+  function updateContent() {
+    const slide = slides[cur];
+    if (!slide) return;
+
+    document.getElementById('ctag').textContent = slide.dataset.tag || '';
+    document.getElementById('ctitle').textContent = slide.dataset.title || '';
+    document.getElementById('cdesc').textContent = slide.dataset.desc || '';
+    document.getElementById('cbtn').textContent = slide.dataset.btn || 'order now';
+    document.getElementById('cbtn').href = slide.dataset.link || '#order';
+
+    const tagsEl = document.getElementById('ctags');
+    tagsEl.innerHTML = '';
+
+    if (slide.dataset.tags) {
+      slide.dataset.tags.split('·').forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'ctag';
+        span.textContent = t.trim();
+        tagsEl.appendChild(span);
+      });
     }
+  }
 
-    function restartTimer() {
-      clearInterval(timer);
-      timer = setInterval(() => goTo(cur + 1), 5500);
-    }
+  function restartTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(cur + 1), 5500);
+  }
 
-    function goTo(i) {
-      slides[cur].classList.remove('active');
-      dots[cur].classList.remove('active');
+  function goTo(i) {
+    if (!slides.length) return;
 
-      cur = ((i % totalSlides) + totalSlides) % totalSlides;
+    slides[cur].classList.remove('active');
+    dots[cur]?.classList.remove('active');
 
-      slides[cur].classList.add('active');
-      dots[cur].classList.add('active');
-      document.getElementById('slides').style.transform = `translateX(-${cur * 100}%)`;
-      document.getElementById('cnum').textContent = String(cur + 1).padStart(2, '0');
+    cur = ((i % totalSlides) + totalSlides) % totalSlides;
 
-      updateContent();
-      restartTimer();
-    }
+    slides[cur].classList.add('active');
+    dots[cur]?.classList.add('active');
 
-    function next() {
-      goTo(cur + 1);
-    }
+    document.getElementById('slides').style.transform = `translateX(-${cur * 100}%)`;
+    document.getElementById('cnum').textContent = String(cur + 1).padStart(2, '0');
 
-    function prev() {
-      goTo(cur - 1);
-    }
+    updateContent();
+    restartTimer();
+  }
 
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
-    });
+  function next() { goTo(cur + 1); }
+  function prev() { goTo(cur - 1); }
 
-    // Touch
-    let tx = 0;
-    const sw = document.querySelector('.hero-slider');
+  window.goTo = goTo;
+  window.next = next;
+  window.prev = prev;
 
-    sw.addEventListener('touchstart', (e) => {
+  document.addEventListener('keydown', e => {
+    const storyOverlay = document.getElementById('storyOverlay');
+    if (storyOverlay && storyOverlay.classList.contains('open')) return;
+
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  const sw = document.querySelector('.hero-slider');
+  let tx = 0;
+
+  if (sw) {
+    sw.addEventListener('touchstart', e => {
       tx = e.touches[0].clientX;
     }, { passive: true });
 
-    sw.addEventListener('touchend', (e) => {
+    sw.addEventListener('touchend', e => {
       const d = tx - e.changedTouches[0].clientX;
-      if (Math.abs(d) > 50) {
-        d > 0 ? next() : prev();
-      }
+      if (Math.abs(d) > 50) d > 0 ? next() : prev();
+    });
+  }
+
+  timer = setInterval(() => goTo(cur + 1), 5500);
+
+  // ── MENU FILTER ────────────────────────────────────────
+  function filterMenu(event, cat) {
+    document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.classList.toggle('visible', cat === 'all' || item.dataset.cat === cat);
     });
 
-    timer = setInterval(() => goTo(cur + 1), 5500);
+    const bannerMap = {
+      daily: 'Fitbites_Daily_Hero.PNG',
+      yogurt: 'Greek_Yogurt_Hero.PNG',
+      desserts: 'Dessert_Hero.PNG',
+      coffee: 'Coffee_Hero.PNG',
+      snacks: 'Snacks_Hero.PNG'
+    };
 
-    // MENU FILTER
-    function filterMenu(event, cat) {
-      document.querySelectorAll('.mtab').forEach((t) => t.classList.remove('active'));
-      event.target.classList.add('active');
+    const img = document.getElementById('menuBannerImg');
+    if (img && bannerMap[cat]) {
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = bannerMap[cat];
+        img.style.opacity = '1';
+      }, 200);
+    }
+  }
 
-      document.querySelectorAll('.menu-item').forEach((item) => {
-        if (cat === 'all' || item.dataset.cat === cat) {
-          item.classList.add('visible');
-        } else {
-          item.classList.remove('visible');
-        }
-      });
+  window.filterMenu = filterMenu;
+
+  // ── SCROLL REVEAL ──────────────────────────────────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+  // ── MOBILE MENU ────────────────────────────────────────
+  function toggleMenu() {
+    document.getElementById('navMobileMenu')?.classList.toggle('open');
+  }
+
+  window.toggleMenu = toggleMenu;
+
+  // ── BOTTOM NAV ENGINE ──────────────────────────────────
+  const navBubble = document.getElementById('navBubble');
+  const navBarBottom = document.getElementById('navBarBottom');
+  const homeWrap = document.getElementById('nav-home');
+  const homeBtn = document.getElementById('nav-home-btn');
+
+  function moveNavBubbleTo(el) {
+    if (!el || !navBubble || !navBarBottom) return;
+
+    const navRect = navBarBottom.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    navBubble.style.opacity = '1';
+    navBubble.style.width = elRect.width + 'px';
+    navBubble.style.transform = `translateX(${elRect.left - navRect.left}px)`;
+  }
+
+  function setNavActive(section) {
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    homeWrap?.classList.remove('active');
+    homeBtn?.classList.remove('active');
+
+    if (section === 'home') {
+      if (navBubble) navBubble.style.opacity = '0';
+      homeWrap?.classList.add('active');
+      homeBtn?.classList.add('active');
+      return;
     }
 
-    // SCROLL REVEAL
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('on');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const map = {
+      menu: 'nav-menu-btn',
+      card: 'nav-card-btn',
+      profile: 'nav-profile-btn',
+      story: 'nav-story-btn'
+    };
 
-    document.querySelectorAll('.rv').forEach((el) => obs.observe(el));
+    const el = document.getElementById(map[section]);
+    if (!el) return;
 
-    // Initial sync
-    updateContent();
-  </script>
+    el.classList.add('active');
+    moveNavBubbleTo(el);
+  }
+
+  window.setNavActive = setNavActive;
+
+  function detectActiveSection() {
+    const y = window.scrollY;
+    const menu = document.getElementById('menu');
+    const story = document.getElementById('too-tiel');
+
+    if (y < 300) {
+      setNavActive('home');
+      return;
+    }
+
+    if (story && y >= story.offsetTop - 240) {
+      setNavActive('story');
+      return;
+    }
+
+    if (menu && y >= menu.offsetTop - 240) {
+      setNavActive('menu');
+      return;
+    }
+
+    setNavActive('home');
+  }
+
+  window.addEventListener('scroll', detectActiveSection, { passive: true });
+  window.addEventListener('resize', detectActiveSection);
+
+  // ── INIT ───────────────────────────────────────────────
+  updateContent();
+
+  const activeTab = document.querySelector('.mtab.active');
+if (activeTab) filterMenu({ target: activeTab }, 'all');
+  
+  detectActiveSection();
+});
+</script>
+
 </body>
 </html>
