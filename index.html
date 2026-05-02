@@ -1039,14 +1039,120 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
   </nav>
 </div>
 
-  <script>
+ <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const tabs = ['menu', 'card', 'profile', 'story'];
+  /* SLIDER */
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.sdot');
+  const totalSlides = slides.length;
+  let timer;
 
-  const navBar   = document.getElementById('navBarBottom');
-  const bubble   = document.getElementById('navBubble');
+  function updateContent() {
+    const slide = slides[cur];
+    if (!slide) return;
+
+    document.getElementById('ctag').textContent = slide.dataset.tag || '';
+    document.getElementById('ctitle').textContent = slide.dataset.title || '';
+    document.getElementById('cdesc').textContent = slide.dataset.desc || '';
+    document.getElementById('cbtn').textContent = slide.dataset.btn || 'order now';
+    document.getElementById('cbtn').href = slide.dataset.link || '#order';
+
+    const tagsEl = document.getElementById('ctags');
+    tagsEl.innerHTML = '';
+
+    if (slide.dataset.tags) {
+      slide.dataset.tags.split('·').forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'ctag';
+        span.textContent = t.trim();
+        tagsEl.appendChild(span);
+      });
+    }
+  }
+
+  function restartTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(cur + 1), 5500);
+  }
+
+  function goTo(i) {
+    if (!slides.length) return;
+
+    slides[cur].classList.remove('active');
+    dots[cur]?.classList.remove('active');
+
+    cur = ((i % totalSlides) + totalSlides) % totalSlides;
+
+    slides[cur].classList.add('active');
+    dots[cur]?.classList.add('active');
+
+    document.getElementById('slides').style.transform = `translateX(-${cur * 100}%)`;
+    document.getElementById('cnum').textContent = String(cur + 1).padStart(2, '0');
+
+    updateContent();
+    restartTimer();
+  }
+
+  function next() { goTo(cur + 1); }
+  function prev() { goTo(cur - 1); }
+
+  window.goTo = goTo;
+  window.next = next;
+  window.prev = prev;
+
+  timer = setInterval(() => goTo(cur + 1), 5500);
+  updateContent();
+
+  /* MENU FILTER */
+  window.filterMenu = function(event, cat) {
+    document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.classList.toggle('visible', item.dataset.cat === cat);
+    });
+
+    const bannerMap = {
+      daily: 'Fitbites_Daily_Hero.PNG',
+      yogurt: 'Greek_Yogurt_Hero.PNG',
+      desserts: 'Dessert_Hero.PNG',
+      coffee: 'Coffee_Hero.PNG',
+      snacks: 'Snacks_Hero.PNG'
+    };
+
+    const img = document.getElementById('menuBannerImg');
+    if (img && bannerMap[cat]) {
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = bannerMap[cat];
+        img.style.opacity = '1';
+      }, 200);
+    }
+  };
+
+  /* SCROLL REVEAL */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+  /* MOBILE MENU */
+  window.toggleMenu = function() {
+    document.getElementById('navMobileMenu')?.classList.toggle('open');
+  };
+
+  /* BOTTOM NAV */
+  const navBar = document.getElementById('navBarBottom');
+  const bubble = document.getElementById('navBubble');
   const homeWrap = document.getElementById('nav-home');
-  const homeBtn  = document.getElementById('nav-home-btn');
+  const homeBtn = document.getElementById('nav-home-btn');
 
   const tabElements = {
     menu: document.getElementById('nav-menu-btn'),
@@ -1061,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!el || !navBar || !bubble) return;
 
     const navRect = navBar.getBoundingClientRect();
-    const elRect  = el.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
 
     bubble.style.transform = `translateX(${elRect.left - navRect.left}px)`;
     bubble.style.width = elRect.width + 'px';
