@@ -986,9 +986,9 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
     </div>
   </footer>
 
-  <!-- BOTTOM FLOATING NAV BAR — home (B cookie) active -->
+ <!-- BOTTOM FLOATING NAV BAR -->
 <div class="nav-wrapper">
-  <div class="nav-cookie-wrap active" id="nav-home" onclick="setNavActive('home'); window.location.href='/'">
+  <div class="nav-cookie-wrap active" id="nav-home" onclick="handleNavClick('home', null)">
     <div class="nav-cookie-btn active" id="nav-home-btn">
       <img src="/icons/home-b.png" alt="home" />
     </div>
@@ -998,7 +998,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
   <nav class="nav-bar" id="navBarBottom">
     <div class="nav-bubble" id="navBubble"></div>
 
-    <div class="nav-item" id="nav-menu-btn" onclick="setNavActive('menu'); document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+    <div class="nav-item" id="nav-menu-btn" onclick="handleNavClick('menu', 'menu')">
       <svg viewBox="0 0 24 24">
         <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
         <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
@@ -1029,7 +1029,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
       <span class="nav-label">my fitbites</span>
     </div>
 
-    onclick="setNavActive('story'); document.getElementById('our-story').scrollIntoView({behavior:'smooth'})"
+    <div class="nav-item" id="nav-story-btn" onclick="handleNavClick('story', 'our-story')">
       <svg viewBox="0 0 24 24">
         <path d="M12 7v14"/>
         <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
@@ -1160,7 +1160,8 @@ document.addEventListener('DOMContentLoaded', () => {
     profile: document.getElementById('nav-profile-btn'),
     story: document.getElementById('nav-story-btn')
   };
-
+  
+let manualNav = false;
   let current = 'home';
 
   function moveBubble(el) {
@@ -1198,17 +1199,42 @@ document.addEventListener('DOMContentLoaded', () => {
     moveBubble(el);
   };
 
-  function detectActiveSection() {
-    const y = window.scrollY;
-    const menu = document.getElementById('menu');
-    const story = document.getElementById('our-story');
+  window.handleNavClick = function(tab, targetId) {
+  manualNav = true;
+  setNavActive(tab);
 
-    if (y < 300) return setNavActive('home');
-    if (story && y >= story.offsetTop - 240) return setNavActive('story');
-    if (menu && y >= menu.offsetTop - 240) return setNavActive('menu');
-
-    setNavActive('home');
+  if (tab === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    const target = document.getElementById(targetId);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
   }
+
+  setTimeout(() => {
+    manualNav = false;
+    detectActiveSection();
+  }, 700);
+};
+
+  function detectActiveSection() {
+  if (manualNav) return;
+
+  const y = window.scrollY;
+  const menu = document.getElementById('menu');
+  const story = document.getElementById('our-story');
+
+  if (y < 300) return setNavActive('home');
+
+  if (menu && y >= menu.offsetTop - 240 && story && y < story.offsetTop - 240) {
+    return setNavActive('menu');
+  }
+
+  if (story && y >= story.offsetTop - 240) {
+    return setNavActive('story');
+  }
+
+  setNavActive('home');
+}
 
   window.addEventListener('scroll', detectActiveSection, { passive: true });
   window.addEventListener('resize', () => {
