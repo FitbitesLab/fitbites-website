@@ -1381,6 +1381,32 @@ let manualNav = false;
   });
 
   detectActiveSection();
+
+/* ── CROSS-PAGE SECTION NAVIGATION ── */
+const params = new URLSearchParams(window.location.search);
+const section = params.get('section');
+
+if (section) {
+  manualNav = true;
+
+  setTimeout(() => {
+    const target = document.getElementById(section);
+
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (section === 'menu') setNavActive('menu');
+      if (section === 'our-story') setNavActive('story');
+    }
+
+    setTimeout(() => {
+      manualNav = false;
+      detectActiveSection();
+      window.history.replaceState({}, '', '/');
+    }, 900);
+  }, 350);
+}
+
 });
 </script>
   
