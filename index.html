@@ -1122,8 +1122,8 @@ body.pwa-mode .nav-left {
 
  <!-- BOTTOM FLOATING NAV BAR -->
 <div class="nav-wrapper">
-  <div class="nav-cookie-wrap active" id="nav-home" onclick="handleNavClick('home', null)">
-    <div class="nav-cookie-btn active" id="nav-home-btn">
+ <div class="nav-cookie-wrap" id="nav-home" onclick="handleNavClick('home', null)">
+  <div class="nav-cookie-btn" id="nav-home-btn">
       <img src="/icons/home-b.png" alt="home" />
     </div>
     <span class="nav-cookie-label">home</span>
@@ -1392,6 +1392,9 @@ const section = params.get('section');
 
 if (section) {
   manualNav = true;
+
+  if (section === 'menu') setNavActive('menu');
+  if (section === 'our-story') setNavActive('story');
 
   setTimeout(() => {
     const target = document.getElementById(section);
