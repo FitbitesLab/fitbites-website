@@ -640,42 +640,60 @@
   </div>
 
   <div class="nav-wrapper">
-    <div class="nav-cookie-wrap" id="nav-home" onclick="window.location.href='/'">
-      <div class="nav-cookie-btn" id="nav-home-btn">
-        <img src="/icons/home-b.png" alt="home" />
-      </div>
-      <span class="nav-cookie-label">home</span>
+  <div class="nav-cookie-wrap" id="nav-home" onclick="navigateTo('/')">
+    <div class="nav-cookie-btn" id="nav-home-btn">
+      <img src="/icons/home-b.png" alt="home" />
+    </div>
+    <span class="nav-cookie-label">home</span>
+  </div>
+
+  <nav class="nav-bar" id="navBar">
+    <div class="nav-bubble" id="navBubble"></div>
+
+    <!-- MENU -->
+    <div class="nav-item" id="nav-menu-btn" onclick="navigateTo('/?section=menu')">
+      <svg viewBox="0 0 24 24">
+        <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+        <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+        <path d="m2.1 21.8 6.4-6.3"/>
+        <path d="m19 5-7 7"/>
+      </svg>
+      <span class="nav-label">menu</span>
     </div>
 
-    <nav class="nav-bar" id="navBar">
-      <div class="nav-bubble" id="navBubble"></div>
+    <!-- STORY -->
+    <div class="nav-item" id="nav-story-btn" onclick="navigateTo('/?section=our-story')">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 7v14"/>
+        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+      </svg>
+      <span class="nav-label">story</span>
+    </div>
 
-      <div class="nav-item" id="nav-menu-btn" onclick="window.location.href='/?section=menu'">
-  <svg viewBox="0 0 24 24">
-    <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
-    <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
-    <path d="m2.1 21.8 6.4-6.3"/>
-    <path d="m19 5-7 7"/>
-  </svg>
-  <span class="nav-label">menu</span>
-</div>
+    <div class="nav-spacer"></div>
 
-<div class="nav-item" id="nav-story-btn" onclick="window.location.href='/?section=our-story'">
-  <svg viewBox="0 0 24 24">
-    <path d="M12 7v14"/>
-    <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
-  </svg>
-  <span class="nav-label">story</span>
-</div>
+    <!-- PROFILE -->
+    <div class="nav-item" id="nav-profile-btn" onclick="navigateTo('/myfitbites.html')">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="5"/>
+        <path d="M20 21a8 8 0 0 0-16 0"/>
+      </svg>
+      <span class="nav-label">my fitbites</span>
+    </div>
 
-<div class="nav-spacer"></div>
+    <!-- CARD -->
+    <div class="nav-item active" id="nav-card-btn" onclick="navigateTo('/stamp.html')">
+      <svg viewBox="0 0 24 24">
+        <path d="M16 10h2"/>
+        <path d="M16 14h2"/>
+        <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
+        <circle cx="9" cy="11" r="2"/>
+        <rect x="2" y="5" width="20" height="14" rx="2"/>
+      </svg>
+      <span class="nav-label">my card</span>
+    </div>
 
-<div class="nav-item" id="nav-profile-btn" onclick="window.location.href='/myfitbites.html'">
-  <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="5"/>
-    <path d="M20 21a8 8 0 0 0-16 0"/>
-  </svg>
-  <span class="nav-label">my fitbites</span>
+  </nav>
 </div>
 
 <div class="nav-item active" id="nav-card-btn" onclick="window.location.href='/stamp.html'">
@@ -708,6 +726,14 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+
+    window.navigateTo = function(url) {
+  document.body.classList.add('fade-out');
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 200);
+};
 
     window._fb = {
       db,
