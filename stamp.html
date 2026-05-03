@@ -20,15 +20,22 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
-      background: var(--cream);
-      color: var(--bark);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 20px 120px;
-    }
+  font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
+  background: var(--cream);
+  color: var(--bark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 20px 120px;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
 
     .loyalty-card {
       width: 100%;
@@ -694,17 +701,6 @@
     </div>
 
   </nav>
-</div>
-
-<div class="nav-item active" id="nav-card-btn" onclick="window.location.href='/stamp.html'">
-  <svg viewBox="0 0 24 24">
-    <path d="M16 10h2"/>
-    <path d="M16 14h2"/>
-    <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
-    <circle cx="9" cy="11" r="2"/>
-    <rect x="2" y="5" width="20" height="14" rx="2"/>
-  </svg>
-  <span class="nav-label">my card</span>
 </div>
       
   <script type="module">
