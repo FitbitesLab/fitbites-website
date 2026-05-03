@@ -244,9 +244,9 @@ body {
   <script>
     // ── SYMBOLS ──────────────────────────────────────────────────────────
     const SYMBOLS = [
-      { emoji: '🦜', name: 'too',    weight: 35 },
-      { emoji: '😤', name: 'tiel',   weight: 35 },
-      { emoji: '🍔', name: 'burger', weight: 30 }
+      { emoji: '🦜', img: '/icons/too-scratch.png',    name: 'too',    weight: 35 },
+      { emoji: '😤', img: '/icons/tiel-scratch.png',   name: 'tiel',   weight: 35 },
+      { emoji: '🍔', img: '/icons/burger-scratch.png', name: 'burger', weight: 30 }
     ];
 
     const PRIZES = {
@@ -306,10 +306,13 @@ body {
         cell.className = 'scratch-cell';
         cell.id = 'cell-' + i;
 
-        // Symbol underneath
+        // Symbol underneath — image
         const symbolDiv = document.createElement('div');
         symbolDiv.className = 'symbol-layer';
-        symbolDiv.textContent = sym.emoji;
+        const symbolImg = document.createElement('img');
+        symbolImg.src = sym.img;
+        symbolImg.style.cssText = 'width:75%;height:75%;object-fit:contain;border-radius:8px;';
+        symbolDiv.appendChild(symbolImg);
 
         // Canvas on top
         const canvas = document.createElement('canvas');
