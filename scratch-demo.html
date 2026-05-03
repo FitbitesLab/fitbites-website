@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>fitbites — daily scratch</title>
-<link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet">
 
 <style>
 :root {
@@ -16,14 +15,10 @@
   --border: #ede3d8;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Glacial Indifference', sans-serif;
+  font-family: Arial, sans-serif;
   background: radial-gradient(circle at top, #4a2a14, var(--bark));
   min-height: 100vh;
   display: flex;
@@ -31,11 +26,12 @@ body {
   justify-content: center;
   padding: 24px;
   color: var(--bark);
+  overflow: hidden;
 }
 
 .game-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 390px;
   background: var(--cream);
   border-radius: 28px;
   padding: 24px;
@@ -51,15 +47,10 @@ body {
   border-radius: 999px;
   font-size: 12px;
   letter-spacing: 1px;
-  text-transform: uppercase;
   margin-bottom: 14px;
 }
 
-h1 {
-  font-size: 30px;
-  line-height: 1;
-  margin-bottom: 8px;
-}
+h1 { font-size: 30px; margin-bottom: 8px; }
 
 .subtitle {
   font-size: 15px;
@@ -79,9 +70,9 @@ h1 {
   aspect-ratio: 1 / 1;
   border-radius: 22px;
   overflow: hidden;
-  background: var(--oat);
+  background: white;
   border: 2px solid var(--border);
-  cursor: pointer;
+  touch-action: none;
 }
 
 .prize {
@@ -89,26 +80,14 @@ h1 {
   height: 100%;
   object-fit: contain;
   padding: 12px;
-  background: white;
 }
 
-.cover {
+.scratch-canvas {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #d6d6d6, #a7a7a7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #555;
-  font-weight: 700;
-  letter-spacing: 1px;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.scratch-box.revealed .cover {
-  opacity: 0;
-  transform: scale(1.15);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
 }
 
 .result {
@@ -130,9 +109,7 @@ button {
   width: 100%;
 }
 
-button:hover {
-  background: var(--brown-dark);
-}
+button:hover { background: var(--brown-dark); }
 </style>
 </head>
 
@@ -141,59 +118,173 @@ button:hover {
 <div class="game-card">
   <div class="badge">Daily Scratch</div>
   <h1>Scratch Your Fate</h1>
-  <p class="subtitle">Three boxes. One chance. Too probably cheated.</p>
+  <p class="subtitle">Three boxes. One chance. Too definitely touched the code.</p>
 
   <div class="scratch-grid">
-    <div class="scratch-box"><img class="prize" src="too.png" alt="Too"><div class="cover">SCRATCH</div></div>
-    <div class="scratch-box"><img class="prize" src="tiel.png" alt="Tiel"><div class="cover">SCRATCH</div></div>
-    <div class="scratch-box"><img class="prize" src="burger.png" alt="Burger"><div class="cover">SCRATCH</div></div>
+    <div class="scratch-box" data-prize="Too">
+      <img class="prize" src="icons/too.png" alt="Too">
+      <canvas class="scratch-canvas"></canvas>
+    </div>
+
+    <div class="scratch-box" data-prize="Tiel">
+      <img class="prize" src="icons/tiel.png" alt="Tiel">
+      <canvas class="scratch-canvas"></canvas>
+    </div>
+
+    <div class="scratch-box" data-prize="Burger">
+      <img class="prize" src="icons/burger.png" alt="Burger">
+      <canvas class="scratch-canvas"></canvas>
+    </div>
   </div>
 
-  <div class="result" id="result">Choose wisely, warrior.</div>
+  <div class="result" id="result">Scratch slowly. Destiny has texture.</div>
   <button onclick="resetGame()">Play Again</button>
 </div>
 
 <script>
-const boxes = document.querySelectorAll('.scratch-box');
-const result = document.getElementById('result');
+const boxes = document.querySelectorAll(".scratch-box");
+const result = document.getElementById("result");
 
-let revealed = 0;
+let revealedBoxes = new Set();
 
-boxes.forEach(box => {
-  box.addEventListener('click', () => {
-    if (box.classList.contains('revealed')) return;
+boxes.forEach((box, index) => {
+  const canvas = box.querySelector(".scratch-canvas");
+  const ctx = canvas.getContext("2d");
+  let isDrawing = false;
+  let lastPoint = null;
 
-    box.classList.add('revealed');
-    revealed++;
+  function setupCanvas() {
+    const rect = box.getBoundingClientRect();
+    canvas.width = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    canvas.style.width = rect.width + "px";
+    canvas.style.height = rect.height + "px";
 
-    if (revealed === 3) {
-      checkResult();
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    const gradient = ctx.createLinearGradient(0, 0, rect.width, rect.height);
+    gradient.addColorStop(0, "#eeeeee");
+    gradient.addColorStop(0.5, "#b7b7b7");
+    gradient.addColorStop(1, "#f5f5f5");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, rect.width, rect.height);
+
+    ctx.fillStyle = "#666";
+    ctx.font = "bold 13px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("SCRATCH", rect.width / 2, rect.height / 2);
+  }
+
+  setupCanvas();
+
+  function getPoint(e) {
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches ? e.touches[0] : e;
+
+    return {
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    };
+  }
+
+  function scratch(point) {
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 24;
+
+    if (lastPoint) {
+      ctx.beginPath();
+      ctx.moveTo(lastPoint.x, lastPoint.y);
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
     }
+
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 14, 0, Math.PI * 2);
+    ctx.fill();
+
+    lastPoint = point;
+  }
+
+  function checkRevealAmount() {
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let cleared = 0;
+
+    for (let i = 3; i < pixels.length; i += 4) {
+      if (pixels[i] === 0) cleared++;
+    }
+
+    const clearedPercent = cleared / (pixels.length / 4);
+
+    if (clearedPercent > 0.45 && !revealedBoxes.has(index)) {
+      revealedBoxes.add(index);
+      canvas.style.transition = "opacity 0.8s ease";
+      canvas.style.opacity = "0";
+
+      if (revealedBoxes.size === 3) {
+        setTimeout(checkResult, 500);
+      }
+    }
+  }
+
+  canvas.addEventListener("mousedown", e => {
+    isDrawing = true;
+    lastPoint = getPoint(e);
+  });
+
+  canvas.addEventListener("mousemove", e => {
+    if (!isDrawing) return;
+    scratch(getPoint(e));
+    checkRevealAmount();
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDrawing = false;
+    lastPoint = null;
+  });
+
+  canvas.addEventListener("touchstart", e => {
+    e.preventDefault();
+    isDrawing = true;
+    lastPoint = getPoint(e);
+  }, { passive: false });
+
+  canvas.addEventListener("touchmove", e => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    scratch(getPoint(e));
+    checkRevealAmount();
+  }, { passive: false });
+
+  canvas.addEventListener("touchend", () => {
+    isDrawing = false;
+    lastPoint = null;
   });
 });
 
 function checkResult() {
-  const prizes = [...document.querySelectorAll('.prize')].map(img => img.alt);
+  const prizes = [...boxes].map(box => box.dataset.prize);
 
-  const tooCount = prizes.filter(p => p === 'Too').length;
-  const tielCount = prizes.filter(p => p === 'Tiel').length;
-  const burgerCount = prizes.filter(p => p === 'Burger').length;
+  const tooCount = prizes.filter(p => p === "Too").length;
+  const tielCount = prizes.filter(p => p === "Tiel").length;
+  const burgerCount = prizes.filter(p => p === "Burger").length;
 
   if (tooCount === 3) {
-    result.textContent = 'TOO WENT BANANAS. Free Fitbites Daily.';
+    result.textContent = "TOO WENT BANANAS. Free Fitbites Daily.";
   } else if (tielCount === 3) {
-    result.textContent = 'Tiel approves. Rare. Free Greek Yogurt Jar.';
+    result.textContent = "Tiel approves. Rare. Free Greek Yogurt Jar.";
   } else if (burgerCount >= 1) {
-    result.textContent = 'Burger detected. The system wins today.';
+    result.textContent = "Burger detected. The system wins today.";
   } else {
-    result.textContent = 'No reward today. Come back tomorrow.';
+    result.textContent = "No reward today. Come back tomorrow.";
   }
 }
 
 function resetGame() {
-  boxes.forEach(box => box.classList.remove('revealed'));
-  revealed = 0;
-  result.textContent = 'Choose wisely, warrior.';
+  location.reload();
 }
 </script>
 
