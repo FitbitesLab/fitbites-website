@@ -4,11 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>fitbites — health has never tasted this wrong.</title>
+  <title>Fitbites</title>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#c47a3a" />
   <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
   <style>
+    body.preload {
+  opacity: 0;
+}
     :root {
       --brown: #c47a3a;
       --brown-dark: #a5621e;
@@ -789,7 +792,8 @@ body.pwa-mode .nav-left {
   <link rel="preload" as="image" href="Snacks_Hero.PNG">
 </head>
 
-<body>
+<body class="preload">
+  
 
   <!-- TOP NAV -->
 
@@ -1389,15 +1393,13 @@ const section = params.get('section');
 if (section) {
   manualNav = true;
 
-  // Light correct button immediately. No home flash.
-  if (section === 'menu') setNavActive('menu');
-  if (section === 'our-story') setNavActive('story');
-
   setTimeout(() => {
     const target = document.getElementById(section);
 
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      document.body.classList.remove('preload'); // ← HERE
     }
 
     setTimeout(() => {
@@ -1410,6 +1412,7 @@ if (section) {
 
 } else {
   detectActiveSection();
+  document.body.classList.remove('preload');
 }
 
 });
