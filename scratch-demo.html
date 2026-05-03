@@ -144,10 +144,49 @@ button:hover { background: var(--brown-dark); }
 <script>
 const boxes = document.querySelectorAll(".scratch-box");
 const result = document.getElementById("result");
+const board = generateBoard();
 
 let revealedBoxes = new Set();
 
+function generateBoard() {
+  const outcomes = [
+    ["Too", "Too", "Burger"],
+    ["Tiel", "Tiel", "Burger"],
+    ["Too", "Tiel", "Burger"],
+    ["Burger", "Burger", "Too"],
+    ["Too", "Too", "Too"],
+    ["Tiel", "Tiel", "Tiel"]
+  ];
+
+  const weights = [30, 30, 20, 15, 3, 2];
+
+  let total = weights.reduce((a, b) => a + b, 0);
+  let rand = Math.random() * total;
+
+  for (let i = 0; i < outcomes.length; i++) {
+    if (rand < weights[i]) return shuffle(outcomes[i]);
+    rand -= weights[i];
+  }
+}
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
 boxes.forEach((box, index) => {
+  const prize = board[index];
+  box.dataset.prize = prize;
+
+  const img = box.querySelector(".prize");
+
+  if (prize === "Too") {
+    img.src = "icons/too-scratch.png";
+  } else if (prize === "Tiel") {
+    img.src = "icons/tiel-scratch.png";
+  } else {
+    img.src = "icons/burger-scratch.png";
+  }
+
   const canvas = box.querySelector(".scratch-canvas");
   const ctx = canvas.getContext("2d");
   let isDrawing = false;
@@ -155,6 +194,7 @@ boxes.forEach((box, index) => {
 
   function setupCanvas() {
     const rect = box.getBoundingClientRect();
+
     canvas.width = rect.width * window.devicePixelRatio;
     canvas.height = rect.height * window.devicePixelRatio;
     canvas.style.width = rect.width + "px";
@@ -221,6 +261,7 @@ boxes.forEach((box, index) => {
 
     if (clearedPercent > 0.45 && !revealedBoxes.has(index)) {
       revealedBoxes.add(index);
+
       canvas.style.transition = "opacity 0.8s ease";
       canvas.style.opacity = "0";
 
