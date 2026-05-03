@@ -678,7 +678,7 @@
   <span class="nav-label">my fitbites</span>
 </div>
 
-<div class="nav-item" id="nav-card-btn" onclick="setNavActive('card'); window.location.href='/stamp.html'">
+<div class="nav-item active" id="nav-card-btn" onclick="window.location.href='/stamp.html'">
   <svg viewBox="0 0 24 24">
     <path d="M16 10h2"/>
     <path d="M16 14h2"/>
@@ -879,7 +879,7 @@
       regError: document.getElementById('regError'),
       navBar: document.getElementById('navBar'),
       navBubble: document.getElementById('navBubble'),
-      navCard: document.getElementById('nav-card')
+      navCard: document.getElementById('nav-card-btn')
     };
 
     const MESSAGES = [
