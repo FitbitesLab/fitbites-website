@@ -1380,7 +1380,7 @@ let manualNav = false;
     if (current !== 'home') moveBubble(tabElements[current]);
   });
 
-  detectActiveSection();
+  
 
 /* ── CROSS-PAGE SECTION NAVIGATION ── */
 const params = new URLSearchParams(window.location.search);
@@ -1389,14 +1389,15 @@ const section = params.get('section');
 if (section) {
   manualNav = true;
 
+  // Light correct button immediately. No home flash.
+  if (section === 'menu') setNavActive('menu');
+  if (section === 'our-story') setNavActive('story');
+
   setTimeout(() => {
     const target = document.getElementById(section);
 
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      if (section === 'menu') setNavActive('menu');
-      if (section === 'our-story') setNavActive('story');
     }
 
     setTimeout(() => {
@@ -1404,7 +1405,11 @@ if (section) {
       detectActiveSection();
       window.history.replaceState({}, '', '/');
     }, 900);
-  }, 350);
+
+  }, 250);
+
+} else {
+  detectActiveSection();
 }
 
 });
