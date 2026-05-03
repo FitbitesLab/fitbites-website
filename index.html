@@ -735,6 +735,23 @@ body.pwa-mode .nav-left {
     color: var(--bark) !important;
   }
 }
+    /* ── TIEL CONTROL ── */
+.tiel-zalo {
+  position: absolute;
+  top: -218px;
+  right: 20px;
+  width: 200px;
+  object-fit: contain;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .tiel-zalo {
+    top: 20px !important;
+    right: 20px !important;
+    width: 180px !important;
+  }
+}
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
   <link rel="preload" as="image" href="Greek_Yogurt_Hero.PNG">
@@ -992,7 +1009,7 @@ body.pwa-mode .nav-left {
         </div>
         <div class="ocard rv d2 ocard-cafe" style="padding:0;overflow:visible;position:relative;">
           <img src="Visit_Us.png" alt="Visit our café" style="width:100%;height:420px;object-fit:cover;object-position:center center;display:block;" />
-          <img src="Tiel_Zalo.png" alt="Tiel holding Zalo QR" style="position:absolute;top:-218px;right:20px;width:200px;object-fit:contain;z-index:10;" />
+          <img src="Tiel_Zalo.png" alt="Tiel holding Zalo QR" class="tiel-zalo" />
           <div style="padding:28px 36px 36px;">
             <p class="ocard-n">02</p>
             <p class="ocard-name">Visit us now!</p>
