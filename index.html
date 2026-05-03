@@ -1390,13 +1390,13 @@ let manualNav = false;
     if (current !== 'home') moveBubble(tabElements[current]);
   });
 
-  function navigateTo(url) {
+  window.navigateTo = function(url) {
   document.body.classList.add('fade-out');
 
   setTimeout(() => {
     window.location.href = url;
   }, 200);
-}
+};
 
 /* ── CROSS-PAGE SECTION NAVIGATION ── */
 const params = new URLSearchParams(window.location.search);
