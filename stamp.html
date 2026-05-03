@@ -650,7 +650,7 @@
     <nav class="nav-bar" id="navBar">
       <div class="nav-bubble" id="navBubble"></div>
 
-      <div class="nav-item" id="nav-menu-btn" onclick="handleNavClick('menu', 'menu')">
+      <div class="nav-item" id="nav-menu-btn" onclick="window.location.href='/?section=menu'">
   <svg viewBox="0 0 24 24">
     <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
     <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
@@ -660,7 +660,7 @@
   <span class="nav-label">menu</span>
 </div>
 
-<div class="nav-item" id="nav-story-btn" onclick="handleNavClick('story', 'our-story')">
+<div class="nav-item" id="nav-story-btn" onclick="window.location.href='/?section=our-story'">
   <svg viewBox="0 0 24 24">
     <path d="M12 7v14"/>
     <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
@@ -670,7 +670,7 @@
 
 <div class="nav-spacer"></div>
 
-<div class="nav-item" id="nav-profile-btn" onclick="setNavActive('profile'); window.location.href='/myfitbites.html'">
+<div class="nav-item" id="nav-profile-btn" onclick="window.location.href='/myfitbites.html'">
   <svg viewBox="0 0 24 24">
     <circle cx="12" cy="8" r="5"/>
     <path d="M20 21a8 8 0 0 0-16 0"/>
@@ -688,7 +688,7 @@
   </svg>
   <span class="nav-label">my card</span>
 </div>
-
+      
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
