@@ -764,6 +764,23 @@ body.pwa-mode .nav-left {
     z-index: 1 !important;
   }
 }
+    @media (orientation: landscape) and (max-height: 500px) {
+  html.pwa-mode body::before {
+    content: "Turn it vertical. Stay sharp.";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--cream);
+    color: var(--bark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+}
   </style>
   <link rel="preload" as="image" href="Fitbites_Daily_Hero.PNG">
   <link rel="preload" as="image" href="Greek_Yogurt_Hero.PNG">
