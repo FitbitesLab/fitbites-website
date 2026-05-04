@@ -232,16 +232,19 @@ const H = 320;
 canvas.width = W;
 canvas.height = H;
 
-const PADDLE_W = 32;
-const PADDLE_H = 78;
-const BALL_R = 11;
-const GOAL_W = 22;
-const GOAL_H = 118;
+const PADDLE_W = 20;
+const PADDLE_H = 62;
+
+const BALL_R = 10;
+
+const GOAL_W = 18;
+const GOAL_H = 110;
 const GOAL_Y = (H - GOAL_H) / 2;
 
-const PLAYER_SPEED = 5.8;
-const AI_SPEED = 3.65;
-const BALL_SPEED = 5;
+const PLAYER_SPEED = 5.5;
+const AI_SPEED = 3.6;
+
+const BALL_SPEED = 5.2;
 const WIN_SCORE = 5;
 
 const fieldImg = new Image();
@@ -560,18 +563,40 @@ function drawBall() {
 }
 
 function draw() {
+  // FIELD
   if (fieldImg.complete && fieldImg.naturalWidth > 0) {
     ctx.drawImage(fieldImg, 0, 0, W, H);
   } else {
-    ctx.fillStyle = "#2d6a2d";
+    ctx.fillStyle = '#2d6a2d';
     ctx.fillRect(0, 0, W, H);
   }
 
+  // LIGHT OVERLAY
   ctx.fillStyle = "rgba(0,0,0,0.06)";
   ctx.fillRect(0, 0, W, H);
 
+  // TOO (left)
   drawPlayer(tooImg, state.too, true);
-  drawPlayer(tielImg, state.tiel, false);
+
+  // ⚔️ TIEL (right — custom render)
+  if (tielImg.complete && tielImg.naturalWidth > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(state.tiel.x - 20, state.tiel.y, PADDLE_W + 20, PADDLE_H);
+    ctx.clip();
+    ctx.drawImage(
+      tielImg,
+      state.tiel.x - 24,
+      state.tiel.y,
+      PADDLE_W + 28,
+      PADDLE_H
+    );
+    ctx.restore();
+  } else {
+    ctx.fillText('😤', state.tiel.x + PADDLE_W/2, state.tiel.y + PADDLE_H/2);
+  }
+
+  // BALL
   drawBall();
 }
 
