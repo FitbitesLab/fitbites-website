@@ -758,14 +758,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 }
 
 .splash-chars {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 360px;
-  height: 220px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 1; /
+  display: none;
 }
     
 .splash-too,
@@ -1620,7 +1613,7 @@ if (section) {
   detectActiveSection();
   document.body.classList.remove('preload');
 }
-/* ── FITBITES PWA SPLASH ── */
+/* ── FITBITES PWA SPLASH — CLEAN VERSION ── */
 const SPLASH_KEY = 'fitbites_splash_shown';
 
 function runSplash() {
@@ -1628,39 +1621,48 @@ function runSplash() {
   const cookie = document.getElementById('splashCookie');
   const logo = document.getElementById('splashLogo');
   const slogan = document.getElementById('splashSlogan');
-  const too = document.getElementById('splashToo');
-  const tiel = document.getElementById('splashTiel');
 
   if (!splash || !cookie || !logo) return;
 
   splash.classList.add('show');
 
+  // 1 — Cookie appears immediately
   setTimeout(() => {
     cookie.classList.add('show');
-  }, 100);
+  }, 80);
 
+  // 2 — After full spin (1.5s total), REMOVE cookie completely
+  setTimeout(() => {
+    cookie.classList.remove('show');
+    cookie.style.display = 'none'; // ← kill it, no overlap possible
+  }, 1600);
+
+  // 3 — Logo appears AFTER cookie is gone
   setTimeout(() => {
     logo.classList.add('show');
-  }, 950); // ← tighter timing (after spin, before it feels slow)
+  }, 1650);
 
-  setTimeout(() => slogan.classList.add('show'), 1250);
-  setTimeout(() => too?.classList.add('show'), 1350);
-  setTimeout(() => tiel?.classList.add('show'), 1500);
+  // 4 — Slogan follows
+  setTimeout(() => {
+    slogan.classList.add('show');
+  }, 1900);
 
+  // 5 — Fade out whole splash
   setTimeout(() => {
     splash.classList.add('fade-out');
-  }, 2600);
+  }, 2500);
 
+  // 6 — Remove splash
   setTimeout(() => {
     splash.style.display = 'none';
     sessionStorage.setItem(SPLASH_KEY, '1');
-  }, 3000);
+  }, 2700);
 }
 
+/* ── RUN ONLY IN PWA ── */
 const splashIsStandalone =
   window.matchMedia('(display-mode: standalone)').matches ||
   window.navigator.standalone === true;
-
 
 if (splashIsStandalone && !sessionStorage.getItem(SPLASH_KEY)) {
   runSplash();
