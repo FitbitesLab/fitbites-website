@@ -1,83 +1,662 @@
-<canvas id="game" width="360" height="500"></canvas>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>fitbites — Too vs Tiel</title>
 
-<script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-const too = { x: 20, y: 200, w: 40, h: 40 };
-const tiel = { x: 300, y: 200, w: 40, h: 40 };
-
-const ball = {
-  x: 180,
-  y: 250,
-  vx: 3,
-  vy: 3,
-  r: 10
-};
-
-function drawRect(p) {
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(p.x, p.y, p.w, p.h);
+<style>
+:root {
+  --brown: #c47a3a;
+  --bark: #2c1a0e;
+  --cream: #fdf9f5;
 }
 
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
-  ctx.fillStyle = "#c47a3a";
-  ctx.fill();
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  padding: 16px;
+}
+
+.game-header {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  color: white;
+}
+
+.player-info {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.avatar {
+  font-size: 30px;
+  margin-bottom: 4px;
+}
+
+.score-board {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+  background: #1f4f2b;
+}
+
+#gameCanvas {
+  width: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 26, 14, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  color: white;
+  z-index: 5;
+  transition: opacity 0.25s ease;
+  text-align: center;
+  padding: 24px;
+}
+
+.game-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-emoji {
+  font-size: 58px;
+  margin-bottom: 12px;
+}
+
+.overlay-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.overlay-sub {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 26px;
+}
+
+.btn-start {
+  border: none;
+  background: var(--brown);
+  color: white;
+  padding: 14px 34px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.controls {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ctrl-btn {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: white;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 26px;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ctrl-btn:active {
+  background: rgba(196,122,58,0.35);
+  transform: scale(0.96);
+}
+
+.ctrl-hint {
+  margin-top: 10px;
+  color: rgba(255,255,255,0.3);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@keyframes goalFlash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.goal-flash {
+  animation: goalFlash 0.15s ease 4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game-header">
+  <div class="player-info">
+    <div class="avatar">🦜</div>
+    <div>Too</div>
+  </div>
+
+  <div class="score-board">
+    <span id="scoreToo">0</span>
+    <span>:</span>
+    <span id="scoreTiel">0</span>
+  </div>
+
+  <div class="player-info">
+    <div class="avatar">😤</div>
+    <div>Tiel AI</div>
+  </div>
+</div>
+
+<div class="canvas-wrapper" id="canvasWrapper">
+  <canvas id="gameCanvas"></canvas>
+
+  <div class="game-overlay" id="overlay">
+    <div class="overlay-emoji">⚽</div>
+    <div class="overlay-title" id="overlayTitle">Too vs Tiel</div>
+    <div class="overlay-sub" id="overlaySub">First to 5 goals wins</div>
+    <button class="btn-start" id="overlayBtn">Kick Off</button>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="ctrl-btn" id="btnUp">↑</div>
+  <div class="ctrl-btn" id="btnDown">↓</div>
+</div>
+
+<p class="ctrl-hint">drag field or tap arrows to move</p>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const wrapper = document.getElementById("canvasWrapper");
+
+const scoreTooEl = document.getElementById("scoreToo");
+const scoreTielEl = document.getElementById("scoreTiel");
+const overlay = document.getElementById("overlay");
+const overlayTitle = document.getElementById("overlayTitle");
+const overlaySub = document.getElementById("overlaySub");
+const overlayBtn = document.getElementById("overlayBtn");
+
+const W = 480;
+const H = 320;
+
+canvas.width = W;
+canvas.height = H;
+
+const PADDLE_W = 32;
+const PADDLE_H = 78;
+const BALL_R = 11;
+const GOAL_W = 22;
+const GOAL_H = 118;
+const GOAL_Y = (H - GOAL_H) / 2;
+
+const PLAYER_SPEED = 5.8;
+const AI_SPEED = 3.65;
+const BALL_SPEED = 5;
+const WIN_SCORE = 5;
+
+const fieldImg = new Image();
+fieldImg.src = "icons/soccer-stadium.png";
+
+const tooImg = new Image();
+tooImg.src = "icons/too-soccer.png";
+
+const tielImg = new Image();
+tielImg.src = "icons/tiel-soccer.png";
+
+let running = false;
+let scored = false;
+let animationId = null;
+
+const keys = {
+  up: false,
+  down: false
+};
+
+const state = {
+  too: {
+    x: GOAL_W + 12,
+    y: H / 2 - PADDLE_H / 2,
+    score: 0
+  },
+  tiel: {
+    x: W - GOAL_W - 12 - PADDLE_W,
+    y: H / 2 - PADDLE_H / 2,
+    score: 0
+  },
+  ball: {
+    x: W / 2,
+    y: H / 2,
+    vx: BALL_SPEED,
+    vy: BALL_SPEED * 0.4
+  }
+};
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function resetBall(towardTiel = true) {
+  state.ball.x = W / 2;
+  state.ball.y = H / 2;
+
+  const angle = (Math.random() * 36 - 18) * Math.PI / 180;
+  const dir = towardTiel ? 1 : -1;
+
+  state.ball.vx = dir * BALL_SPEED * Math.cos(angle);
+  state.ball.vy = BALL_SPEED * Math.sin(angle);
+}
+
+function resetGame() {
+  state.too.score = 0;
+  state.tiel.score = 0;
+
+  state.too.y = H / 2 - PADDLE_H / 2;
+  state.tiel.y = H / 2 - PADDLE_H / 2;
+
+  scoreTooEl.textContent = "0";
+  scoreTielEl.textContent = "0";
+
+  scored = false;
+  running = true;
+
+  resetBall(true);
+
+  overlay.classList.add("hidden");
+
+  cancelAnimationFrame(animationId);
+  loop();
+}
+
+overlayBtn.addEventListener("click", resetGame);
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") keys.up = true;
+  if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") keys.down = true;
+});
+
+document.addEventListener("keyup", e => {
+  if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") keys.up = false;
+  if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") keys.down = false;
+});
+
+const btnUp = document.getElementById("btnUp");
+const btnDown = document.getElementById("btnDown");
+
+function holdButton(button, keyName) {
+  button.addEventListener("touchstart", e => {
+    e.preventDefault();
+    keys[keyName] = true;
+  }, { passive: false });
+
+  button.addEventListener("touchend", e => {
+    e.preventDefault();
+    keys[keyName] = false;
+  }, { passive: false });
+
+  button.addEventListener("mousedown", () => keys[keyName] = true);
+  button.addEventListener("mouseup", () => keys[keyName] = false);
+  button.addEventListener("mouseleave", () => keys[keyName] = false);
+}
+
+holdButton(btnUp, "up");
+holdButton(btnDown, "down");
+
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault();
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  const touchY = (e.touches[0].clientY - rect.top) * scaleY;
+
+  state.too.y = clamp(touchY - PADDLE_H / 2, 0, H - PADDLE_H);
+}, { passive: false });
+
+canvas.addEventListener("mousemove", e => {
+  if (!e.buttons) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  const mouseY = (e.clientY - rect.top) * scaleY;
+
+  state.too.y = clamp(mouseY - PADDLE_H / 2, 0, H - PADDLE_H);
+});
+
+function updateAI() {
+  const center = state.tiel.y + PADDLE_H / 2;
+  let target = state.ball.y;
+
+  const difficultyNoise = Math.sin(Date.now() * 0.004) * 18;
+  target += difficultyNoise;
+
+  const diff = target - center;
+
+  if (Math.abs(diff) > 5) {
+    state.tiel.y += Math.sign(diff) * AI_SPEED;
+  }
+
+  state.tiel.y = clamp(state.tiel.y, 0, H - PADDLE_H);
+}
+
+function collidePaddle(paddle, isToo) {
+  const ball = state.ball;
+
+  const hit =
+    ball.x + BALL_R > paddle.x &&
+    ball.x - BALL_R < paddle.x + PADDLE_W &&
+    ball.y + BALL_R > paddle.y &&
+    ball.y - BALL_R < paddle.y + PADDLE_H;
+
+  if (!hit) return;
+
+  const paddleCenter = paddle.y + PADDLE_H / 2;
+  const relativeHit = (ball.y - paddleCenter) / (PADDLE_H / 2);
+
+  if (isToo && ball.vx < 0) {
+    ball.vx = Math.abs(ball.vx) * 1.05;
+    ball.vy = relativeHit * BALL_SPEED * 1.35;
+    ball.x = paddle.x + PADDLE_W + BALL_R;
+    playHit();
+  }
+
+  if (!isToo && ball.vx > 0) {
+    ball.vx = -Math.abs(ball.vx) * 1.05;
+    ball.vy = relativeHit * BALL_SPEED * 1.35;
+    ball.x = paddle.x - BALL_R;
+    playHit();
+  }
 }
 
 function update() {
+  if (keys.up) state.too.y -= PLAYER_SPEED;
+  if (keys.down) state.too.y += PLAYER_SPEED;
+
+  state.too.y = clamp(state.too.y, 0, H - PADDLE_H);
+
+  updateAI();
+
+  const ball = state.ball;
+
   ball.x += ball.vx;
   ball.y += ball.vy;
 
-  if (ball.y < 0 || ball.y > canvas.height) ball.vy *= -1;
-
-  // collision Too
-  if (
-    ball.x - ball.r < too.x + too.w &&
-    ball.y > too.y &&
-    ball.y < too.y + too.h
-  ) {
-    ball.vx *= -1;
+  if (ball.y - BALL_R < 0) {
+    ball.y = BALL_R;
+    ball.vy = Math.abs(ball.vy);
+    playBounce();
   }
 
-  // collision Tiel
-  if (
-    ball.x + ball.r > tiel.x &&
-    ball.y > tiel.y &&
-    ball.y < tiel.y + tiel.h
-  ) {
-    ball.vx *= -1;
+  if (ball.y + BALL_R > H) {
+    ball.y = H - BALL_R;
+    ball.vy = -Math.abs(ball.vy);
+    playBounce();
   }
 
-  // AI Tiel follows ball
-  tiel.y += (ball.y - (tiel.y + tiel.h / 2)) * 0.1;
+  collidePaddle(state.too, true);
+  collidePaddle(state.tiel, false);
 
-  // reset if goal
-  if (ball.x < 0 || ball.x > canvas.width) {
-    ball.x = 180;
-    ball.y = 250;
+  const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+  const maxSpeed = BALL_SPEED * 2.15;
+
+  if (speed > maxSpeed) {
+    ball.vx = (ball.vx / speed) * maxSpeed;
+    ball.vy = (ball.vy / speed) * maxSpeed;
+  }
+
+  // Too defends LEFT. If ball enters left goal, Tiel scores.
+  if (ball.x - BALL_R < GOAL_W) {
+    if (ball.y > GOAL_Y && ball.y < GOAL_Y + GOAL_H) {
+      handleGoal("tiel");
+    } else {
+      ball.x = GOAL_W + BALL_R;
+      ball.vx = Math.abs(ball.vx);
+    }
+  }
+
+  // Tiel defends RIGHT. If ball enters right goal, Too scores.
+  if (ball.x + BALL_R > W - GOAL_W) {
+    if (ball.y > GOAL_Y && ball.y < GOAL_Y + GOAL_H) {
+      handleGoal("too");
+    } else {
+      ball.x = W - GOAL_W - BALL_R;
+      ball.vx = -Math.abs(ball.vx);
+    }
   }
 }
 
-canvas.addEventListener("touchmove", e => {
-  const rect = canvas.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
-  too.y = y - too.h / 2;
-});
+function handleGoal(scorer) {
+  if (scored) return;
+
+  scored = true;
+  running = false;
+
+  if (scorer === "too") state.too.score++;
+  if (scorer === "tiel") state.tiel.score++;
+
+  scoreTooEl.textContent = state.too.score;
+  scoreTielEl.textContent = state.tiel.score;
+
+  wrapper.classList.add("goal-flash");
+  setTimeout(() => wrapper.classList.remove("goal-flash"), 600);
+
+  playGoalSound(scorer === "too");
+
+  if (state.too.score >= WIN_SCORE || state.tiel.score >= WIN_SCORE) {
+    setTimeout(showResult, 850);
+    return;
+  }
+
+  setTimeout(() => {
+    scored = false;
+    running = true;
+    resetBall(scorer === "tiel");
+    loop();
+  }, 1100);
+}
+
+function showResult() {
+  const tooWon = state.too.score >= WIN_SCORE;
+
+  overlayTitle.textContent = tooWon ? "Too wins! 🦜" : "Tiel wins… 😤";
+  overlaySub.textContent = tooWon
+    ? '"I told you. Pure genius." — Too'
+    : '"Predictable." — Tiel';
+
+  overlayBtn.textContent = "Play Again";
+  overlay.classList.remove("hidden");
+
+  if (tooWon) confettiGoal();
+}
+
+function drawPlayer(img, paddle, isToo) {
+  const bounce = isToo ? Math.sin(Date.now() * 0.012) * 1.4 : 0;
+
+  const drawW = 58;
+  const drawH = 82;
+
+  const imgX = isToo
+    ? paddle.x - 12
+    : paddle.x - 14;
+
+  const imgY = paddle.y - 3 + bounce;
+
+  if (img.complete && img.naturalWidth > 0) {
+    ctx.drawImage(img, imgX, imgY, drawW, drawH);
+  } else {
+    ctx.fillStyle = isToo ? "#c47a3a" : "#f4d35e";
+    ctx.beginPath();
+    ctx.roundRect(paddle.x, paddle.y, PADDLE_W, PADDLE_H, 8);
+    ctx.fill();
+  }
+
+  // invisible-feeling hitbox marker, only subtle
+  ctx.fillStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath();
+  ctx.roundRect(paddle.x, paddle.y, PADDLE_W, PADDLE_H, 8);
+  ctx.fill();
+}
+
+function drawBall() {
+  const ball = state.ball;
+
+  ctx.fillStyle = "rgba(0,0,0,0.22)";
+  ctx.beginPath();
+  ctx.ellipse(ball.x, ball.y + BALL_R + 3, BALL_R * 0.75, 4, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.font = `${BALL_R * 2}px Arial`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("⚽", ball.x, ball.y);
+}
+
+function draw() {
+  if (fieldImg.complete && fieldImg.naturalWidth > 0) {
+    ctx.drawImage(fieldImg, 0, 0, W, H);
+  } else {
+    ctx.fillStyle = "#2d6a2d";
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  ctx.fillStyle = "rgba(0,0,0,0.06)";
+  ctx.fillRect(0, 0, W, H);
+
+  drawPlayer(tooImg, state.too, true);
+  drawPlayer(tielImg, state.tiel, false);
+  drawBall();
+}
 
 function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  drawRect(too);
-  drawRect(tiel);
-  drawBall();
+  if (!running) {
+    draw();
+    return;
+  }
 
   update();
-
-  requestAnimationFrame(loop);
+  draw();
+  animationId = requestAnimationFrame(loop);
 }
 
-loop();
+function playBounce() {
+  playTone(260, 180, 0.05, "sine");
+}
+
+function playHit() {
+  playTone(240, 420, 0.08, "square");
+}
+
+function playTone(startFreq, endFreq, duration, type) {
+  try {
+    const audio = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(startFreq, audio.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, audio.currentTime + duration);
+
+    gain.gain.setValueAtTime(0.12, audio.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration);
+
+    osc.start(audio.currentTime);
+    osc.stop(audio.currentTime + duration);
+  } catch (e) {}
+}
+
+function playGoalSound(playerScored) {
+  try {
+    const audio = new (window.AudioContext || window.webkitAudioContext)();
+
+    const notes = playerScored
+      ? [523, 659, 784, 1047]
+      : [420, 360, 300, 220];
+
+    notes.forEach((freq, i) => {
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+
+      osc.connect(gain);
+      gain.connect(audio.destination);
+
+      osc.type = playerScored ? "sine" : "sawtooth";
+      osc.frequency.value = freq;
+
+      gain.gain.setValueAtTime(playerScored ? 0.22 : 0.12, audio.currentTime + i * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + i * 0.1 + 0.18);
+
+      osc.start(audio.currentTime + i * 0.1);
+      osc.stop(audio.currentTime + i * 0.1 + 0.18);
+    });
+  } catch (e) {}
+}
+
+function confettiGoal() {
+  if (typeof confetti !== "undefined") {
+    confetti({
+      particleCount: 90,
+      spread: 65,
+      origin: { y: 0.55 },
+      colors: ["#c47a3a", "#e8a96a", "#ffffff", "#fdf9f5"]
+    });
+  }
+}
+
+draw();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>
