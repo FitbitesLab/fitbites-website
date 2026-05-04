@@ -9,25 +9,14 @@
   <meta name="theme-color" content="#c47a3a" />
   <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
   <style>
-body {
+    body {
   opacity: 1;
-  transform: translateX(0);
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  transition: opacity 0.35s ease;
 }
 
 body.fade-out {
   opacity: 0;
   transition: opacity 0.2s ease;
-}
-
-body.slide-out-left {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-body.slide-out-right {
-  transform: translateX(100%);
-  opacity: 0;
 }
     :root {
       --brown: #c47a3a;
@@ -675,7 +664,7 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 
 /* Default browser: no bottom app nav */
 .nav-wrapper {
-  display: flex !important;
+  display: none !important;
 }
 
 /* PWA app mode: bottom nav ON */
@@ -1178,7 +1167,7 @@ body.pwa-mode .nav-left {
   <span class="nav-label">order</span>
 </div>
 
-<div class="nav-item" id="nav-card-btn" onclick="navigateTo('/stamp.html', 'left')">
+<div class="nav-item" id="nav-card-btn" onclick="navigateTo('/stamp.html')">
   <svg viewBox="0 0 24 24">
     <path d="M16 10h2"/>
     <path d="M16 14h2"/>
@@ -1407,36 +1396,12 @@ setNavActive('home');
     if (current !== 'home') moveBubble(tabElements[current]);
   });
 
-  window.navigateTo = function(url, direction = 'auto') {
+  window.navigateTo = function(url) {
+  document.body.classList.add('fade-out');
 
-  // SAME PAGE → no animation
-  if (url.startsWith('/?section=')) {
-    window.location.href = url;
-    return;
-  }
-
-  // AUTO LOGIC
-  if (direction === 'auto') {
-    if (url.includes('stamp')) {
-      direction = 'left';   // deeper layer
-    } else {
-      direction = 'right';  // back to base
-    }
-  }
-
-  // APPLY ANIMATION
-  if (direction === 'left') {
-    document.body.classList.add('slide-out-left');
-  } else if (direction === 'right') {
-    document.body.classList.add('slide-out-right');
-  } else {
-    document.body.classList.add('fade-out');
-  }
-
-  // WAIT FOR ANIMATION
   setTimeout(() => {
     window.location.href = url;
-  }, 300);
+  }, 200);
 };
 
 /* ── CROSS-PAGE SECTION NAVIGATION ── */
