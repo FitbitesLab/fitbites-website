@@ -1158,12 +1158,13 @@ body.pwa-mode .nav-left {
 
 <div class="nav-spacer"></div>
 
-<div class="nav-item" id="nav-profile-btn" onclick="setNavActive('profile'); window.location.href='/myfitbites.html'">
+<div class="nav-item" id="nav-order-btn" onclick="navigateTo('/?section=order', 'right')">
   <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="5"/>
-    <path d="M20 21a8 8 0 0 0-16 0"/>
+    <path d="M3 6h18"/>
+    <path d="M3 12h18"/>
+    <path d="M3 18h18"/>
   </svg>
-  <span class="nav-label">my fitbites</span>
+  <span class="nav-label">order</span>
 </div>
 
 <div class="nav-item" id="nav-card-btn" onclick="navigateTo('/stamp.html')">
@@ -1306,7 +1307,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabElements = {
     menu: document.getElementById('nav-menu-btn'),
     card: document.getElementById('nav-card-btn'),
-    profile: document.getElementById('nav-profile-btn'),
+    order: document.getElementById('nav-order-btn'),
     story: document.getElementById('nav-story-btn')
   };
   
@@ -1407,6 +1408,7 @@ if (section) {
 
   if (section === 'menu') setNavActive('menu');
   if (section === 'our-story') setNavActive('story');
+  if (section === 'order') setNavActive('order');
 
   setTimeout(() => {
     const target = document.getElementById(section);
