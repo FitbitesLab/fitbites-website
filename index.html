@@ -659,7 +659,153 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 .nav-item.active svg { stroke: var(--cream); transform: translateY(-2px) scale(1.08); }
 .nav-item.active .nav-label { color: var(--cream); }
 .nav-item:active svg { transform: scale(0.85) !important; }
+    
+/* ── FITBITES PWA SPLASH OVERLAY ── */
+.splash {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 99999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
 
+.splash.show {
+  display: flex;
+}
+
+.splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-center {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-cookie {
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.5);
+  z-index: 2;
+}
+
+.splash-cookie.show {
+  animation: cookiePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             cookieSpin 0.9s ease-in-out 0.35s forwards;
+}
+
+@keyframes cookiePop {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cookieSpin {
+  0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+  75%  { transform: scale(1.2) rotate(680deg); opacity: 1; }
+  100% { transform: scale(0) rotate(720deg); opacity: 0; }
+}
+
+.splash-logo {
+  position: absolute;
+  width: 220px;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.65) translateY(10px);
+  z-index: 3;
+}
+
+.splash-logo.show {
+  animation: logoBounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes logoBounce {
+  0%   { opacity: 0; transform: scale(0.65) translateY(16px); }
+  65%  { opacity: 1; transform: scale(1.06) translateY(-6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.splash-slogan {
+  position: absolute;
+  bottom: -22px;
+  font-size: 9px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: #c4a882;
+  opacity: 0;
+  transform: translateY(6px);
+  white-space: nowrap;
+}
+
+.splash-slogan.show {
+  animation: sloganFade 0.4s ease forwards;
+}
+
+@keyframes sloganFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-chars {
+  position: absolute;
+  bottom: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 330px;
+  height: 180px;
+  pointer-events: none;
+}
+
+.splash-too,
+.splash-tiel {
+  position: absolute;
+  bottom: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+
+.splash-too {
+  left: -10px;
+  width: 138px;
+  transform: translateX(-70px) rotate(-8deg);
+}
+
+.splash-tiel {
+  right: -10px;
+  width: 128px;
+  transform: translateX(70px) rotate(8deg);
+}
+
+.splash-too.show {
+  animation: tooHop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.splash-tiel.show {
+  animation: tielSlide 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes tooHop {
+  0%   { opacity: 0; transform: translateX(-70px) rotate(-8deg); }
+  70%  { opacity: 1; transform: translateX(8px) rotate(4deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes tielSlide {
+  0%   { opacity: 0; transform: translateX(70px) rotate(8deg); }
+  70%  { opacity: 1; transform: translateX(-8px) rotate(-3deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0deg); }
+}
     /* ── PWA / BROWSER MODE CONTROL — FINAL OVERRIDE ── */
 
 /* Default browser: no bottom app nav */
@@ -799,6 +945,18 @@ body.pwa-mode .nav-left {
 </head>
 
 <body class="preload">
+  <div class="splash" id="splash">
+  <div class="splash-center">
+    <img src="/icons/home-b.png" class="splash-cookie" id="splashCookie" alt="" />
+    <img src="/Fitbites_Logo.png" class="splash-logo" id="splashLogo" alt="fitbites" />
+    <p class="splash-slogan" id="splashSlogan">health has never tasted this wrong.</p>
+  </div>
+
+  <div class="splash-chars">
+    <img src="/icons/splash-too.png" class="splash-too" id="splashToo" alt="Too" />
+    <img src="/icons/splash-tiel.png" class="splash-tiel" id="splashTiel" alt="Tiel" />
+  </div>
+</div>
   
 
   <!-- TOP NAV -->
@@ -1435,6 +1593,46 @@ if (section) {
 } else {
   detectActiveSection();
   document.body.classList.remove('preload');
+}
+
+/* ── FITBITES PWA SPLASH ── */
+const SPLASH_KEY = 'fitbites_splash_shown';
+
+function runSplash() {
+  const splash = document.getElementById('splash');
+  const cookie = document.getElementById('splashCookie');
+  const logo = document.getElementById('splashLogo');
+  const slogan = document.getElementById('splashSlogan');
+  const too = document.getElementById('splashToo');
+  const tiel = document.getElementById('splashTiel');
+
+  if (!splash || !cookie || !logo) return;
+
+  splash.classList.add('show');
+
+  setTimeout(() => cookie.classList.add('show'), 100);
+  setTimeout(() => logo.classList.add('show'), 1150);
+  setTimeout(() => slogan.classList.add('show'), 1450);
+  setTimeout(() => too?.classList.add('show'), 1550);
+  setTimeout(() => tiel?.classList.add('show'), 1680);
+
+  setTimeout(() => splash.classList.add('fade-out'), 2600);
+
+  setTimeout(() => {
+    splash.style.display = 'none';
+    sessionStorage.setItem(SPLASH_KEY, '1');
+  }, 3000);
+}
+
+const splashIsStandalone =
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true;
+
+if (splashIsStandalone && !sessionStorage.getItem(SPLASH_KEY)) {
+  runSplash();
+} else {
+  const splash = document.getElementById('splash');
+  if (splash) splash.style.display = 'none';
 }
 
 });
