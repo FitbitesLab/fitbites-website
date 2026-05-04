@@ -719,11 +719,8 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 }
 
 .splash-logo {
-  position: absolute;
-  width: 220px;
-  object-fit: contain;
-  opacity: 0;
-  transform: scale(0.65) translateY(10px);
+  width: 300px;
+  position: relative;
   z-index: 3;
 }
 
@@ -759,14 +756,15 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 
 .splash-chars {
   position: absolute;
-  bottom: 42px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 330px;
-  height: 180px;
+  width: 360px;
+  height: 220px;
+  transform: translate(-50%, -50%);
   pointer-events: none;
+  z-index: 1; /
 }
-
+    
 .splash-too,
 .splash-tiel {
   position: absolute;
@@ -776,17 +774,21 @@ footer { background: var(--bark); padding: 64px 60px 40px; }
 }
 
 .splash-too {
-  left: -10px;
-  width: 138px;
-  transform: translateX(-70px) rotate(-8deg);
+  position: absolute;
+  left: -20px;
+  bottom: -10px;
+  width: 150px;
+  z-index: 1;
 }
 
 .splash-tiel {
-  right: -10px;
-  width: 128px;
-  transform: translateX(70px) rotate(8deg);
+  position: absolute;
+  right: -20px;
+  bottom: -10px;
+  width: 140px;
+  z-index: 1;
 }
-
+    
 .splash-too.show {
   animation: tooHop 0.48s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
