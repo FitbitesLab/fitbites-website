@@ -1158,7 +1158,7 @@ body.pwa-mode .nav-left {
 
 <div class="nav-spacer"></div>
 
-<div class="nav-item" id="nav-order-btn" onclick="navigateTo('/?section=order', 'right')">
+<div class="nav-item" id="nav-order-btn" onclick="handleNavClick('order', 'order')">
   <svg viewBox="0 0 24 24">
     <path d="M3 6h18"/>
     <path d="M3 12h18"/>
@@ -1372,18 +1372,23 @@ let manualNav = false;
   const y = window.scrollY;
   const menu = document.getElementById('menu');
   const story = document.getElementById('our-story');
+  const order = document.getElementById('order');
 
   if (y < 300) return setNavActive('home');
 
-  if (menu && y >= menu.offsetTop - 240 && story && y < story.offsetTop - 240) {
-    return setNavActive('menu');
-  }
+if (menu && story && y >= menu.offsetTop - 240 && y < story.offsetTop - 240) {
+  return setNavActive('menu');
+}
 
-  if (story && y >= story.offsetTop - 240) {
-    return setNavActive('story');
-  }
+if (story && order && y >= story.offsetTop - 240 && y < order.offsetTop - 240) {
+  return setNavActive('story');
+}
 
-  setNavActive('home');
+if (order && y >= order.offsetTop - 240) {
+  return setNavActive('order');
+}
+
+setNavActive('home');
 }
 
   window.addEventListener('scroll', detectActiveSection, { passive: true });
