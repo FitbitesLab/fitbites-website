@@ -946,7 +946,7 @@ body.pwa-mode .nav-left {
 }
     @media (orientation: landscape) and (max-height: 500px) {
   html.pwa-mode body::before {
-    content: "Too : "Wanna watch movie now?"";
+    content: 'Too: "Wanna watch movie now?"';
     position: fixed;
     inset: 0;
     z-index: 9999;
@@ -982,9 +982,8 @@ body.pwa-mode .nav-left {
     <img src="/icons/splash-tiel.png" class="splash-tiel" id="splashTiel" alt="Tiel" />
   </div>
 </div>
-  
 
-  <!-- TOP NAV -->
+  <div class="page">
 
  <!-- TOP NAV -->
 <nav class="top-nav">
@@ -1308,6 +1307,8 @@ body.pwa-mode .nav-left {
       <span>powered by Too & Tiel</span>
     </div>
   </footer>
+    
+</div>
 
  <!-- BOTTOM FLOATING NAV BAR -->
 <div class="nav-wrapper">
@@ -1359,6 +1360,9 @@ body.pwa-mode .nav-left {
     <rect x="2" y="5" width="20" height="14" rx="2"/>
   </svg>
   <span class="nav-label">my card</span>
+</div>
+
+      </nav>
 </div>
     
  <script>
@@ -1579,14 +1583,6 @@ setNavActive('home');
     if (current !== 'home') moveBubble(tabElements[current]);
   });
 
-  window.navigateTo = function(url) {
-  document.body.classList.add('fade-out');
-
-  setTimeout(() => {
-    window.location.href = url;
-  }, 200);
-};
-
 /* ── CROSS-PAGE SECTION NAVIGATION ── */
 const params = new URLSearchParams(window.location.search);
 const section = params.get('section');
@@ -1700,6 +1696,7 @@ window.navigateTo = function (url, direction = null) {
 };
 
 });
+  
 </script>
     
 </body>
