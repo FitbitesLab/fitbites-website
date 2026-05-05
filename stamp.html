@@ -32,6 +32,30 @@
   transition: opacity 0.35s ease;
 }
 
+    .page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(0);
+}
+
+.page.enter-from-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.page.enter-from-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.page.enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
 body.fade-out {
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -579,6 +603,7 @@ body.fade-out {
 </head>
 
 <body>
+  <div class="page">
   <main class="loyalty-card">
     <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
     <h1 class="title">your loyalty card</h1>
@@ -647,7 +672,7 @@ body.fade-out {
   </div>
 
   <div class="nav-wrapper">
-  <div class="nav-cookie-wrap" id="nav-home" onclick="navigateTo('/')">
+  <div class="nav-cookie-wrap" id="nav-home" onclick="navigateTo('/', 'right')">
     <div class="nav-cookie-btn" id="nav-home-btn">
       <img src="/icons/home-b.png" alt="home" />
     </div>
@@ -703,7 +728,7 @@ body.fade-out {
 
   </nav>
 </div>
-      
+      </div>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
@@ -724,14 +749,15 @@ body.fade-out {
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    window.navigateTo = function(url) {
+    window.navigateTo = function(url, direction = 'left') {
+  sessionStorage.setItem('navDirection', direction);
+
   document.body.classList.add('fade-out');
 
   setTimeout(() => {
     window.location.href = url;
   }, 200);
 };
-
     window._fb = {
       db,
       doc,
@@ -1334,6 +1360,28 @@ body.fade-out {
     requestAnimationFrame(() => requestAnimationFrame(snapBubbleToCard));
     window.addEventListener('resize', snapBubbleToCard);
     window.addEventListener('orientationchange', snapBubbleToCard);
+
+    document.addEventListener('DOMContentLoaded', () => {
+  const page = document.querySelector('.page');
+  const direction = sessionStorage.getItem('navDirection');
+
+  if (!page || !direction) return;
+
+  if (direction === 'left') {
+    page.classList.add('enter-from-right');
+  } else if (direction === 'right') {
+    page.classList.add('enter-from-left');
+  }
+
+  requestAnimationFrame(() => {
+    page.classList.add('enter-active');
+  });
+
+  setTimeout(() => {
+    page.classList.remove('enter-from-right', 'enter-from-left', 'enter-active');
+    sessionStorage.removeItem('navDirection');
+  }, 400);
+});
   </script>
 </body>
 </html>
