@@ -1,4 +1,4 @@
-</<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -44,7 +44,21 @@ body {
   overflow-x: hidden;
   padding-bottom: 100px; /* space for bottom nav */
 }
+.page {
+  transform: translateX(0);
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
 
+.page.slide-out-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.page.slide-out-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+    
 /* ── TOP NAV ── */
 .top-nav {
   position: fixed;
@@ -1336,7 +1350,7 @@ body.pwa-mode .nav-left {
   <span class="nav-label">order</span>
 </div>
 
-<div class="nav-item" id="nav-card-btn" onclick="navigateTo('/stamp.html')">
+<div class="nav-item" id="nav-card-btn" onclick="navigateTo('/stamp.html', 'left')">
   <svg viewBox="0 0 24 24">
     <path d="M16 10h2"/>
     <path d="M16 14h2"/>
@@ -1663,8 +1677,30 @@ if (splashIsStandalone && !sessionStorage.getItem(SPLASH_KEY)) {
   if (splash) splash.style.display = 'none';
 }
 
+/* ── PAGE SLIDE NAVIGATION ── */
+window.navigateTo = function (url, direction = null) {
+  const page = document.querySelector('.page');
+
+  if (!page) {
+    window.location.href = url;
+    return;
+  }
+
+  page.classList.remove('slide-out-left', 'slide-out-right');
+
+  if (direction === 'left') {
+    page.classList.add('slide-out-left');
+  } else if (direction === 'right') {
+    page.classList.add('slide-out-right');
+  }
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 300);
+};
+
 });
 </script>
-  
+    
 </body>
 </html>
