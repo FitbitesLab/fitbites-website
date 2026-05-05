@@ -753,7 +753,28 @@ body.fade-out {
     window.navigateTo = function(url, direction = 'left') {
   sessionStorage.setItem('navDirection', direction);
 
-  document.body.classList.add('fade-out');
+  window.navigateTo = function(url, direction = 'right') {
+  const page = document.querySelector('.page');
+
+  sessionStorage.setItem('navDirection', direction);
+
+  if (!page) {
+    window.location.href = url;
+    return;
+  }
+
+  page.classList.remove('slide-out-left', 'slide-out-right');
+
+  if (direction === 'right') {
+    page.classList.add('slide-out-right');
+  } else {
+    page.classList.add('slide-out-left');
+  }
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 300);
+};
 
   setTimeout(() => {
     window.location.href = url;
