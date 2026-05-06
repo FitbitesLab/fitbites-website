@@ -1672,6 +1672,68 @@ if (splashIsStandalone && !sessionStorage.getItem(SPLASH_KEY)) {
   const splash = document.getElementById('splash');
   if (splash) splash.style.display = 'none';
 }
+  /* ── TOO & TIEL STORY VIEWER ── */
+const stories = {
+  1: [
+    'TooTielEp1_01.png',
+    'TooTielEp1_02.png',
+    'TooTielEp1_03.png'
+  ],
+  2: [
+    'TooTielEp2_04.png',
+    'TooTielEp2_05.png',
+    'TooTielEp2_06.png'
+  ]
+};
+
+let currentStory = [];
+let currentStoryIndex = 0;
+
+window.openStory = function(ep) {
+  currentStory = stories[ep] || [];
+  currentStoryIndex = 0;
+
+  if (!currentStory.length) return;
+
+  document.getElementById('storyOverlay').classList.add('open');
+  updateStory();
+};
+
+window.closeStory = function() {
+  document.getElementById('storyOverlay').classList.remove('open');
+};
+
+window.storyNav = function(dir) {
+  if (!currentStory.length) return;
+
+  currentStoryIndex += dir;
+
+  if (currentStoryIndex < 0) currentStoryIndex = currentStory.length - 1;
+  if (currentStoryIndex >= currentStory.length) currentStoryIndex = 0;
+
+  updateStory();
+};
+
+function updateStory() {
+  const img = document.getElementById('storyImg');
+  const counter = document.getElementById('storyCounter');
+  const progress = document.getElementById('storyProgress');
+
+  img.src = currentStory[currentStoryIndex];
+  counter.textContent = `${currentStoryIndex + 1} / ${currentStory.length}`;
+
+  progress.innerHTML = '';
+
+  currentStory.forEach((_, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'story-bar';
+
+    if (i < currentStoryIndex) bar.classList.add('done');
+    if (i === currentStoryIndex) bar.classList.add('active');
+
+    progress.appendChild(bar);
+  });
+}
 
 /* ── PAGE SLIDE NAVIGATION ── */
 window.navigateTo = function (url, direction = null) {
