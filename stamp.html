@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  
-
-<script>
-
-console.log("STAMP VERSION: profile-save-v2");
-
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>fitbites — loyalty card</title>
@@ -25,59 +17,64 @@ console.log("STAMP VERSION: profile-save-v2");
       --stamp-empty: #e8d9c8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-  font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
-  background: var(--cream);
-  color: var(--bark);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 20px 120px;
-  opacity: 1;
-  transition: opacity 0.35s ease;
-}
-    
-.page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateX(0);
-  transition: transform 0.35s ease, opacity 0.25s ease;
-}
+      font-family: 'Glacial Indifference', 'Helvetica Neue', sans-serif;
+      background: var(--cream);
+      color: var(--bark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 20px 120px;
+      opacity: 1;
+      transition: opacity 0.35s ease;
+    }
 
-.page.enter-from-right {
-  transform: translateX(100%);
-  opacity: 0;
-}
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
 
-.page.enter-from-left {
-  transform: translateX(-100%);
-  opacity: 0;
-}
+    .page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateX(0);
+      transition: transform 0.35s ease, opacity 0.25s ease;
+    }
+
+    .page.enter-from-right {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    .page.enter-from-left {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
     .page.slide-out-right {
-  transform: translateX(100%);
-  opacity: 0;
-}
+      transform: translateX(100%);
+      opacity: 0;
+    }
 
-.page.slide-out-left {
-  transform: translateX(-100%);
-  opacity: 0;
-}
+    .page.slide-out-left {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
 
-.page.enter-active {
-  transform: translateX(0);
-  opacity: 1;
-  transition: transform 0.35s ease, opacity 0.25s ease;
-}
-
-body.fade-out {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
+    .page.enter-active {
+      transform: translateX(0);
+      opacity: 1;
+      transition: transform 0.35s ease, opacity 0.25s ease;
+    }
 
     .loyalty-card {
       width: 100%;
@@ -300,7 +297,7 @@ body.fade-out {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0, 0, 0, 0.95);
       z-index: 1000;
       flex-direction: column;
       align-items: center;
@@ -330,7 +327,7 @@ body.fade-out {
     .scanner-close {
       color: white;
       background: none;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       font-family: inherit;
       font-size: 10px;
       letter-spacing: 2px;
@@ -341,7 +338,7 @@ body.fade-out {
     }
 
     .scanner-status {
-      color: rgba(255,255,255,0.5);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 12px;
       letter-spacing: 1px;
       margin-top: 16px;
@@ -622,43 +619,43 @@ body.fade-out {
 
 <body>
   <div class="page">
-  <main class="loyalty-card">
-    <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
-    <h1 class="title">your loyalty card</h1>
+    <main class="loyalty-card">
+      <img src="/Fitbites_Logo.png" alt="fitbites" class="logo" />
+      <h1 class="title">your loyalty card</h1>
 
-    <section class="stamp-grid" id="stampGrid"></section>
+      <section class="stamp-grid" id="stampGrid"></section>
 
-    <p class="progress">
-      <span id="stampCount">0</span> / 9 stamps
-    </p>
+      <p class="progress">
+        <span id="stampCount">0</span> / 9 stamps
+      </p>
 
-    <div class="stamp-message" id="stampMessage">
-      <p class="msg-too" id="msgToo"></p>
-      <p class="msg-tiel" id="msgTiel"></p>
-    </div>
-
-    <button class="scan-btn" id="scanBtn" onclick="openScanner()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-        <rect x="7" y="7" width="10" height="10" rx="1"/>
-      </svg>
-      scan to stamp
-    </button>
-
-    <section class="reward" id="reward">
-      <span class="reward-emoji">🎉</span>
-      <h2>you earned it.</h2>
-      <p>show this screen to our team at the café to claim your free reward.</p>
-      <div class="reward-badge">🎁 1 free fitbites</div>
-      <button class="reward-reset" onclick="resetCard()">start a new card</button>
-    </section>
-
-    <p class="sync-status" id="syncStatus"></p>
-  </main>
+      <div class="stamp-message" id="stampMessage">
+        <p class="msg-too" id="msgToo"></p>
+        <p class="msg-tiel" id="msgTiel"></p>
       </div>
+
+      <button class="scan-btn" id="scanBtn" onclick="openScanner()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+          <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+          <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+          <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+          <rect x="7" y="7" width="10" height="10" rx="1"/>
+        </svg>
+        scan to stamp
+      </button>
+
+      <section class="reward" id="reward">
+        <span class="reward-emoji">🎉</span>
+        <h2>you earned it.</h2>
+        <p>show this screen to our team at the café to claim your free reward.</p>
+        <div class="reward-badge">🎁 1 free fitbites</div>
+        <button class="reward-reset" onclick="resetCard()">start a new card</button>
+      </section>
+
+      <p class="sync-status" id="syncStatus"></p>
+    </main>
+  </div>
 
   <div class="scanner-overlay" id="scannerOverlay">
     <p class="scanner-title">point at the café QR code</p>
@@ -691,64 +688,62 @@ body.fade-out {
   </div>
 
   <div class="nav-wrapper">
-  <div class="nav-cookie-wrap" id="nav-home" onclick="navigateTo('/', 'right')">
-    <div class="nav-cookie-btn" id="nav-home-btn">
-      <img src="/icons/home-b.png" alt="home" />
+    <div class="nav-cookie-wrap" id="nav-home" onclick="navigateTo('/', 'right')">
+      <div class="nav-cookie-btn" id="nav-home-btn">
+        <img src="/icons/home-b.png" alt="home" />
+      </div>
+      <span class="nav-cookie-label">home</span>
     </div>
-    <span class="nav-cookie-label">home</span>
+
+    <nav class="nav-bar" id="navBar">
+      <div class="nav-bubble" id="navBubble"></div>
+
+      <div class="nav-item" id="nav-menu-btn" onclick="navigateTo('/?section=menu', 'right')">
+        <svg viewBox="0 0 24 24">
+          <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
+          <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
+          <path d="m2.1 21.8 6.4-6.3"/>
+          <path d="m19 5-7 7"/>
+        </svg>
+        <span class="nav-label">menu</span>
+      </div>
+
+      <div class="nav-item" id="nav-story-btn" onclick="navigateTo('/?section=our-story', 'right')">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 7v14"/>
+          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+        </svg>
+        <span class="nav-label">story</span>
+      </div>
+
+      <div class="nav-spacer"></div>
+
+      <div class="nav-item" id="nav-order-btn" onclick="navigateTo('/?section=order', 'right')">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 6h18"/>
+          <path d="M3 12h18"/>
+          <path d="M3 18h18"/>
+        </svg>
+        <span class="nav-label">order</span>
+      </div>
+
+      <div class="nav-item active" id="nav-card-btn" onclick="return false">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 10h2"/>
+          <path d="M16 14h2"/>
+          <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
+          <circle cx="9" cy="11" r="2"/>
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+        </svg>
+        <span class="nav-label">my card</span>
+      </div>
+    </nav>
   </div>
 
-  <nav class="nav-bar" id="navBar">
-    <div class="nav-bubble" id="navBubble"></div>
-
-    <div class="nav-item" id="nav-menu-btn" onclick="navigateTo('/?section=menu', 'right')">
-      <svg viewBox="0 0 24 24">
-        <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
-        <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/>
-        <path d="m2.1 21.8 6.4-6.3"/>
-        <path d="m19 5-7 7"/>
-      </svg>
-      <span class="nav-label">menu</span>
-    </div>
-
-    <div class="nav-item" id="nav-story-btn" onclick="navigateTo('/?section=our-story', 'right')">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 7v14"/>
-        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
-      </svg>
-      <span class="nav-label">story</span>
-    </div>
-
-    <div class="nav-spacer"></div>
-
-    <div class="nav-item" id="nav-order-btn" onclick="navigateTo('/?section=order', 'right')">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 6h18"/>
-        <path d="M3 12h18"/>
-        <path d="M3 18h18"/>
-      </svg>
-      <span class="nav-label">order</span>
-    </div>
-
-    <div class="nav-item active" id="nav-card-btn" onclick="return false">
-      <svg viewBox="0 0 24 24">
-        <path d="M16 10h2"/>
-        <path d="M16 14h2"/>
-        <path d="M6.17 15a3 3 0 0 1 5.66 0"/>
-        <circle cx="9" cy="11" r="2"/>
-        <rect x="2" y="5" width="20" height="14" rx="2"/>
-      </svg>
-      <span class="nav-label">my card</span>
-    </div>
-  </nav>
-</div>
-    
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
-      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-    import { getAuth, signInAnonymously, onAuthStateChanged }
-      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyD7TYG1ALoYVQh4qGB4Bllgqcm3JA6IpjE",
@@ -762,30 +757,7 @@ body.fade-out {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    
-window.navigateTo = function(url, direction = 'right') {
-  const page = document.querySelector('.page');
 
-  sessionStorage.setItem('navDirection', direction);
-
-  if (!page) {
-    window.location.href = url;
-    return;
-  }
-
-  page.classList.remove('slide-out-left', 'slide-out-right');
-
-  if (direction === 'right') {
-    page.classList.add('slide-out-right');
-  } else {
-    page.classList.add('slide-out-left');
-  }
-
-  setTimeout(() => {
-    window.location.href = url;
-  }, 300);
-};
-    
     window._fb = {
       db,
       doc,
@@ -794,8 +766,12 @@ window.navigateTo = function(url, direction = 'right') {
       addDoc,
       collection,
       serverTimestamp,
+      ready: false,
       getUid: () => null,
-      ready: false
+      loadFromCloud: async () => null,
+      saveToCloud: async () => {},
+      saveProfile: async () => {},
+      logCompletedCard: async () => {}
     };
 
     onAuthStateChanged(auth, async (user) => {
@@ -815,7 +791,6 @@ window.navigateTo = function(url, direction = 'right') {
           if (!snap.exists()) return null;
 
           const data = snap.data();
-
           const cloudStamps = data.stamps || 0;
           const cardNumber = data.cardNumber || 1;
           const name = data.name || null;
@@ -828,8 +803,8 @@ window.navigateTo = function(url, direction = 'right') {
           if (phone) localStorage.setItem('fitbites_phone', phone);
 
           return { stamps: cloudStamps, cardNumber, name, phone };
-        } catch (e) {
-          console.warn('Firestore load failed:', e);
+        } catch (error) {
+          console.warn('Firestore load failed:', error);
           return null;
         }
       };
@@ -852,8 +827,8 @@ window.navigateTo = function(url, direction = 'right') {
           }
 
           setSyncStatus('synced ☁️');
-        } catch (e) {
-          console.warn('Firestore save failed:', e);
+        } catch (error) {
+          console.warn('Firestore save failed:', error);
           setSyncStatus('saved locally');
         }
       };
@@ -873,8 +848,8 @@ window.navigateTo = function(url, direction = 'right') {
           }, { merge: true });
 
           setSyncStatus('profile saved ☁️');
-        } catch (e) {
-          console.warn('Profile save failed:', e);
+        } catch (error) {
+          console.warn('Profile save failed:', error);
           setSyncStatus('profile saved locally');
         }
       };
@@ -886,8 +861,8 @@ window.navigateTo = function(url, direction = 'right') {
             cardNumber,
             completedAt: serverTimestamp()
           });
-        } catch (e) {
-          console.warn('Failed to log completed card:', e);
+        } catch (error) {
+          console.warn('Failed to log completed card:', error);
         }
       };
 
@@ -907,28 +882,32 @@ window.navigateTo = function(url, direction = 'right') {
       window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
 
-    if (!isStandalone) {
-      document.body.innerHTML = `
-        <div style="font-family:'Helvetica Neue',sans-serif;background:#fdf9f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;">
-          <img src="/icons/icon-192.png" style="width:80px;margin-bottom:24px;" alt="fitbites" />
-          <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c47a3a;margin-bottom:12px;">loyalty card</p>
-          <p style="font-size:15px;color:#2c1a0e;margin-bottom:8px;font-weight:700;">app only feature</p>
-          <p style="font-size:13px;color:#8a6a4a;line-height:1.8;max-width:260px;">add fitbites to your home screen to access your loyalty card.</p>
-          <a href="/" style="margin-top:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c47a3a;text-decoration:none;">← back to fitbites</a>
-        </div>`;
-      throw new Error('PWA only page');
-    }
+    const STORAGE = {
+      STAMPS: 'fitbites_loyalty_stamps',
+      CARD: 'fitbites_card_number',
+      NAME: 'fitbites_name',
+      PHONE: 'fitbites_phone'
+    };
 
     const SALT = 'fb_cafe_secret_9x2k';
     const TOTAL_STAMPS = 9;
-    const STORAGE_KEY = 'fitbites_loyalty_stamps';
-    const CARD_KEY = 'fitbites_card_number';
     const STAMP_ICON = '/icons/stamp-icon.png';
 
-    let stamps = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-    let cardNumber = parseInt(localStorage.getItem(CARD_KEY) || '1');
-    let userRegistered = !!localStorage.getItem('fitbites_name');
+    const MESSAGES = [
+      { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
+      { too: "They're evolving 😳", tiel: "You came back. Impressive." },
+      { too: "At this rate, they'll unlock my secret recipe!", tiel: "You don't have one." },
+      { too: "This is a lifestyle.", tiel: "This is no longer casual." },
+      { too: "Halfway there! I'm proud of you.", tiel: "…don't get emotional." },
+      { too: "That's… a lot.", tiel: "You've officially eaten more oats than Too thinks in a day." },
+      { too: "At this point, you're basically part of the team.", tiel: "Unpaid." },
+      { too: "And maybe my respect.", tiel: "One more and you unlock greatness." },
+      { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
+    ];
 
+    let stamps = parseInt(localStorage.getItem(STORAGE.STAMPS) || '0');
+    let cardNumber = parseInt(localStorage.getItem(STORAGE.CARD) || '1');
+    let userRegistered = !!localStorage.getItem(STORAGE.NAME);
     let scanning = false;
     let videoStream = null;
     let lastStampTime = 0;
@@ -959,48 +938,54 @@ window.navigateTo = function(url, direction = 'right') {
       navCard: document.getElementById('nav-card-btn')
     };
 
-    const MESSAGES = [
-      { too: "We did it! First step toward greatness!", tiel: "…you just bought yogurt." },
-      { too: "They're evolving 😳", tiel: "You came back. Impressive." },
-      { too: "At this rate, they'll unlock my secret recipe!", tiel: "You don't have one." },
-      { too: "This is a lifestyle.", tiel: "This is no longer casual." },
-      { too: "Halfway there! I'm proud of you.", tiel: "…don't get emotional." },
-      { too: "That's… a lot.", tiel: "You've officially eaten more oats than Too thinks in a day." },
-      { too: "At this point, you're basically part of the team.", tiel: "Unpaid." },
-      { too: "And maybe my respect.", tiel: "One more and you unlock greatness." },
-      { too: "LEGEND. Absolute legend.", tiel: "…fine. That was disciplined." }
-    ];
+    function firebaseReady() {
+      return !!(window._fb && window._fb.ready);
+    }
 
     function getTodayCode() {
-  const now = new Date();
+      const now = new Date();
+      const vnDate = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Ho_Chi_Minh',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(now);
 
-  const vnDate = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Ho_Chi_Minh',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  }).format(now);
+      const dateStr = vnDate.replaceAll('-', '');
+      const input = dateStr + SALT;
+      let hash = 0;
 
-  const dateStr = vnDate.replaceAll('-', '');
-  const input = dateStr + SALT;
+      for (let i = 0; i < input.length; i++) {
+        hash = ((hash << 5) - hash) + input.charCodeAt(i);
+        hash |= 0;
+      }
 
-  let hash = 0;
+      return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
+    }
 
-  for (let i = 0; i < input.length; i++) {
-    hash = ((hash << 5) - hash) + input.charCodeAt(i);
-    hash |= 0;
-  }
-
-  return 'FITBITES-' + dateStr + '-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 6);
-}
-    function setSyncStatus(msg) {
+    function setSyncStatus(message) {
       if (!els.syncStatus) return;
 
-      els.syncStatus.textContent = msg;
+      els.syncStatus.textContent = message;
 
       setTimeout(() => {
         els.syncStatus.textContent = '';
       }, 3000);
+    }
+
+    function requireStandaloneMode() {
+      if (isStandalone) return;
+
+      document.body.innerHTML = `
+        <div style="font-family:'Helvetica Neue',sans-serif;background:#fdf9f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;">
+          <img src="/icons/icon-192.png" style="width:80px;margin-bottom:24px;" alt="fitbites" />
+          <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c47a3a;margin-bottom:12px;">loyalty card</p>
+          <p style="font-size:15px;color:#2c1a0e;margin-bottom:8px;font-weight:700;">app only feature</p>
+          <p style="font-size:13px;color:#8a6a4a;line-height:1.8;max-width:260px;">add fitbites to your home screen to access your loyalty card.</p>
+          <a href="/" style="margin-top:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c47a3a;text-decoration:none;">← back to fitbites</a>
+        </div>`;
+
+      throw new Error('PWA only page');
     }
 
     function initStamps() {
@@ -1036,10 +1021,11 @@ window.navigateTo = function(url, direction = 'right') {
         }
 
         els.reward.classList.add('show');
-      } else {
-        els.scanBtn.style.display = 'flex';
-        els.reward.classList.remove('show');
+        return;
       }
+
+      els.scanBtn.style.display = 'flex';
+      els.reward.classList.remove('show');
     }
 
     function animateNewestStamp() {
@@ -1059,7 +1045,6 @@ window.navigateTo = function(url, direction = 'right') {
 
       els.msgToo.textContent = '🦜 Too: "' + msg.too + '"';
       els.msgTiel.textContent = '😤 Tiel: "' + msg.tiel + '"';
-
       els.stampMessage.classList.remove('show');
 
       setTimeout(() => {
@@ -1083,6 +1068,18 @@ window.navigateTo = function(url, direction = 'right') {
       els.regOverlay.classList.remove('open');
     }
 
+    function saveProfileWhenReady(name, phone) {
+      if (firebaseReady()) {
+        window._fb.saveProfile(name, phone, stamps, cardNumber);
+        return;
+      }
+
+      window._fbReadyCallback = async function() {
+        await syncFromCloud();
+        window._fb.saveProfile(name, phone, stamps, cardNumber);
+      };
+    }
+
     function submitRegistration() {
       const nameRaw = els.regName.value.trim();
       const phoneRaw = els.regPhone.value.trim();
@@ -1100,20 +1097,15 @@ window.navigateTo = function(url, direction = 'right') {
 
       els.regError.textContent = '';
 
-      localStorage.setItem('fitbites_name', nameRaw);
-      localStorage.setItem('fitbites_phone', cleanPhone);
-
+      localStorage.setItem(STORAGE.NAME, nameRaw);
+      localStorage.setItem(STORAGE.PHONE, cleanPhone);
       userRegistered = true;
 
-      if (window._fb && window._fb.ready) {
-        window._fb.saveProfile(nameRaw, cleanPhone, stamps, cardNumber);
-      }
+      saveProfileWhenReady(nameRaw, cleanPhone);
 
       els.regOverlay.classList.remove('open');
-
       els.msgToo.textContent = '🦜 Too: "' + nameRaw + '!! YOU ARE ONE OF US NOW!"';
       els.msgTiel.textContent = '😤 Tiel: "…welcome. officially."';
-
       els.stampMessage.classList.remove('show');
 
       setTimeout(() => {
@@ -1129,23 +1121,20 @@ window.navigateTo = function(url, direction = 'right') {
       const now = Date.now();
 
       if (now - lastStampTime < 3000) return;
-      lastStampTime = now;
-
       if (stamps >= TOTAL_STAMPS) return;
 
-      playStampSound();
-
+      lastStampTime = now;
       stamps++;
 
-      localStorage.setItem(STORAGE_KEY, stamps);
+      playStampSound();
+      localStorage.setItem(STORAGE.STAMPS, stamps);
 
       updateStamps();
       animateNewestStamp();
       showMessage(stamps);
-
       setSyncStatus('syncing...');
 
-      if (window._fb && window._fb.ready) {
+      if (firebaseReady()) {
         window._fb.saveToCloud(stamps, cardNumber);
 
         if (stamps >= TOTAL_STAMPS) {
@@ -1153,7 +1142,7 @@ window.navigateTo = function(url, direction = 'right') {
         }
       }
 
-      if (stamps === 1 && !userRegistered) {
+      if (!localStorage.getItem(STORAGE.NAME)) {
         setTimeout(openRegistration, 400);
       }
     }
@@ -1162,13 +1151,13 @@ window.navigateTo = function(url, direction = 'right') {
       stamps = 0;
       cardNumber++;
 
-      localStorage.setItem(STORAGE_KEY, 0);
-      localStorage.setItem(CARD_KEY, cardNumber);
+      localStorage.setItem(STORAGE.STAMPS, 0);
+      localStorage.setItem(STORAGE.CARD, cardNumber);
 
       updateStamps();
       setSyncStatus('syncing...');
 
-      if (window._fb && window._fb.ready) {
+      if (firebaseReady()) {
         window._fb.saveToCloud(0, cardNumber);
       }
     }
@@ -1277,9 +1266,9 @@ window.navigateTo = function(url, direction = 'right') {
         els.scannerStatus.textContent = 'scanning...';
 
         startScanningLoop(els.qrVideo);
-      } catch (err) {
-        console.error('CAMERA ERROR:', err);
-        els.scannerStatus.textContent = 'camera error: ' + err.name;
+      } catch (error) {
+        console.error('CAMERA ERROR:', error);
+        els.scannerStatus.textContent = 'camera error: ' + error.name;
       }
     }
 
@@ -1321,7 +1310,6 @@ window.navigateTo = function(url, direction = 'right') {
 
           if (code) {
             const scanned = code.data.trim();
-
             els.scannerStatus.textContent = 'validating...';
 
             if (scanned === getTodayCode()) {
@@ -1346,26 +1334,35 @@ window.navigateTo = function(url, direction = 'right') {
 
       const result = await window._fb.loadFromCloud();
 
-      if (result !== null) {
-        const cloudStamps = result.stamps;
-        const cloudCard = result.cardNumber;
+      if (result === null) return;
 
-        if (cloudStamps !== stamps || cloudCard !== cardNumber) {
-          stamps = cloudStamps;
-          cardNumber = cloudCard;
+      const cloudStamps = result.stamps;
+      const cloudCard = result.cardNumber;
 
-          localStorage.setItem(STORAGE_KEY, stamps);
-          localStorage.setItem(CARD_KEY, cardNumber);
+      if (cloudStamps !== stamps || cloudCard !== cardNumber) {
+        stamps = cloudStamps;
+        cardNumber = cloudCard;
 
-          updateStamps();
-        }
+        localStorage.setItem(STORAGE.STAMPS, stamps);
+        localStorage.setItem(STORAGE.CARD, cardNumber);
 
-        if (result.name) {
-          userRegistered = true;
-        }
-
-        setSyncStatus('synced ☁️');
+        updateStamps();
       }
+
+      if (result.name) {
+        userRegistered = true;
+      } else {
+        userRegistered = !!localStorage.getItem(STORAGE.NAME);
+      }
+
+      const localName = localStorage.getItem(STORAGE.NAME);
+      const localPhone = localStorage.getItem(STORAGE.PHONE);
+
+      if (!result.name && localName && localPhone && firebaseReady()) {
+        window._fb.saveProfile(localName, localPhone, stamps, cardNumber);
+      }
+
+      setSyncStatus('synced ☁️');
     }
 
     function snapBubbleToCard() {
@@ -1383,40 +1380,70 @@ window.navigateTo = function(url, direction = 'right') {
       });
     }
 
-    initStamps();
-    updateStamps();
+    function navigateTo(url, direction = 'right') {
+      const page = document.querySelector('.page');
+      sessionStorage.setItem('navDirection', direction);
 
-    if (window._fb && window._fb.ready) {
-      syncFromCloud();
-    } else {
-      window._fbReadyCallback = syncFromCloud;
+      if (!page) {
+        window.location.href = url;
+        return;
+      }
+
+      page.classList.remove('slide-out-left', 'slide-out-right');
+      page.classList.add(direction === 'right' ? 'slide-out-right' : 'slide-out-left');
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 300);
     }
 
-    requestAnimationFrame(() => requestAnimationFrame(snapBubbleToCard));
-    window.addEventListener('resize', snapBubbleToCard);
-    window.addEventListener('orientationchange', snapBubbleToCard);
+    function applyEntryAnimation() {
+      const page = document.querySelector('.page');
+      const direction = sessionStorage.getItem('navDirection');
 
-    document.addEventListener('DOMContentLoaded', () => {
-  const page = document.querySelector('.page');
-  const direction = sessionStorage.getItem('navDirection');
+      if (!page || !direction) return;
 
-  if (!page || !direction) return;
+      if (direction === 'left') {
+        page.classList.add('enter-from-right');
+      } else if (direction === 'right') {
+        page.classList.add('enter-from-left');
+      }
 
-  if (direction === 'left') {
-    page.classList.add('enter-from-right');
-  } else if (direction === 'right') {
-    page.classList.add('enter-from-left');
-  }
+      requestAnimationFrame(() => {
+        page.classList.add('enter-active');
+      });
 
-  requestAnimationFrame(() => {
-    page.classList.add('enter-active');
-  });
+      setTimeout(() => {
+        page.classList.remove('enter-from-right', 'enter-from-left', 'enter-active');
+        sessionStorage.removeItem('navDirection');
+      }, 400);
+    }
 
-  setTimeout(() => {
-    page.classList.remove('enter-from-right', 'enter-from-left', 'enter-active');
-    sessionStorage.removeItem('navDirection');
-  }, 400);
-});
+    function boot() {
+      requireStandaloneMode();
+      initStamps();
+      updateStamps();
+
+      if (firebaseReady()) {
+        syncFromCloud();
+      } else {
+        window._fbReadyCallback = syncFromCloud;
+      }
+
+      requestAnimationFrame(() => requestAnimationFrame(snapBubbleToCard));
+      window.addEventListener('resize', snapBubbleToCard);
+      window.addEventListener('orientationchange', snapBubbleToCard);
+      document.addEventListener('DOMContentLoaded', applyEntryAnimation);
+    }
+
+    window.navigateTo = navigateTo;
+    window.openScanner = openScanner;
+    window.closeScanner = closeScanner;
+    window.submitRegistration = submitRegistration;
+    window.skipRegistration = skipRegistration;
+    window.resetCard = resetCard;
+
+    boot();
   </script>
 </body>
 </html>
