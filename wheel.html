@@ -5,154 +5,361 @@
 <title>Fitbites World Cup Wheel</title>
 
 <style>
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url('GlacialIndifference-Regular.woff2') format('woff2');
+}
+
+:root{
+    --cream:#F9F4EC;
+    --milk:#FFFDF8;
+    --coffee:#4D3625;
+    --caramel:#D6B07D;
+    --chocolate:#7A4F2A;
+    --green:#6F7F4A;
+    --strawberry:#E7A6A1;
+    --gold:#E7C26B;
+}
+
+*{
+    box-sizing:border-box;
+}
 
 body{
-    background:#F9F4EC;
-    color:white;
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top left, rgba(214,176,125,.35), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(111,127,74,.22), transparent 35%),
+        var(--cream);
+    font-family:'Glacial Indifference', Arial, sans-serif;
+    color:var(--coffee);
+    display:flex;
+    justify-content:center;
+    align-items:center;
     text-align:center;
-    font-family:Arial;
+    overflow-x:hidden;
+}
+
+.page{
+    width:100%;
+    max-width:980px;
+    padding:24px;
+}
+
+.card{
+    position:relative;
+    background:rgba(255,253,248,.92);
+    border:1px solid rgba(214,176,125,.45);
+    border-radius:42px;
+    padding:34px 26px 42px;
+    box-shadow:
+        0 25px 70px rgba(77,54,37,.16),
+        inset 0 0 0 1px rgba(255,255,255,.8);
+}
+
+.logo{
+    font-size:34px;
+    letter-spacing:4px;
+    font-weight:900;
+    margin-bottom:6px;
+}
+
+.tagline{
+    font-size:13px;
+    letter-spacing:5px;
+    color:var(--caramel);
+    margin-bottom:18px;
 }
 
 h1{
-    color:gold;
+    margin:0;
+    font-size:38px;
+    line-height:1.05;
+    color:var(--coffee);
 }
 
-.container{
-    margin-top:30px;
+.sub{
+    margin-top:10px;
+    font-size:18px;
+    color:#8b6a4e;
+}
+
+.stage{
+    margin-top:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:22px;
+}
+
+.mascot-placeholder{
+    width:160px;
+    min-height:360px;
+    border:2px dashed rgba(214,176,125,.55);
+    border-radius:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#b08a61;
+    font-size:14px;
+    padding:16px;
+}
+
+.wheel-area{
+    position:relative;
+}
+
+.pointer{
+    position:absolute;
+    top:-22px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    width:44px;
+    height:44px;
+    background:var(--gold);
+    border:4px solid var(--coffee);
+    clip-path:polygon(50% 100%, 0 0, 100% 0);
+    filter:drop-shadow(0 6px 8px rgba(77,54,37,.25));
 }
 
 #wheel{
-    width:350px;
-    height:350px;
+    position:relative;
+    width:390px;
+    height:390px;
     border-radius:50%;
-    border:8px solid gold;
     margin:auto;
-    transition:5s cubic-bezier(.17,.67,.25,1);
-
+    border:12px solid var(--coffee);
     background:
-    conic-gradient(
-        #F5E6C8 0deg 45deg,
-        white 45deg 90deg,
-        #F5E6C8 90deg 135deg,
-        white 135deg 180deg,
-        #F5E6C8 180deg 225deg,
-        white 225deg 270deg,
-        #F5E6C8 270deg 315deg,
-        white 315deg 360deg
-    );
+        conic-gradient(
+            var(--milk) 0deg 45deg,
+            var(--strawberry) 45deg 90deg,
+            var(--green) 90deg 135deg,
+            #F3D7A5 135deg 180deg,
+            #DFA76E 180deg 225deg,
+            #C9897C 225deg 270deg,
+            #A98F63 270deg 315deg,
+            var(--gold) 315deg 360deg
+        );
+    transition:5.5s cubic-bezier(.12,.75,.18,1);
+    box-shadow:
+        0 25px 45px rgba(77,54,37,.25),
+        0 0 0 10px rgba(214,176,125,.35),
+        inset 0 0 35px rgba(255,255,255,.45);
 }
 
-.arrow{
-    font-size:50px;
-    color:red;
-    margin-bottom:-20px;
+#wheel::before{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border-radius:50%;
+    border:2px dashed rgba(255,253,248,.7);
 }
+
+.center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:128px;
+    height:128px;
+    border-radius:50%;
+    background:var(--milk);
+    border:8px solid var(--coffee);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    box-shadow:0 10px 25px rgba(77,54,37,.25);
+    z-index:3;
+    font-weight:900;
+}
+
+.center span{
+    font-size:34px;
+}
+
+.prize{
+    position:absolute;
+    width:120px;
+    left:50%;
+    top:50%;
+    transform-origin:center;
+    font-size:13px;
+    font-weight:900;
+    color:var(--coffee);
+    line-height:1.1;
+}
+
+.prize .icon{
+    display:block;
+    font-size:26px;
+    margin-bottom:4px;
+}
+
+/* 8 prize slots */
+.p0{ transform:translate(-50%,-50%) rotate(22.5deg) translateY(-145px) rotate(-22.5deg); }
+.p1{ transform:translate(-50%,-50%) rotate(67.5deg) translateY(-145px) rotate(-67.5deg); }
+.p2{ transform:translate(-50%,-50%) rotate(112.5deg) translateY(-145px) rotate(-112.5deg); }
+.p3{ transform:translate(-50%,-50%) rotate(157.5deg) translateY(-145px) rotate(-157.5deg); }
+.p4{ transform:translate(-50%,-50%) rotate(202.5deg) translateY(-145px) rotate(-202.5deg); }
+.p5{ transform:translate(-50%,-50%) rotate(247.5deg) translateY(-145px) rotate(-247.5deg); }
+.p6{ transform:translate(-50%,-50%) rotate(292.5deg) translateY(-145px) rotate(-292.5deg); }
+.p7{ transform:translate(-50%,-50%) rotate(337.5deg) translateY(-145px) rotate(-337.5deg); }
 
 button{
     margin-top:30px;
-    padding:15px 40px;
-    font-size:20px;
-    background:gold;
+    padding:18px 52px;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--milk);
+    background:linear-gradient(135deg,var(--coffee),var(--chocolate));
     border:none;
-    border-radius:15px;
+    border-radius:999px;
     cursor:pointer;
+    box-shadow:0 14px 30px rgba(77,54,37,.25);
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 #result{
-    margin-top:30px;
-    font-size:30px;
-    color:gold;
+    margin-top:24px;
+    font-size:28px;
+    color:var(--coffee);
+    min-height:74px;
 }
 
+.note{
+    margin-top:16px;
+    font-size:15px;
+    color:#9a7658;
+}
+
+@media(max-width:850px){
+    .stage{
+        gap:10px;
+    }
+
+    .mascot-placeholder{
+        display:none;
+    }
+
+    #wheel{
+        width:330px;
+        height:330px;
+    }
+
+    .prize{
+        font-size:11px;
+        width:96px;
+    }
+
+    .prize .icon{
+        font-size:22px;
+    }
+
+    .p0,.p1,.p2,.p3,.p4,.p5,.p6,.p7{
+        transform-origin:center;
+    }
+
+    .p0{ transform:translate(-50%,-50%) rotate(22.5deg) translateY(-122px) rotate(-22.5deg); }
+    .p1{ transform:translate(-50%,-50%) rotate(67.5deg) translateY(-122px) rotate(-67.5deg); }
+    .p2{ transform:translate(-50%,-50%) rotate(112.5deg) translateY(-122px) rotate(-112.5deg); }
+    .p3{ transform:translate(-50%,-50%) rotate(157.5deg) translateY(-122px) rotate(-157.5deg); }
+    .p4{ transform:translate(-50%,-50%) rotate(202.5deg) translateY(-122px) rotate(-202.5deg); }
+    .p5{ transform:translate(-50%,-50%) rotate(247.5deg) translateY(-122px) rotate(-247.5deg); }
+    .p6{ transform:translate(-50%,-50%) rotate(292.5deg) translateY(-122px) rotate(-292.5deg); }
+    .p7{ transform:translate(-50%,-50%) rotate(337.5deg) translateY(-122px) rotate(-337.5deg); }
+}
 </style>
 </head>
+
 <body>
 
-<h1>⚽ FITBITES WORLD CUP WHEEL 🏆</h1>
+<div class="page">
+    <div class="card">
 
-<div class="container">
+        <div class="logo">fitbites</div>
+        <div class="tagline">HEALTH HAS NEVER TASTED THIS WRONG.</div>
 
-<div class="arrow">
-▼
-</div>
+        <h1>⚽ World Cup Wheel 🏆</h1>
+        <div class="sub">Spin. Win. Smile. Repeat.</div>
 
-<div id="wheel"></div>
+        <div class="stage">
 
-<button onclick="spinWheel()">
-SPIN ⚽
-</button>
+            <div class="mascot-placeholder">
+                Place TOO image here later
+            </div>
 
-<h2 id="result"></h2>
+            <div class="wheel-area">
+                <div class="pointer"></div>
 
+                <div id="wheel">
+                    <div class="prize p0"><span class="icon">😭</span>Try Again</div>
+                    <div class="prize p1"><span class="icon">🍫</span>Chocolate<br>Drizzle</div>
+                    <div class="prize p2"><span class="icon">🥜</span>Peanut<br>Butter</div>
+                    <div class="prize p3"><span class="icon">🍓</span>Fruit<br>Topping</div>
+                    <div class="prize p4"><span class="icon">⭐</span>Bonus<br>Stamp</div>
+                    <div class="prize p5"><span class="icon">🔥</span>Double<br>Stamps</div>
+                    <div class="prize p6"><span class="icon">🥞</span>Free<br>Crepe</div>
+                    <div class="prize p7"><span class="icon">🏆</span>Ice Cream<br>Pint</div>
+
+                    <div class="center">
+                        <span>⚽</span>
+                        FITBITES
+                    </div>
+                </div>
+
+                <button id="spinBtn" onclick="spinWheel()">SPIN</button>
+
+                <h2 id="result"></h2>
+
+                <div class="note">One spin per order above 100k ❤️</div>
+            </div>
+
+            <div class="mascot-placeholder">
+                Place TIEL image here later
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script>
-
 let currentRotation = 0;
+let spinning = false;
 
 function weightedPrize(){
+    let r = Math.random() * 100;
 
-    let r = Math.random()*100;
+    if(r < 1) return { name:"🏆 FREE ICE CREAM PINT", segment:7 };
+    if(r < 6) return { name:"🥞 FREE PROTEIN CREPE", segment:6 };
+    if(r < 16) return { name:"🔥 DOUBLE STAMPS", segment:5 };
+    if(r < 30) return { name:"⭐ +1 BONUS STAMP", segment:4 };
+    if(r < 45) return { name:"🍓 FREE FRUIT TOPPING", segment:3 };
+    if(r < 60) return { name:"🥜 FREE PEANUT BUTTER", segment:2 };
+    if(r < 80) return { name:"🍫 FREE CHOCOLATE DRIZZLE", segment:1 };
 
-    if(r < 1)
-        return {
-            name:"🏆 FREE ICE CREAM PINT",
-            segment:7
-        };
-
-    else if(r < 6)
-        return {
-            name:"🥞 FREE PROTEIN CREPE",
-            segment:6
-        };
-
-    else if(r < 16)
-        return {
-            name:"⭐ DOUBLE STAMPS",
-            segment:5
-        };
-
-    else if(r < 30)
-        return {
-            name:"+1 BONUS STAMP",
-            segment:4
-        };
-
-    else if(r < 45)
-        return {
-            name:"🍓 FREE FRUIT TOPPING",
-            segment:3
-        };
-
-    else if(r < 60)
-        return {
-            name:"🥜 FREE PEANUT BUTTER",
-            segment:2
-        };
-
-    else if(r < 80)
-        return {
-            name:"🍫 FREE CHOCOLATE DRIZZLE",
-            segment:1
-        };
-
-    else
-        return {
-            name:"😭 TRY AGAIN",
-            segment:0
-        };
-
+    return { name:"😭 TRY AGAIN", segment:0 };
 }
 
 function spinWheel(){
+    if(spinning) return;
+
+    spinning = true;
+    document.getElementById("spinBtn").disabled = true;
+    document.getElementById("result").innerHTML = "Too is calculating... 🦜";
 
     let prize = weightedPrize();
-
     let anglePerSegment = 45;
 
-    let targetAngle =
-        3600 +
-        (360 - prize.segment * anglePerSegment);
+    let stopAngle = 360 - (prize.segment * anglePerSegment + anglePerSegment / 2);
+    let targetAngle = 3600 + stopAngle;
 
     currentRotation += targetAngle;
 
@@ -160,14 +367,13 @@ function spinWheel(){
         `rotate(${currentRotation}deg)`;
 
     setTimeout(()=>{
-
         document.getElementById("result").innerHTML =
-        "🎉 You won:<br><br>" + prize.name;
+        "🎉 You won:<br>" + prize.name;
 
-    },5000);
-
+        spinning = false;
+        document.getElementById("spinBtn").disabled = false;
+    },5600);
 }
-
 </script>
 
 </body>
