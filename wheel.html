@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fitbites World Cup Wheel</title>
+
+<style>
+
+body{
+    background:#111;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+h1{
+    color:gold;
+}
+
+.container{
+    margin-top:30px;
+}
+
+#wheel{
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    border:8px solid gold;
+    margin:auto;
+    transition:5s cubic-bezier(.17,.67,.25,1);
+
+    background:
+    conic-gradient(
+        #F5E6C8 0deg 45deg,
+        white 45deg 90deg,
+        #F5E6C8 90deg 135deg,
+        white 135deg 180deg,
+        #F5E6C8 180deg 225deg,
+        white 225deg 270deg,
+        #F5E6C8 270deg 315deg,
+        white 315deg 360deg
+    );
+}
+
+.arrow{
+    font-size:50px;
+    color:red;
+    margin-bottom:-20px;
+}
+
+button{
+    margin-top:30px;
+    padding:15px 40px;
+    font-size:20px;
+    background:gold;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:30px;
+    font-size:30px;
+    color:gold;
+}
+
+</style>
+</head>
+<body>
+
+<h1>⚽ FITBITES WORLD CUP WHEEL 🏆</h1>
+
+<div class="container">
+
+<div class="arrow">
+▼
+</div>
+
+<div id="wheel"></div>
+
+<button onclick="spinWheel()">
+SPIN ⚽
+</button>
+
+<h2 id="result"></h2>
+
+</div>
+
+<script>
+
+let currentRotation = 0;
+
+function weightedPrize(){
+
+    let r = Math.random()*100;
+
+    if(r < 1)
+        return {
+            name:"🏆 FREE ICE CREAM PINT",
+            segment:7
+        };
+
+    else if(r < 6)
+        return {
+            name:"🥞 FREE PROTEIN CREPE",
+            segment:6
+        };
+
+    else if(r < 16)
+        return {
+            name:"⭐ DOUBLE STAMPS",
+            segment:5
+        };
+
+    else if(r < 30)
+        return {
+            name:"+1 BONUS STAMP",
+            segment:4
+        };
+
+    else if(r < 45)
+        return {
+            name:"🍓 FREE FRUIT TOPPING",
+            segment:3
+        };
+
+    else if(r < 60)
+        return {
+            name:"🥜 FREE PEANUT BUTTER",
+            segment:2
+        };
+
+    else if(r < 80)
+        return {
+            name:"🍫 FREE CHOCOLATE DRIZZLE",
+            segment:1
+        };
+
+    else
+        return {
+            name:"😭 TRY AGAIN",
+            segment:0
+        };
+
+}
+
+function spinWheel(){
+
+    let prize = weightedPrize();
+
+    let anglePerSegment = 45;
+
+    let targetAngle =
+        3600 +
+        (360 - prize.segment * anglePerSegment);
+
+    currentRotation += targetAngle;
+
+    document.getElementById("wheel").style.transform =
+        `rotate(${currentRotation}deg)`;
+
+    setTimeout(()=>{
+
+        document.getElementById("result").innerHTML =
+        "🎉 You won:<br><br>" + prize.name;
+
+    },5000);
+
+}
+
+</script>
+
+</body>
+</html>
