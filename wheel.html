@@ -88,14 +88,15 @@ h1{
 }
 
 .stage{
+    margin-top:28px;
     display:flex;
     justify-content:center;
     align-items:flex-end;
-    flex-wrap:nowrap;
+    gap:18px;
 }
 
 .mascot{
-    flex-shrink:0;
+    flex:0 0 auto;
 }
 
 .mascot img{
@@ -107,11 +108,11 @@ h1{
 }
 
 .too{
-    transform:scale(1.4);
+    width:230px;
 }
 
 .tiel{
-    transform:scale(1.6);
+    width:190px;
 }
 
 @keyframes float{
@@ -124,12 +125,12 @@ h1{
 }
 
 .wheel-area{
+    flex:0 0 auto;
     position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
 }
-
 .pointer{
     position:absolute;
     top:-22px;
