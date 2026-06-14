@@ -441,3 +441,107 @@ function spinWheel(){
 
 </body>
 </html>
+</style>
+</head>
+
+<body>
+
+<div class="page">
+    <div class="card">
+
+        <div class="logo">fitbites</div>
+        <div class="tagline">HEALTH HAS NEVER TASTED THIS WRONG.</div>
+
+        <h1>⚽ World Cup Wheel 🏆</h1>
+        <div class="sub">Spin. Win. Smile. Repeat.</div>
+
+        <div class="stage">
+
+            <div class="mascot too">
+                <img src="https://raw.githubusercontent.com/FitbitesLab/fitbites-website/main/icons/too-soccer.png" alt="Too soccer">
+            </div>
+
+            <div class="wheel-area">
+                <div class="pointer"></div>
+
+                <div id="wheel">
+                    <div class="prize p0"><span class="icon">😭</span>Try Again</div>
+                    <div class="prize p1"><span class="icon">🍫</span>Topping Protein Butter</div>
+                    <div class="prize p2"><span class="icon">🥜</span>Peanut<br>Butter</div>
+                    <div class="prize p3"><span class="icon">🍓</span>Fruit<br>Topping</div>
+                    <div class="prize p4"><span class="icon">⭐</span>Bonus<br>Stamp</div>
+                    <div class="prize p5"><span class="icon">🔥</span>Double<br>Stamps</div>
+                    <div class="prize p6"><span class="icon">🥞</span>Free<br>Crepe</div>
+                    <div class="prize p7"><span class="icon">🏆</span>Protein Ice Cream<br>Scoop</div>
+
+                    <div class="center">
+                        <span>⚽</span>
+                        FITBITES
+                    </div>
+                </div>
+
+                <button id="spinBtn" onclick="spinWheel()">SPIN</button>
+
+                <h2 id="result"></h2>
+
+                <div class="note">One spin per order above 100k ❤️</div>
+            </div>
+
+            <div class="mascot tiel">
+    <img src="https://raw.githubusercontent.com/FitbitesLab/fitbites-website/main/icons/tiel-soccer-event.png" alt="Tiel soccer">
+</div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentRotation = 0;
+let spinning = false;
+
+function weightedPrize(){
+    let r = Math.random() * 100;
+
+    if(r < 1) return { name:"🏆 FREE ICE CREAM PINT", segment:7 };
+    if(r < 6) return { name:"🥞 FREE PROTEIN CREPE", segment:6 };
+    if(r < 16) return { name:"🔥 DOUBLE STAMPS", segment:5 };
+    if(r < 30) return { name:"⭐ +1 BONUS STAMP", segment:4 };
+    if(r < 45) return { name:"🍓 FREE FRUIT TOPPING", segment:3 };
+    if(r < 60) return { name:"🥜 FREE PEANUT BUTTER", segment:2 };
+    if(r < 80) return { name:"🍫 FREE CHOCOLATE DRIZZLE", segment:1 };
+
+    return { name:"😭 TRY AGAIN", segment:0 };
+}
+
+function spinWheel(){
+    if(spinning) return;
+
+    spinning = true;
+
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+    const wheel = document.getElementById("wheel");
+
+    spinBtn.disabled = true;
+    result.innerHTML = "Too is calculating... 🦜";
+
+    const prize = weightedPrize();
+    const anglePerSegment = 45;
+
+    const stopAngle = 360 - (prize.segment * anglePerSegment + anglePerSegment / 2);
+    const targetAngle = 3600 + stopAngle;
+
+    currentRotation += targetAngle;
+
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(()=>{
+        result.innerHTML = "🎉 You won:<br>" + prize.name;
+
+        spinning = false;
+        spinBtn.disabled = false;
+    },5600);
+}
+</script>
+
+</body>
+</html>
