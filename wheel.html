@@ -395,11 +395,11 @@ button:disabled{
 
                 <div id="wheel">
                     <div class="prize p0"><span class="icon">😭</span>Try Again</div>
-                    <div class="prize p1"><span class="icon">🍫</span>Topping Protein Butter</div>
-                    <div class="prize p2"><span class="icon">🥜</span>Peanut<br>Butter</div>
+                    <div class="prize p1"><span class="icon">🍫</span>Baked Oats</div>
+                    <div class="prize p2"><span class="icon">🥜</span>Nut<br>Butter</div>
                     <div class="prize p3"><span class="icon">🍓</span>Fruit<br>Topping</div>
                     <div class="prize p4"><span class="icon">⭐</span>Bonus<br>Stamp</div>
-                    <div class="prize p5"><span class="icon">🔥</span>Double<br>Stamps</div>
+                    <div class="prize p5"><span class="icon">🔥</span>Fitbites Mini</div>
                     <div class="prize p6"><span class="icon">🥞</span>Free<br>Crepe</div>
                     <div class="prize p7"><span class="icon">🏆</span>Protein Ice Cream<br>Scoop</div>
 
@@ -430,13 +430,13 @@ let spinning = false;
 function weightedPrize(){
     let r = Math.random() * 100;
 
-    if(r < 1) return { name:"🏆 FREE ICE CREAM PINT", segment:7 };
-    if(r < 6) return { name:"🥞 FREE PROTEIN CREPE", segment:6 };
-    if(r < 16) return { name:"🔥 DOUBLE STAMPS", segment:5 };
+    if(r < 0.3) return { name:"🏆 FREE ICE CREAM SCOOP", segment:7 };
+    if(r < 1) return { name:"🥞 FREE PROTEIN CREPE", segment:6 };
+    if(r < 16) return { name:"🔥 FITBITES MINI", segment:5 };
     if(r < 30) return { name:"⭐ +1 BONUS STAMP", segment:4 };
     if(r < 45) return { name:"🍓 FREE FRUIT TOPPING", segment:3 };
-    if(r < 60) return { name:"🥜 FREE PEANUT BUTTER", segment:2 };
-    if(r < 80) return { name:"🍫 FREE CHOCOLATE DRIZZLE", segment:1 };
+    if(r < 60) return { name:"🥜 FREE NUT BUTTER", segment:2 };
+    if(r < 80) return { name:"🍫 FREE BAKED OATS TOPPINGS", segment:1 };
 
     return { name:"😭 TRY AGAIN", segment:0 };
 }
