@@ -1,8 +1,9 @@
-
-}<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fitbites World Cup Wheel</title>
 
 <style>
@@ -44,13 +45,13 @@ body{
 
 .page{
     width:100%;
-    max-width:980px;
+    max-width:1180px;
     padding:24px;
 }
 
 .card{
     position:relative;
-    background:rgba(255,253,248,.92);
+    background:rgba(255,253,248,.94);
     border:1px solid rgba(214,176,125,.45);
     border-radius:42px;
     padding:34px 26px 42px;
@@ -69,13 +70,13 @@ body{
 .tagline{
     font-size:13px;
     letter-spacing:5px;
-    color:var(--caramel);
+    color:#9a7658;
     margin-bottom:18px;
 }
 
 h1{
     margin:0;
-    font-size:38px;
+    font-size:42px;
     line-height:1.05;
     color:var(--coffee);
 }
@@ -87,16 +88,31 @@ h1{
 }
 
 .stage{
-    margin-top:28px;
+    margin-top:34px;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:22px;
+    gap:56px;
 }
 
-.mascot-placeholder{
-    width:160px;
-    min-height:360px;
+.mascot{
+    width:260px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+}
+
+.mascot img{
+    width:100%;
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 18px 24px rgba(77,54,37,.20));
+    animation:float 4s ease-in-out infinite;
+}
+
+.tiel-placeholder{
+    width:210px;
+    min-height:330px;
     border:2px dashed rgba(214,176,125,.55);
     border-radius:28px;
     display:flex;
@@ -107,8 +123,20 @@ h1{
     padding:16px;
 }
 
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
 .wheel-area{
     position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .pointer{
@@ -175,6 +203,7 @@ h1{
     box-shadow:0 10px 25px rgba(77,54,37,.25);
     z-index:3;
     font-weight:900;
+    font-size:15px;
 }
 
 .center span{
@@ -199,7 +228,6 @@ h1{
     margin-bottom:4px;
 }
 
-/* 8 prize slots */
 .p0{ transform:translate(-50%,-50%) rotate(22.5deg) translateY(-145px) rotate(-22.5deg); }
 .p1{ transform:translate(-50%,-50%) rotate(67.5deg) translateY(-145px) rotate(-67.5deg); }
 .p2{ transform:translate(-50%,-50%) rotate(112.5deg) translateY(-145px) rotate(-112.5deg); }
@@ -241,13 +269,17 @@ button:disabled{
     color:#9a7658;
 }
 
-@media(max-width:850px){
+@media(max-width:950px){
     .stage{
-        gap:10px;
+        gap:20px;
     }
 
-    .mascot-placeholder{
-        display:none;
+    .mascot{
+        width:190px;
+    }
+
+    .tiel-placeholder{
+        width:160px;
     }
 
     #wheel{
@@ -264,10 +296,6 @@ button:disabled{
         font-size:22px;
     }
 
-    .p0,.p1,.p2,.p3,.p4,.p5,.p6,.p7{
-        transform-origin:center;
-    }
-
     .p0{ transform:translate(-50%,-50%) rotate(22.5deg) translateY(-122px) rotate(-22.5deg); }
     .p1{ transform:translate(-50%,-50%) rotate(67.5deg) translateY(-122px) rotate(-67.5deg); }
     .p2{ transform:translate(-50%,-50%) rotate(112.5deg) translateY(-122px) rotate(-112.5deg); }
@@ -276,6 +304,47 @@ button:disabled{
     .p5{ transform:translate(-50%,-50%) rotate(247.5deg) translateY(-122px) rotate(-247.5deg); }
     .p6{ transform:translate(-50%,-50%) rotate(292.5deg) translateY(-122px) rotate(-292.5deg); }
     .p7{ transform:translate(-50%,-50%) rotate(337.5deg) translateY(-122px) rotate(-337.5deg); }
+}
+
+@media(max-width:700px){
+    body{
+        align-items:flex-start;
+    }
+
+    .page{
+        padding:14px;
+    }
+
+    .card{
+        padding:26px 14px 34px;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .tagline{
+        font-size:10px;
+        letter-spacing:3px;
+    }
+
+    .stage{
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .mascot{
+        width:220px;
+        order:1;
+    }
+
+    .wheel-area{
+        order:2;
+    }
+
+    .tiel-placeholder{
+        display:none;
+    }
 }
 </style>
 </head>
@@ -293,9 +362,10 @@ button:disabled{
 
         <div class="stage">
 
-            <div class="too">
-    <img src="https://raw.githubusercontent.com/FitbitesLab/fitbites-website/main/icons/too-soccer.png" alt="Too soccer">
-</div>
+            <div class="mascot too">
+                <img src="https://raw.githubusercontent.com/FitbitesLab/fitbites-website/main/icons/too-soccer.png" alt="Too soccer">
+            </div>
+
             <div class="wheel-area">
                 <div class="pointer"></div>
 
@@ -322,7 +392,7 @@ button:disabled{
                 <div class="note">One spin per order above 100k ❤️</div>
             </div>
 
-            <div class="mascot-placeholder">
+            <div class="tiel-placeholder">
                 Place TIEL image here later
             </div>
 
@@ -352,26 +422,29 @@ function spinWheel(){
     if(spinning) return;
 
     spinning = true;
-    document.getElementById("spinBtn").disabled = true;
-    document.getElementById("result").innerHTML = "Too is calculating... 🦜";
 
-    let prize = weightedPrize();
-    let anglePerSegment = 45;
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+    const wheel = document.getElementById("wheel");
 
-    let stopAngle = 360 - (prize.segment * anglePerSegment + anglePerSegment / 2);
-    let targetAngle = 3600 + stopAngle;
+    spinBtn.disabled = true;
+    result.innerHTML = "Too is calculating... 🦜";
+
+    const prize = weightedPrize();
+    const anglePerSegment = 45;
+
+    const stopAngle = 360 - (prize.segment * anglePerSegment + anglePerSegment / 2);
+    const targetAngle = 3600 + stopAngle;
 
     currentRotation += targetAngle;
 
-    document.getElementById("wheel").style.transform =
-        `rotate(${currentRotation}deg)`;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
 
     setTimeout(()=>{
-        document.getElementById("result").innerHTML =
-        "🎉 You won:<br>" + prize.name;
+        result.innerHTML = "🎉 You won:<br>" + prize.name;
 
         spinning = false;
-        document.getElementById("spinBtn").disabled = false;
+        spinBtn.disabled = false;
     },5600);
 }
 </script>
