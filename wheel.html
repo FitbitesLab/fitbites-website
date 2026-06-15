@@ -428,6 +428,10 @@ button:disabled{
 </div>
 
 <script>
+
+const spinSound = new Audio("spin.mp3");
+const winSound = new Audio("win.mp3");
+
 let currentRotation = 0;
 let spinning = false;
 
@@ -457,6 +461,9 @@ function spinWheel(){
     spinBtn.disabled = true;
     result.innerHTML = "Too is calculating... 🦜";
 
+    spinSound.currentTime = 0;
+spinSound.play();
+
     const prize = weightedPrize();
     const anglePerSegment = 45;
 
@@ -467,12 +474,20 @@ function spinWheel(){
 
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-    setTimeout(()=>{
-        result.innerHTML = "🎉 You won:<br>" + prize.name;
+     setTimeout(()=>{
 
-        spinning = false;
-        spinBtn.disabled = false;
-    },5600);
+    spinSound.pause();
+    spinSound.currentTime = 0;
+
+    winSound.currentTime = 0;
+    winSound.play();
+
+    result.innerHTML = "🎉 You won:<br>" + prize.name;
+
+    spinning = false;
+    spinBtn.disabled = false;
+
+},5600);
 }
 </script>
 
