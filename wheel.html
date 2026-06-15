@@ -457,6 +457,9 @@ function spinWheel(){
 
     spinning = true;
 
+    spinSound.currentTime = 0;
+spinSound.play();
+
     const spinBtn = document.getElementById("spinBtn");
     const result = document.getElementById("result");
     const wheel = document.getElementById("wheel");
