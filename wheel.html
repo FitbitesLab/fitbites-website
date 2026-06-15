@@ -429,14 +429,12 @@ button:disabled{
 
 <script>
 
-const spinSound = new Audio(
-"https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
-);
+const spinSound = new Audio("sounds/spin.mp3");
+const winSound = new Audio("sounds/result.mp3");
 
-const winSound = new Audio(
-"https://actions.google.com/sounds/v1/cartoon/concussive_drum_hit.ogg"
-);
-    
+spinSound.volume = 0.4;
+winSound.volume = 0.6;
+
 let currentRotation = 0;
 let spinning = false;
 
